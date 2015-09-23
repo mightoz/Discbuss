@@ -11,6 +11,8 @@
 # Generated files
 bin/
 gen/
+
+## Directory-based project format:
 .idea/
 
 # Gradle files
