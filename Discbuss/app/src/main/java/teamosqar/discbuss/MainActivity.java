@@ -1,9 +1,11 @@
 package teamosqar.discbuss;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.firebase.client.Firebase;
@@ -16,6 +18,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Firebase.setAndroidContext(this);
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com/");
+    }
+    public void goToRegister(View view){
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(i);
+    }
+    public void goToLogin(View view){
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

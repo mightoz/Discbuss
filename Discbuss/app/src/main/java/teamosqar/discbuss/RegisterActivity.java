@@ -1,5 +1,6 @@
 package teamosqar.discbuss;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
                     System.out.println("Successfully created user account with uid: " + result.get("uid"));
                     mref.child((String)result.get("uid")).child("name").setValue(name);
                     mref.child((String)result.get("uid")).child("karma").setValue(0);
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                    finish();
                 }
 
                 @Override
