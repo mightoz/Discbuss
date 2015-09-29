@@ -14,6 +14,9 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
+/**
+ * NOTE: This is really ugly code meant to test the firebase registration and storing of data.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Firebase mref;

@@ -14,6 +14,10 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
 
+/**
+ * NOTE: This is really ugly code meant to test firebase auth-system
+ */
+
 public class LoginActivity extends AppCompatActivity {
     private Firebase mref;
     private EditText editMail, editPass;
