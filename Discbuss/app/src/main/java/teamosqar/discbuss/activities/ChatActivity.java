@@ -1,4 +1,4 @@
-package teamosqar.discbuss;
+package teamosqar.discbuss.activities;
 
 import android.app.ListActivity;
 import android.os.Bundle;

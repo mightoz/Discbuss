@@ -1,4 +1,4 @@
-package teamosqar.application;
+package teamosqar.discbuss.application;
 
 import com.firebase.client.Firebase;
 
