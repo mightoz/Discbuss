@@ -19,6 +19,12 @@ public class Message {
         karma = 0;
     }
 
+    public Message(String message, String author, int karma){
+        this.message = message;
+        this.author = author;
+        this.karma = karma;
+    }
+
     public String getMessage(){
         return message;
     }
