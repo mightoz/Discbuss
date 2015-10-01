@@ -115,9 +115,15 @@ public class ChatController extends Observable {
         });
     }
 
+    public Message getMessage(int i){
+        return messageModels.get(i);
+    }
+
 
     public void sendMessage(String msg){
-        Message message = new Message(msg,"jag");
-        chatFireBaseRef.push().setValue(message);
+        if(!msg.equals("")) {
+            Message message = new Message(msg, Model.getInstance().getUsername());
+            chatFireBaseRef.push().setValue(message);
+        }
     }
 }

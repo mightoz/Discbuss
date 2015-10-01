@@ -7,10 +7,12 @@ import com.firebase.client.Firebase;
  */
 public class Model{
     private static Model model = new Model();
-    Firebase mref;
+    private Firebase mref;
+    private String username;
 
     private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com/users");
+        username = "jag";
     }
 
     public static Model getInstance(){
@@ -19,5 +21,9 @@ public class Model{
 
     public Firebase getMref(){
         return mref;
+    }
+
+    public String getUsername(){
+        return username;
     }
 }
