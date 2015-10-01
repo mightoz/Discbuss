@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import teamosqar.util.Message;
+import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.util.Message;
+
 
 /**
  * Created by joakim on 2015-09-29.
@@ -25,7 +27,7 @@ public class ChatController extends Observable {
 
     public ChatController(){
 
-        chatFireBaseRef = ApplicationConstants.getInstance().getFirebaseRef().child("chat");
+        chatFireBaseRef = Model.getInstance().getMref().child("chat");
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
 
