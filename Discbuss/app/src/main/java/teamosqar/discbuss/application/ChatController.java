@@ -10,5 +10,5 @@ public class ChatController {
     private String myUsername;
     private Firebase chatFireBaseRef;
 
-    
+
 }
