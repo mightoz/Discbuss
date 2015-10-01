@@ -1,5 +1,7 @@
 package teamosqar.discbuss.model;
 
+import com.firebase.client.Firebase;
+
 /**
  * Created by Oscar on 2015-09-30.
  */
