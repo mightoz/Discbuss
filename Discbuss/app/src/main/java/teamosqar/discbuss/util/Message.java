@@ -1,4 +1,4 @@
-package teamosqar.util;
+package teamosqar.discbuss.util;
 
 /**
  * Created by joakim on 2015-09-29.

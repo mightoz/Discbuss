@@ -1,4 +1,4 @@
-package teamosqar.discbuss;
+package teamosqar.discbuss.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

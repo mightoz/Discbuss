@@ -1,9 +1,9 @@
-package teamosqar.discbuss;
+package teamosqar.discbuss.activities;
 
 import android.app.ListActivity;
 import android.os.Bundle;
 
-import teamosqar.application.ChatController;
+import teamosqar.discbuss.application.ChatController;
 
 /**
  * Created by joakim on 2015-09-29.
