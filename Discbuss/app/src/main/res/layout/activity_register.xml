@@ -11,8 +11,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTextName"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:hint="Name"
+        android:layout_alignLeft="@+id/editTextEmail"
+        android:layout_alignStart="@+id/editTextEmail"
+        android:layout_alignRight="@+id/editTextEmail"
+        android:layout_alignEnd="@+id/editTextEmail" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -22,7 +26,8 @@
         android:id="@+id/editTextEmail"
         android:layout_below="@+id/editTextName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp" />
+        android:layout_marginTop="26dp"
+        android:hint="Email"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -32,7 +37,8 @@
         android:id="@+id/editTextPassword"
         android:layout_below="@+id/editTextEmail"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:hint="Password"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -42,15 +48,16 @@
         android:id="@+id/editTextConfPass"
         android:layout_below="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp" />
+        android:layout_marginTop="26dp"
+        android:hint="Confirm Password"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/buttonRegister"
+        android:layout_marginTop="48dp"
+        android:onClick="registerPressed"
         android:layout_below="@+id/editTextConfPass"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:onClick="registerPressed"/>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
