@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
-import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.LoginController;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editName = (EditText)findViewById(R.id.editTextName);
-        editPassword = (EditText)findViewById(R.id.editTextPassword);
+        editName = (EditText)findViewById(R.id.editTextLoginName);
+        editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
         buttonLogin = (Button)findViewById(R.id.buttonLogin);
         loginController = new LoginController();
     }
