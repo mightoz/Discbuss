@@ -20,6 +20,7 @@ import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.util.Toaster;
 
 public class MainActivity extends AppCompatActivity {
 

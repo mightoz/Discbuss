@@ -1,11 +1,15 @@
 package teamosqar.discbuss.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -13,16 +17,21 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+import teamosqar.discbuss.application.RegisterController;
+import teamosqar.discbuss.util.Toaster;
 
-    private Firebase mref;
+/**
+ * @author Holmus
+ */
+public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
     private String name, mail, password, confPassword;
+    private RegisterController rc;
+
     @Override
     protected void onStart(){
+        rc = new RegisterController();
         super.onStart();
-        Firebase.setAndroidContext(this);
-        mref = new Firebase("https://boiling-heat-3778.firebaseio.com/users");
         editName = (EditText) findViewById(R.id.editTextName);
         editMail = (EditText) findViewById(R.id.editTextEmail);
         editPass = (EditText) findViewById(R.id.editTextPassword);
@@ -30,28 +39,49 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void registerPressed(View view){
-        //TODO: Null-check, update Toast accordingly
         name = editName.getText().toString();
         mail = editMail.getText().toString();
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
-        if(password.equals(confPassword)) {
-            mref.createUser(mail, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
-                @Override
-                public void onSuccess(Map<String, Object> result) {
-                    System.out.println("Successfully created user account with uid: " + result.get("uid"));
-                    mref.child((String)result.get("uid")).child("name").setValue(name);
-                    mref.child((String)result.get("uid")).child("karma").setValue(0);
-                }
-
-                @Override
-                public void onError(FirebaseError firebaseError) {
-                    // there was an error
-                }
-            });
-        } else {
-            //TODO: Password entries didn't match, deal with it.
+        if(checkData()){
+            rc.registerUser(name, mail, password, confPassword);
+            goToLogin();
         }
+    }
+    private void goToLogin(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        Toaster.displayToast("Registration successful!", this.getApplicationContext(), Toast.LENGTH_SHORT);
+        finish();
+    }
+
+    private boolean checkData(){
+        if(name.isEmpty()){
+            Toaster.displayToast("Enter a name", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
+        } else if(mail.isEmpty()|| !validateEmail()){
+            Toaster.displayToast("Enter an email", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
+        } else if(password.isEmpty()){
+            Toaster.displayToast("Enter a password", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
+        } else if(confPassword.isEmpty()){
+            Toaster.displayToast("Confirm your password", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
+        } else if(!password.equals(confPassword)){
+            Toaster.displayToast("Passwords don't match", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
+        }
+        return true;
+    }
+    private boolean validateEmail(){
+        //TODO: Better validation of that string would be neat
+        for(int i = 0; i<mail.length(); i++){
+            if(mail.charAt(i) == '@') {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
