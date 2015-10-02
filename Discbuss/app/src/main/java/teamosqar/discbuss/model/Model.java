@@ -32,6 +32,10 @@ public class Model{
         this.email = email;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
     public String getUsername(){
         return username;
     }

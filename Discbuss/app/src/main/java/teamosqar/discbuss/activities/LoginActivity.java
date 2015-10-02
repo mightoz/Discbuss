@@ -9,15 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import teamosqar.discbuss.application.LoginController;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Observer {
 
     private LoginController loginController;
     private EditText editEmail, editPassword;
-    private String name, password;
-    private Button buttonLogin;
-    private Button buttonNotRegistered;
 
     @Override
     protected void onStart(){
@@ -31,18 +31,12 @@ public class LoginActivity extends AppCompatActivity {
 
         editEmail = (EditText)findViewById(R.id.editTextLoginEmail);
         editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
-        buttonLogin = (Button)findViewById(R.id.buttonLogin);
-        buttonNotRegistered = (Button)findViewById(R.id.buttonNotRegistered);
         loginController = new LoginController();
+        loginController.addObserver(this);
     }
 
     public void loginPressed(View view){
-        if(loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString())){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }else{
-            //TODO: handle failed login
-        }
+        loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
     }
 
     public void notRegisteredPressed(View view){
@@ -70,5 +64,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if(loginController.getLoginStatus()){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }else{
+            //TODO: Handle failed login.
+        }
     }
 }
