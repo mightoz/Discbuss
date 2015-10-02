@@ -6,6 +6,8 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.MutableData;
+import com.firebase.client.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,6 @@ import teamosqar.discbuss.util.Message;
  */
 public class ChatController extends Observable {
 
-    private String myUsername;
     private Firebase chatFireBaseRef;
     private ChildEventListener chatListener;
     private List<Message> messageModels;
@@ -119,6 +120,37 @@ public class ChatController extends Observable {
         return messageModels.get(i);
     }
 
+    public void upVote(int i){
+        performKarmaChange(i, 1);
+    }
+
+    public void downVote(int i){
+        performKarmaChange(i, -1);
+    }
+
+    private void performKarmaChange(final int message, final int change){
+        Firebase voteRef = chatFireBaseRef.child(messageKeys.get(message)).child("karma");
+
+        voteRef.runTransaction(new Transaction.Handler(){
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                if(mutableData.getValue() == null){
+                    mutableData.setValue(change);
+                }else{
+                    mutableData.setValue((Long)mutableData.getValue() + change);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                //datasnapshot is the karma child? will this work?
+                messageModels.get(message).setKarma((Integer) dataSnapshot.getValue());
+            }
+        });
+    }
 
     public void sendMessage(String msg){
         if(!msg.equals("")) {

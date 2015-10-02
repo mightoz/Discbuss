@@ -37,13 +37,7 @@ public class Message {
         return karma;
     }
 
-
-    //sync with firebase??
-    public void upVote(){
-        karma++;
-    }
-
-    public void downVote(){
-        karma--;
+    public void setKarma(int karma){
+        this.karma = karma;
     }
 }
