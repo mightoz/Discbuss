@@ -9,6 +9,7 @@ public class Model{
     private static Model model = new Model();
     private Firebase mref;
     private String username;
+    private String email;
 
     private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
@@ -21,6 +22,14 @@ public class Model{
 
     public Firebase getMref(){
         return mref;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
     }
 
     public String getUsername(){
