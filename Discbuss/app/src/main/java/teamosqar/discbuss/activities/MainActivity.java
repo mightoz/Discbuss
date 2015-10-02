@@ -1,26 +1,126 @@
 package teamosqar.discbuss.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+
+import teamosqar.discbuss.model.Model;
 
 public class MainActivity extends AppCompatActivity {
 
     private Firebase mref;
+    private TextView suggestView;
+    //BELOW ONLY FOR TESTING...
+    private final String bssidMightos = "bc:ee:7b:55:47:16";
+    private final String buss1 = "04:f0:21:10:09:df";
+    private final String buss2 = "04:f0:21:10:09:b9";
+    private final String buss3 = "04:f0:21:10:09:e8";
+    private final String buss4 = "04:f0:21:10:09:b7";
+    private final String buss5 = "04:f0:21:10:09:53";
+    private final String buss6 = "04:f0:21:10:09:5b";
+    private final String buss7 = "04:f0:21:10:09:b8";
+    private final String buss8 = "1";
+    private final String buss9 = "2";
+    private final String buss10 = "3";
+    private WifiInfo wifiInfo;
     @Override
     protected void onStart(){
         super.onStart();
         Firebase.setAndroidContext(this);
-        mref = new Firebase("https://boiling-heat-3778.firebaseio.com/");
+        mref = Model.getInstance().getMRef();
+        suggestView = (TextView) findViewById(R.id.textViewStatement);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public boolean checkWifiState(Context context){
+        try {
+            WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+            wifiInfo=mWifiManager.getConnectionInfo();
+            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null) {
+                return false;
+            }
+            return true;
+        }
+        catch (  Exception e) {
+            return false;
+        }
+    }
+
+    public void enterDiscussion(View view) {
+        String chatRoom = "";
+        if(checkWifiState(this)){
+            switch (wifiInfo.getBSSID()) {
+                //temporary
+                case bssidMightos:
+                    chatRoom = "mightoz";
+                    break;
+                case buss1:
+                    chatRoom = "1";
+                    break;
+                case buss2:
+                    chatRoom = "2";
+                    break;
+                case buss3:
+                    chatRoom = "3";
+                    break;
+                case buss4:
+                    chatRoom = "4";
+                    break;
+                case buss5:
+                    chatRoom = "5";
+                    break;
+                case buss6:
+                    chatRoom = "6";
+                    break;
+                case buss7:
+                    chatRoom = "7";
+                    break;
+                case buss8:
+                    chatRoom = "8";
+                    break;
+                case buss9:
+                    chatRoom = "9";
+                    break;
+                case buss10:
+                    chatRoom = "10";
+                    break;
+            }
+            //TODO: Erase comment on code once login is complete.
+            /*Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("EXTRA_ROOM", chatRoom);
+            startActivity(intent);*/
+            Log.d("Connection", chatRoom);
+
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Connect to buss WiFi", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void goToProfile(View view){
+        /*Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);*/
+    }
+
+    public void suggestStatement(View view){
+        //TODO: Dialogfragment?
     }
 
     @Override
@@ -29,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
