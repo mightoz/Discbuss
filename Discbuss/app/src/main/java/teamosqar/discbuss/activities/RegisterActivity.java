@@ -18,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import java.util.Map;
 
 import teamosqar.discbuss.application.RegisterController;
+import teamosqar.discbuss.util.Toaster;
 
 /**
  * @author Holmus
@@ -26,9 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
     private String name, mail, password, confPassword;
     private RegisterController rc;
-    private int toastDuration = Toast.LENGTH_SHORT;
-    private Context context;
-    private Toast toast;
+
     @Override
     protected void onStart(){
         rc = new RegisterController();
@@ -37,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         editMail = (EditText) findViewById(R.id.editTextEmail);
         editPass = (EditText) findViewById(R.id.editTextPassword);
         editConfPass = (EditText) findViewById(R.id.editTextConfPass);
-        context = getApplicationContext();
     }
 
     public void registerPressed(View view){
@@ -53,25 +51,25 @@ public class RegisterActivity extends AppCompatActivity {
     private void goToLogin(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        displayToast("Registration successful!");
+        Toaster.displayToast("Registration successful!", this.getApplicationContext(), Toast.LENGTH_SHORT);
         finish();
     }
 
     private boolean checkData(){
         if(name.isEmpty()){
-            displayToast("Enter a name");
+            Toaster.displayToast("Enter a name", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(mail.isEmpty()|| !validateEmail()){
-            displayToast("Enter an email");
+            Toaster.displayToast("Enter an email", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(password.isEmpty()){
-            displayToast("Enter a password");
+            Toaster.displayToast("Enter a password", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(confPassword.isEmpty()){
-            displayToast("Confirm your password");
+            Toaster.displayToast("Confirm your password", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(!password.equals(confPassword)){
-            displayToast("Passwords don't match");
+            Toaster.displayToast("Passwords don't match", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         }
         return true;
@@ -84,10 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         return false;
-    }
-    private void displayToast(String string){
-        toast = toast.makeText(context, string, toastDuration);
-        toast.show();
     }
 
     @Override

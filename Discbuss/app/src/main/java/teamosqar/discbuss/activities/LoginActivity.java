@@ -1,6 +1,5 @@
 package teamosqar.discbuss.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.application.LoginController;
+import teamosqar.discbuss.util.Toaster;
 
 public class LoginActivity extends AppCompatActivity implements Observer {
 
@@ -74,12 +74,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }else{
-            displayToast("Login failed");
+            Toaster.displayToast("Login failed", getApplicationContext(), Toast.LENGTH_SHORT);
         }
-    }
-
-    private void displayToast(String text){
-        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-        toast.show();
     }
 }
