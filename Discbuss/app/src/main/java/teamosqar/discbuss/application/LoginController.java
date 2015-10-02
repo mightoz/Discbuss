@@ -16,7 +16,7 @@ public class LoginController extends Observable{
     private Firebase userRef;
     private boolean loginStatus;
     public LoginController(){
-        userRef = Model.getInstance().getMref().child("users");
+        userRef = Model.getInstance().getMRef().child("users");
     }
 
     public void tryLogin(final String email, String password){
