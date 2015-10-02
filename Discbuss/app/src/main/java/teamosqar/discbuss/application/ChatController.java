@@ -150,11 +150,32 @@ public class ChatController extends Observable {
                 messageModels.get(message).setKarma((Integer) dataSnapshot.getValue());
             }
         });
+
+        Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
+
+        userRef.runTransaction(new Transaction.Handler(){
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                if(mutableData.getValue() == null){
+                    mutableData.setValue(change);
+                }else{
+                    mutableData.setValue((Long)mutableData.getValue() + change);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                //If we add karma to model, this is where we know it has been updated in firebase
+            }
+        });
     }
 
     public void sendMessage(String msg){
         if(!msg.equals("")) {
-            Message message = new Message(msg, Model.getInstance().getUsername());
+            Message message = new Message(Model.getInstance().getUid(), msg, Model.getInstance().getUsername());
             chatFireBaseRef.push().setValue(message);
         }
     }

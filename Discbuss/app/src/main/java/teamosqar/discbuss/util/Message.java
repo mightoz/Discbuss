@@ -5,6 +5,7 @@ package teamosqar.discbuss.util;
  */
 public class Message {
 
+    private String uid;
     private String message;
     private String author;
     private int karma;
@@ -13,17 +14,19 @@ public class Message {
     private Message(){
     }
 
-    public Message(String message, String author){
+    public Message(String uid, String message, String author){
         this.message = message;
         this.author = author;
         karma = 0;
     }
 
-    public Message(String message, String author, int karma){
+    public Message(String uid, String message, String author, int karma){
         this.message = message;
         this.author = author;
         this.karma = karma;
     }
+
+    public String getUid(){ return uid; }
 
     public String getMessage(){
         return message;
