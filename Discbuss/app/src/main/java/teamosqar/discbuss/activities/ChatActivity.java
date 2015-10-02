@@ -22,7 +22,7 @@ public class ChatActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        //setContentView(R.layout.activity_chat);
         chatController = new ChatController();
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         adapter = new ChatAdapter();
