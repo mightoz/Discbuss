@@ -9,11 +9,11 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextLoginName"
+        android:id="@+id/editTextLoginEmail"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="54dp"
-        android:text="name" />
+        android:text="email" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -26,6 +26,24 @@
         android:layout_marginTop="24dp"
         android:text="pass" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/buttonLogin"
+        android:layout_marginTop="48dp"
+        android:onClick="loginPressed"
+        android:layout_below="@+id/editTextConfPass"
+        android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/buttonNotRegistered"
+        android:layout_marginTop="60dp"
+        android:onClick="notRegisteredPressed"
+        android:layout_below="@+id/editTextConfPass"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

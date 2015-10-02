@@ -1,9 +1,11 @@
 package teamosqar.discbuss.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -12,9 +14,10 @@ import teamosqar.discbuss.application.LoginController;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginController loginController;
-    private EditText editName, editPassword;
+    private EditText editEmail, editPassword;
     private String name, password;
     private Button buttonLogin;
+    private Button buttonNotRegistered;
 
     @Override
     protected void onStart(){
@@ -26,10 +29,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editName = (EditText)findViewById(R.id.editTextLoginName);
+        editEmail = (EditText)findViewById(R.id.editTextLoginEmail);
         editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
         buttonLogin = (Button)findViewById(R.id.buttonLogin);
+        buttonNotRegistered = (Button)findViewById(R.id.buttonNotRegistered);
         loginController = new LoginController();
+    }
+
+    public void loginPressed(View view){
+        if(loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString())){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }else{
+            //TODO: handle failed login
+        }
+    }
+
+    public void notRegisteredPressed(View view){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     @Override

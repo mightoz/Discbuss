@@ -5,5 +5,12 @@ package teamosqar.discbuss.application;
  */
 public class LoginController {
 
+    public LoginController(){
 
+    }
+
+    public boolean tryLogin(String email, String password){
+
+        return false;
+    }
 }
