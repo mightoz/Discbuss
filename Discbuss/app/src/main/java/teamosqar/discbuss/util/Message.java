@@ -19,6 +19,12 @@ public class Message {
         karma = 0;
     }
 
+    public Message(String message, String author, int karma){
+        this.message = message;
+        this.author = author;
+        this.karma = karma;
+    }
+
     public String getMessage(){
         return message;
     }
@@ -31,13 +37,7 @@ public class Message {
         return karma;
     }
 
-
-    //sync with firebase??
-    public void upVote(){
-        karma++;
-    }
-
-    public void downVote(){
-        karma--;
+    public void setKarma(int karma){
+        this.karma = karma;
     }
 }

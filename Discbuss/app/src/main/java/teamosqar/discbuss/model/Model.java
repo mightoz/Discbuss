@@ -6,13 +6,24 @@ import com.firebase.client.Firebase;
  * Created by Oscar on 2015-09-30.
  */
 public class Model{
-    Firebase mref;
+    private static Model model = new Model();
+    private Firebase mref;
+    private String username;
 
-    public Model(){
+    private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com/users");
+        username = "jag";
+    }
+
+    public static Model getInstance(){
+        return model;
     }
 
     public Firebase getMRef(){
         return mref;
+    }
+
+    public String getUsername(){
+        return username;
     }
 }
