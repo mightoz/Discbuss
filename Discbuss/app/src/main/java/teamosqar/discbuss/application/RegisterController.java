@@ -16,7 +16,7 @@ public class RegisterController {
     private String fName;
 
     public RegisterController() {
-        mref = Model.getInstance().getMref();
+        mref = Model.getInstance().getMRef();
         mref = mref.child("users");
     }
 
