@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Discbuss</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <color name="gray"> #CCCCCC </color>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

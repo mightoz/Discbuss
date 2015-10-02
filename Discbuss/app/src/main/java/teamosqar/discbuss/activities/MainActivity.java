@@ -1,5 +1,7 @@
 package teamosqar.discbuss.activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
+import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.model.Model;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
+    //ABOVE ONLY FOR TESTING...
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
     private final String buss3 = "04:f0:21:10:09:e8";
@@ -34,13 +38,18 @@ public class MainActivity extends AppCompatActivity {
     private final String buss8 = "1";
     private final String buss9 = "2";
     private final String buss10 = "3";
+    private EditText fragmentData;
     private WifiInfo wifiInfo;
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+    private SuggestFragment fragment;
     @Override
     protected void onStart(){
         super.onStart();
         Firebase.setAndroidContext(this);
         mref = Model.getInstance().getMRef();
         suggestView = (TextView) findViewById(R.id.textViewStatement);
+        fragment = new SuggestFragment();
     }
 
     @Override
@@ -106,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             /*Intent intent = new Intent(this, ChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);*/
-            Log.d("Connection", chatRoom);
 
         } else {
             Toast toast = Toast.makeText(getApplicationContext(), "Connect to buss WiFi", Toast.LENGTH_SHORT);
@@ -120,9 +128,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void suggestStatement(View view){
-        //TODO: Dialogfragment?
+        fm = getFragmentManager();
+        ft = fm.beginTransaction();
+        ft.add(R.id.fragmentPlaceholder, fragment);
+        ft.commit();
     }
-
+    public void submitStatement(View view){
+        fragmentData = (EditText) findViewById(R.id.editTextStatement);
+        if(!fragmentData.getText().toString().isEmpty()) {
+            mref.child("statements").push().setValue(fragmentData.getText().toString());
+            //TODO: Add toast saying it was successful! Remove Fragment.
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(fragment);
+            newFt.commit();
+            Toaster.displayToast("Statement submitted!", getApplicationContext(), Toast.LENGTH_SHORT);
+        } else {
+            //TODO: Update with new toaster
+            Toaster.displayToast("Write a statement", getApplicationContext(), Toast.LENGTH_SHORT);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
