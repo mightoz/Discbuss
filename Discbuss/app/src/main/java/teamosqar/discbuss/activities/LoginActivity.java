@@ -3,12 +3,15 @@ package teamosqar.discbuss.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.firebase.client.Firebase;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -29,8 +32,8 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
-
         editEmail = (EditText)findViewById(R.id.editTextLoginEmail);
         editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
         loginController = new LoginController();
@@ -67,12 +70,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void update(Observable observable, Object data) {
+        Log.d("notifications", "recieved notification");
         if(loginController.getLoginStatus()){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }else{
             Toaster.displayToast("Login failed", getApplicationContext(), Toast.LENGTH_SHORT);
         }

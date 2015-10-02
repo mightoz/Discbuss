@@ -1,11 +1,14 @@
 package teamosqar.discbuss.application;
 
+import android.util.Log;
+
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.Observable;
 
+import teamosqar.discbuss.activities.LoginActivity;
 import teamosqar.discbuss.model.Model;
 
 /**
@@ -24,16 +27,20 @@ public class LoginController extends Observable{
         userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                Log.d("Login", "success");
                 loginStatus = true;
                 Model.getInstance().setUsername(authData.getUid());
                 Model.getInstance().setEmail(email);
+                setChanged();
                 notifyObservers();
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 loginStatus = false;
+                setChanged();
                 notifyObservers();
+
             }
 
         });

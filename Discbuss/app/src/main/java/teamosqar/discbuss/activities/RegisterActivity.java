@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
+        Firebase.setAndroidContext(this);
         rc = new RegisterController();
         super.onStart();
         editName = (EditText) findViewById(R.id.editTextName);
@@ -44,12 +45,12 @@ public class RegisterActivity extends AppCompatActivity {
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
         if(checkData()){
-            rc.registerUser(name, mail, password, confPassword);
+            rc.registerUser(name, mail, password);
             goToLogin();
         }
     }
     private void goToLogin(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         Toaster.displayToast("Registration successful!", this.getApplicationContext(), Toast.LENGTH_SHORT);
         finish();
