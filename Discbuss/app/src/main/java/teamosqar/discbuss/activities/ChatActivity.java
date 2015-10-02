@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 
+import com.firebase.client.Firebase;
+
 import teamosqar.discbuss.application.ChatAdapter;
 import teamosqar.discbuss.application.ChatController;
 
@@ -22,6 +24,7 @@ public class ChatActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         //setContentView(R.layout.activity_chat);
         chatController = new ChatController();
         msgToSend = (EditText) findViewById(R.id.msgToSend);
