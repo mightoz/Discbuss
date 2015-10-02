@@ -20,7 +20,7 @@ public class Model{
         return model;
     }
 
-    public Firebase getMref(){
+    public Firebase getMRef(){
         return mref;
     }
 

@@ -30,7 +30,7 @@ public class ChatController extends Observable {
 
     public ChatController(){
 
-        chatFireBaseRef = Model.getInstance().getMref().child("chat");
+        chatFireBaseRef = Model.getInstance().getMRef().child("chat");
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
 
