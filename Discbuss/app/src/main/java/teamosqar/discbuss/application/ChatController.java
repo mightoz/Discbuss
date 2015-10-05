@@ -57,7 +57,7 @@ public class ChatController extends Observable {
                         messageKeys.add(key);
                     }
                 }
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -68,7 +68,7 @@ public class ChatController extends Observable {
                 int index = messageKeys.indexOf(key);
 
                 messageModels.set(index, message);
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -79,7 +79,7 @@ public class ChatController extends Observable {
 
                 messageKeys.remove(index);
                 messageModels.remove(index);
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -106,6 +106,7 @@ public class ChatController extends Observable {
                         messageKeys.add(nextIndex, key);
                     }
                 }
+                setChanged();
                 notifyObservers();
             }
 
@@ -150,11 +151,34 @@ public class ChatController extends Observable {
                 messageModels.get(message).setKarma((Integer) dataSnapshot.getValue());
             }
         });
+
+
+        //Sets userRef to the karma child of the users child
+        Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
+
+        userRef.runTransaction(new Transaction.Handler(){
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                if(mutableData.getValue() == null){
+                    mutableData.setValue(change);
+                }else{
+                    mutableData.setValue((Long)mutableData.getValue() + change);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                //If we add karma to model, this is where we know it has been updated in firebase
+            }
+        });
     }
 
     public void sendMessage(String msg){
         if(!msg.equals("")) {
-            Message message = new Message(msg, Model.getInstance().getUsername());
+            Message message = new Message(Model.getInstance().getUid(), msg, Model.getInstance().getUsername());
             chatFireBaseRef.push().setValue(message);
         }
     }
