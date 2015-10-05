@@ -3,8 +3,10 @@ package teamosqar.discbuss.application;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.Observable;
 
@@ -31,7 +33,16 @@ public class LoginController extends Observable{
                 loginStatus = true;
                 Model.getInstance().setUid(authData.getUid());
                 Model.getInstance().setEmail(email);
-                Model.getInstance().setUsername(Model.getInstance().getMRef().child("users").child(authData.getUid()).child("name").getKey());
+                userRef.child(authData.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Model.getInstance().setUsername(dataSnapshot.child("name").getValue().toString());
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
+                });
                 setChanged();
                 notifyObservers();
 

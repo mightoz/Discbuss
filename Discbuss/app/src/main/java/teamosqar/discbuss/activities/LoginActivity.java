@@ -101,8 +101,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         if(loginController.getLoginStatus()){
             SharedPreferences.Editor editor = sharedPref.edit();
 
-            editor.putString(EMAIL, editEmail.getText().toString());
-            editor.putString(PASSWORD, editPassword.getText().toString());
+            if(autoLoginCheckbox.isChecked()) {
+                editor.putString(EMAIL, editEmail.getText().toString());
+                editor.putString(PASSWORD, editPassword.getText().toString());
+            }
             editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
             editor.commit();
 
