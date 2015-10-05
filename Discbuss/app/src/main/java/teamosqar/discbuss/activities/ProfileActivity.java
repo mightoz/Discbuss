@@ -4,13 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.ProfileController;
+import teamosqar.discbuss.util.Toaster;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
@@ -23,9 +26,11 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         profileController.addObserver(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        name = (TextView)findViewById(R.id.displayname);
+        name = (EditText)findViewById(R.id.displayname);
         email = (TextView)findViewById(R.id.useremail);
         pw = (TextView)findViewById(R.id.userpassword);
+        name.setClickable(false);
+        name.setFocusable(false);
     }
 
     @Override
@@ -43,7 +48,9 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_displayname) {
+            name.setClickable(true);
+            name.setFocusable(true);
             return true;
         }
 
@@ -52,5 +59,6 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
 
     public void update(Observable observable, Object data){
         name.setText(profileController.getName());
+        email.setText(profileController.getEmail());
     }
 }

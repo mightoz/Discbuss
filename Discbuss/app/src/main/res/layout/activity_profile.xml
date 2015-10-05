@@ -40,12 +40,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="displayname"
         android:id="@+id/displayname"
+        android:editable="true"
         android:layout_alignTop="@+id/nametag"
         android:layout_centerHorizontal="true" />
 
@@ -53,7 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="some@mail.now"
         android:id="@+id/useremail"
         android:layout_alignTop="@+id/emailtag"
         android:layout_alignLeft="@+id/userpassword"
