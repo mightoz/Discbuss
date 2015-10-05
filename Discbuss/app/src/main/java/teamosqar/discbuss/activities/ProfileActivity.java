@@ -1,5 +1,6 @@
 package teamosqar.discbuss.activities;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         pw = (TextView)findViewById(R.id.userpassword);
         name.setClickable(false);
         name.setFocusable(false);
+        name.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
