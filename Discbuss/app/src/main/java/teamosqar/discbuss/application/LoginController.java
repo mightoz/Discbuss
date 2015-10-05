@@ -29,8 +29,9 @@ public class LoginController extends Observable{
             public void onAuthenticated(AuthData authData) {
                 Log.d("Login", "success");
                 loginStatus = true;
-                Model.getInstance().setUsername(authData.getUid());
+                Model.getInstance().setUid(authData.getUid());
                 Model.getInstance().setEmail(email);
+                Model.getInstance().setUsername(Model.getInstance().getMRef().child("users").child(authData.getUid()).child("name").getKey());
                 setChanged();
                 notifyObservers();
             }
