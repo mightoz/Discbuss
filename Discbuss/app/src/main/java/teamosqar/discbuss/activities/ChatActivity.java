@@ -3,6 +3,7 @@ package teamosqar.discbuss.activities;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -25,17 +26,10 @@ public class ChatActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-        //setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat);
         chatController = new ChatController();
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         adapter = new ChatAdapter();
-
-        findViewById(R.id.sendMsgButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
 
     }
 
@@ -53,7 +47,7 @@ public class ChatActivity extends ListActivity {
         super.onStop();
     }
 
-    public void sendMessage(){
+    public void sendMessage(View view){
         chatController.sendMessage(msgToSend.getText().toString());
     }
 }
