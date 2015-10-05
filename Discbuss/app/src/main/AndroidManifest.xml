@@ -28,8 +28,13 @@
             android:label="@string/title_activity_main" >
         </activity>
         <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
+        <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
+
         </activity>
     </application>
 

@@ -13,7 +13,7 @@ public class Model{
     private String uid;
 
     private Model(){
-        mref = new Firebase("https://boiling-heat-3778.firebaseio.com/");
+        mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
         username = "jag";
     }
 
