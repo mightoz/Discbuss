@@ -34,6 +34,7 @@ public class LoginController extends Observable{
                 Model.getInstance().setUsername(Model.getInstance().getMRef().child("users").child(authData.getUid()).child("name").getKey());
                 setChanged();
                 notifyObservers();
+
             }
 
             @Override
