@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToProfile(View view){
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
