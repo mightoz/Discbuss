@@ -57,7 +57,7 @@ public class ChatController extends Observable {
                         messageKeys.add(key);
                     }
                 }
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -68,7 +68,7 @@ public class ChatController extends Observable {
                 int index = messageKeys.indexOf(key);
 
                 messageModels.set(index, message);
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -79,7 +79,7 @@ public class ChatController extends Observable {
 
                 messageKeys.remove(index);
                 messageModels.remove(index);
-
+                setChanged();
                 notifyObservers();
             }
 
@@ -106,6 +106,7 @@ public class ChatController extends Observable {
                         messageKeys.add(nextIndex, key);
                     }
                 }
+                setChanged();
                 notifyObservers();
             }
 
