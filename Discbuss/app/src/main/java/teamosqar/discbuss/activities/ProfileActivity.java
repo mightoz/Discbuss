@@ -6,10 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.ProfileController;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private ProfileController profileController;
     private TextView name, email, pw;
@@ -17,6 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         profileController = new ProfileController();
+        profileController.addObserver(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         name = (TextView)findViewById(R.id.displayname);
@@ -44,5 +48,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void update(Observable observable, Object data){
+        name.setText(profileController.getName());
     }
 }
