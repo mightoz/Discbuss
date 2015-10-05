@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -13,14 +12,13 @@ import android.widget.ListView;
 import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.application.ChatAdapter;
-import teamosqar.discbuss.application.ChatController;
 
 /**
  * Created by joakim on 2015-09-29.
  */
 public class ChatActivity extends ListActivity {
 
-    private ChatController chatController;
+    private ChatAdapter chatAdapter;
     private EditText msgToSend;
     private ChatAdapter adapter;
 
@@ -29,7 +27,7 @@ public class ChatActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
-        chatController = new ChatController();
+        chatAdapter = new ChatAdapter();
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         adapter = new ChatAdapter();
 
@@ -41,9 +39,6 @@ public class ChatActivity extends ListActivity {
         final ListView listView = getListView();
         listView.setAdapter(adapter);
 
-
-
-    //    chatController.getPartialChatHistory(); -NOT IMPLEMENTED YET
     }
 
     public void onStop(){
@@ -51,7 +46,7 @@ public class ChatActivity extends ListActivity {
     }
 
     public void sendMessage(View view){
-        chatController.sendMessage(msgToSend.getText().toString());
+        chatAdapter.sendMessage(msgToSend.getText().toString());
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(msgToSend.getWindowToken(), 0);
