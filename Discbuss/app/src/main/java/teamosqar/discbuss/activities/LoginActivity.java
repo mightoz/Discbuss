@@ -24,7 +24,7 @@ import teamosqar.discbuss.util.Toaster;
 
 public class LoginActivity extends AppCompatActivity implements Observer {
 
-    //Used for retrieving from savedInstanceState
+    //Used for retrieving and saving to SharedPreferences
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
     private static final String AUTO_LOGIN = "autoLogin";
@@ -100,12 +100,12 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         Log.d("notifications", "recieved notification");
         if(loginController.getLoginStatus()){
             SharedPreferences.Editor editor = sharedPref.edit();
-            if(autoLoginCheckbox.isChecked()) {
-                editor.putString(EMAIL, editEmail.getText().toString());
-                editor.putString(PASSWORD, editPassword.getText().toString());
-                editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
-                editor.commit();
-            }
+
+            editor.putString(EMAIL, editEmail.getText().toString());
+            editor.putString(PASSWORD, editPassword.getText().toString());
+            editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
+            editor.commit();
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
