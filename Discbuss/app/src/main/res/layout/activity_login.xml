@@ -43,4 +43,12 @@
         android:layout_alignLeft="@+id/buttonLogin"
         android:layout_alignStart="@+id/buttonLogin" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login automatically"
+        android:id="@+id/autoLoginCheckBox"
+        android:layout_below="@+id/buttonLogin"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
