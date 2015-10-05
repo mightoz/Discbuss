@@ -15,12 +15,14 @@ public class Message {
     }
 
     public Message(String uid, String message, String author){
+        this.uid = uid;
         this.message = message;
         this.author = author;
         karma = 0;
     }
 
     public Message(String uid, String message, String author, int karma){
+        this.uid = uid;
         this.message = message;
         this.author = author;
         this.karma = karma;

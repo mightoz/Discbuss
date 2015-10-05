@@ -152,6 +152,8 @@ public class ChatController extends Observable {
             }
         });
 
+
+        //Sets userRef to the karma child of the users child
         Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
 
         userRef.runTransaction(new Transaction.Handler(){

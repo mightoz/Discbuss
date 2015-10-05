@@ -30,6 +30,7 @@ public class RegisterController {
 
             @Override
             public void onError(FirebaseError firebaseError) {
+
             }
         });
     }
