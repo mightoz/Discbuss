@@ -11,6 +11,9 @@ import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import teamosqar.discbuss.application.ChatAdapter;
 
 /**
@@ -43,11 +46,22 @@ public class ChatActivity extends ListActivity {
         super.onStop();
     }
 
+    /**
+     * Sends entered message to database. Also delays minimization of keyboard.
+     * @param view
+     */
     public void sendMessage(View view){
+
         chatAdapter.sendMessage(msgToSend.getText().toString());
-        InputMethodManager imm = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(msgToSend.getWindowToken(), 0);
         msgToSend.setText("");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(msgToSend.getWindowToken(), 0);
+            }
+        }, 400);
+
     }
 }
