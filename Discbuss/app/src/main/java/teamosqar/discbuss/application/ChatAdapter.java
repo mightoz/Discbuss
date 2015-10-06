@@ -1,9 +1,12 @@
 package teamosqar.discbuss.application;
 
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -14,8 +17,8 @@ import com.firebase.client.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 
@@ -25,14 +28,15 @@ import teamosqar.discbuss.util.Message;
  */
 public class ChatAdapter extends BaseAdapter {
 
+    private LayoutInflater inflater;
     private Firebase chatFireBaseRef;
     private ChildEventListener chatListener;
     private List<Message> messageModels;
     private List<String> messageKeys;
 
 
-    public ChatAdapter(){
-
+    public ChatAdapter(LayoutInflater inflater){
+        this.inflater = inflater;
         chatFireBaseRef = Model.getInstance().getMRef().child("chat");
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
@@ -151,14 +155,14 @@ public class ChatAdapter extends BaseAdapter {
         //Sets userRef to the karma child of the users child
         Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
 
-        userRef.runTransaction(new Transaction.Handler(){
+        userRef.runTransaction(new Transaction.Handler() {
 
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                if(mutableData.getValue() == null){
+                if (mutableData.getValue() == null) {
                     mutableData.setValue(change);
-                }else{
-                    mutableData.setValue((Long)mutableData.getValue() + change);
+                } else {
+                    mutableData.setValue((Long) mutableData.getValue() + change);
                 }
 
                 return Transaction.success(mutableData);
@@ -196,8 +200,24 @@ public class ChatAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-
+            convertView = inflater.inflate(R.layout.message_chat, parent, false);
         }
-        return new View();
+        Message msg = messageModels.get(position);
+        populateView(convertView, msg);
+
+        return convertView;
+    }
+
+    private void populateView(View view, Message message){
+        String author = message.getAuthor();
+        String msg = message.getMessage();
+
+        TextView authorView = (TextView) view.findViewById(R.id.author);
+
+        TextView msgView = (TextView) view.findViewById(R.id.message);
+
+        authorView.setText(author + ": ");
+        msgView.setText(msg);
+
     }
 }

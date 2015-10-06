@@ -20,16 +20,15 @@ public class ChatActivity extends ListActivity {
 
     private ChatAdapter chatAdapter;
     private EditText msgToSend;
-    private ChatAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
-        chatAdapter = new ChatAdapter();
+        chatAdapter = new ChatAdapter(this.getLayoutInflater());
         msgToSend = (EditText) findViewById(R.id.msgToSend);
-        adapter = new ChatAdapter();
 
     }
 
@@ -37,8 +36,7 @@ public class ChatActivity extends ListActivity {
     protected void onStart(){
         super.onStart();
         final ListView listView = getListView();
-        listView.setAdapter(adapter);
-
+        listView.setAdapter(chatAdapter);
     }
 
     public void onStop(){
