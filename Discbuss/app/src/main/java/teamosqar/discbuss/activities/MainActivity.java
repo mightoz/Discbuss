@@ -8,7 +8,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
-            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null) {
+            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
                 return false;
             }
             return true;
@@ -74,9 +73,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterDiscussion(View view) {
-        String chatRoom = "mightoz";
-        goToChatRoom();
-        /*if(checkWifiState(this)){
+        String chatRoom = "";
+        if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
                 case bssidMightos:
@@ -113,24 +111,21 @@ public class MainActivity extends AppCompatActivity {
                     chatRoom = "10";
                     break;
             }
-            //TODO: Erase comment on code once login is complete.
-            *//*Intent intent = new Intent(this, ChatActivity.class);
-            intent.putExtra("EXTRA_ROOM", chatRoom);
-            startActivity(intent);*//*
+            if(chatRoom!="") {
+                Intent intent = new Intent(this, ChatActivity.class);
+                intent.putExtra("EXTRA_ROOM", chatRoom);
+                startActivity(intent);
+            } else {
+                Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
 
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Connect to buss WiFi", Toast.LENGTH_SHORT);
-            toast.show();
-        }*/
+            Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
+        }
     }
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToChatRoom(){
-        Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
     }
 
