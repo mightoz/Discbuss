@@ -88,7 +88,11 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     public void initiateLogin(){
         tryingLogin = true;
-        editEmail.setVisibility(View.INVISIBLE);
+        editEmail.setVisibility(View.GONE);
+        editPassword.setVisibility(View.GONE);
+        autoLoginCheckbox.setVisibility(View.GONE);
+        buttonLogin.setVisibility(View.GONE);
+        buttonRegister.setVisibility(View.GONE);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.loadingFragmentPlaceholder, loadingFragment);
@@ -100,6 +104,11 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     public void cancelLogin(){
         tryingLogin = false;
+        editEmail.setVisibility(View.VISIBLE);
+        editPassword.setVisibility(View.VISIBLE);
+        autoLoginCheckbox.setVisibility(View.VISIBLE);
+        buttonLogin.setVisibility(View.VISIBLE);
+        buttonRegister.setVisibility(View.VISIBLE);
         FragmentTransaction newFt = getFragmentManager().beginTransaction();
         newFt.remove(loadingFragment);
         newFt.commit();
