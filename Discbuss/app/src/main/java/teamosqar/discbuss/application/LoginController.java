@@ -22,14 +22,15 @@ public class LoginController extends Observable{
     private boolean loginStatus;
     public LoginController(){
         userRef = Model.getInstance().getMRef().child("users");
+        loginStatus = false;
     }
 
     public void tryLogin(final String email, String password){
-
+        Log.d(email, password);
         userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                Log.d("Login", "success");
+                Log.d("email", "success");
                 loginStatus = true;
                 Model.getInstance().setUid(authData.getUid());
                 Model.getInstance().setEmail(email);
@@ -53,7 +54,6 @@ public class LoginController extends Observable{
                 loginStatus = false;
                 setChanged();
                 notifyObservers();
-
             }
 
         });

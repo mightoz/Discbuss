@@ -1,6 +1,7 @@
 package teamosqar.discbuss.activities;
 
-import android.app.ProgressDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +21,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.application.LoginController;
+import teamosqar.discbuss.fragments.LoadingFragment;
 import teamosqar.discbuss.util.Toaster;
 
 public class LoginActivity extends AppCompatActivity implements Observer {
@@ -34,7 +35,9 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     private EditText editEmail, editPassword;
     private CheckBox autoLoginCheckbox;
     private SharedPreferences sharedPref;
-    private ProgressDialog progressDialog;
+
+    private LoadingFragment loadingFragment;
+    private boolean tryingLogin;
 
     @Override
     protected void onStart(){
@@ -51,34 +54,49 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         autoLoginCheckbox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
         loginController = new LoginController();
         loginController.addObserver(this);
-
-
+        tryingLogin = false;
+        loadingFragment = new LoadingFragment();
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        boolean autoLogin = sharedPref.getBoolean(AUTO_LOGIN, false);
+        Boolean autoLogin = sharedPref.getBoolean(AUTO_LOGIN, false);
         if(autoLogin){
-            String email = sharedPref.getString(EMAIL, "email");
-            String password = sharedPref.getString(PASSWORD, "pass");
-            editEmail.setText(email);
-            editPassword.setText(password);
+            editEmail.setText(sharedPref.getString(EMAIL, "email"));
+            editPassword.setText(sharedPref.getString(PASSWORD, "pass"));
             autoLoginCheckbox.setChecked(autoLogin);
-            initiateLogin(email, password);
+            initiateLogin();
         }
-
     }
 
     public void loginPressed(View view){
-        initiateLogin(editEmail.getText().toString(), editPassword.getText().toString());
-    }
-
-    public void initiateLogin(String email, String password){
-        loginController.tryLogin(email,password);
-        progressDialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Logging in", true, false);
+        initiateLogin();
     }
 
     public void notRegisteredPressed(View view){
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    public void cancelLoadingPressed(View view){
+        cancelLogin();
+    }
+
+    public void initiateLogin(){
+        tryingLogin = true;
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.loadingFragmentPlaceholder, loadingFragment);
+        ft.commit();
+        loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
+        //setContentView(R.layout.fragment_loading);
+        //progressDialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Logging in", true, false);
+    }
+
+    public void cancelLogin(){
+        tryingLogin = false;
+        FragmentTransaction newFt = getFragmentManager().beginTransaction();
+        newFt.remove(loadingFragment);
+        newFt.commit();
+        //setContentView(R.layout.activity_login);
     }
 
     @Override
@@ -105,21 +123,21 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         Log.d("notifications", "recieved notification");
-        progressDialog.dismiss();
-        if(loginController.getLoginStatus()){
-            SharedPreferences.Editor editor = sharedPref.edit();
-
-            if(autoLoginCheckbox.isChecked()) {
+        //progressDialog.dismiss();
+        if(tryingLogin) {
+            if (loginController.getLoginStatus()) {
+                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(EMAIL, editEmail.getText().toString());
                 editor.putString(PASSWORD, editPassword.getText().toString());
+                editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
+                editor.commit();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toaster.displayToast("Login failed", getApplicationContext(), Toast.LENGTH_SHORT);
+                cancelLogin();
             }
-            editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
-            editor.commit();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            Toaster.displayToast("Login failed", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }
 }
