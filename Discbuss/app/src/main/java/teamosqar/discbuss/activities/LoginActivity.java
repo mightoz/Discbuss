@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     private EditText editEmail, editPassword;
     private CheckBox autoLoginCheckbox;
     private SharedPreferences sharedPref;
+    private Button buttonLogin, buttonRegister;
 
     private LoadingFragment loadingFragment;
     private boolean tryingLogin;
@@ -49,9 +51,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
+
         editEmail = (EditText)findViewById(R.id.editTextLoginEmail);
         editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
         autoLoginCheckbox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
+        buttonLogin = (Button)findViewById(R.id.buttonLogin);
+        buttonRegister = (Button)findViewById(R.id.buttonNotRegistered);
+
         loginController = new LoginController();
         loginController.addObserver(this);
         tryingLogin = false;
@@ -82,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     public void initiateLogin(){
         tryingLogin = true;
+        editEmail.setVisibility(View.INVISIBLE);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.loadingFragmentPlaceholder, loadingFragment);
