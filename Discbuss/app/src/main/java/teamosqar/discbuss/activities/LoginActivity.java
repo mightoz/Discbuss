@@ -60,13 +60,17 @@ public class LoginActivity extends AppCompatActivity implements Observer {
             editEmail.setText(email);
             editPassword.setText(password);
             autoLoginCheckbox.setChecked(autoLogin);
-            loginController.tryLogin(email, password);
+            initiateLogin(email, password);
         }
 
     }
 
     public void loginPressed(View view){
-        loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
+        initiateLogin(editEmail.getText().toString(), editPassword.getText().toString());
+    }
+
+    public void initiateLogin(String email, String password){
+        loginController.tryLogin(email,password);
     }
 
     public void notRegisteredPressed(View view){
