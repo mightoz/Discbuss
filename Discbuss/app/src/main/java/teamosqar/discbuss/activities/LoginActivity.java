@@ -1,5 +1,6 @@
 package teamosqar.discbuss.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     private EditText editEmail, editPassword;
     private CheckBox autoLoginCheckbox;
     private SharedPreferences sharedPref;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onStart(){
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     public void initiateLogin(String email, String password){
         loginController.tryLogin(email,password);
+        progressDialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Logging in", true, false);
     }
 
     public void notRegisteredPressed(View view){
@@ -102,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         Log.d("notifications", "recieved notification");
+        progressDialog.dismiss();
         if(loginController.getLoginStatus()){
             SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -111,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
             }
             editor.putBoolean(AUTO_LOGIN, autoLoginCheckbox.isChecked());
             editor.commit();
-
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
