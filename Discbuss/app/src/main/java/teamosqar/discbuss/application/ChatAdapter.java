@@ -38,7 +38,7 @@ public class ChatAdapter extends BaseAdapter {
     public ChatAdapter(LayoutInflater inflater, String chatRoom){
         this.inflater = inflater;
         chatFireBaseRef = Model.getInstance().getMRef().child("chat");
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom);
+        //chatFireBaseRef = Model.getInstance().getMRef().child(chatRoom);
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
 

@@ -73,45 +73,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterDiscussion(View view) {
-        String chatRoom = "";
+        String chatRoom = "chatRooms/";
         /*if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
                 case bssidMightos:
-                    chatRoom = "mightoz";
+                    chatRoom = chatRoom + "mightoz";
                     break;
                 case buss1:
-                    chatRoom = "1";
+                    chatRoom = chatRoom + "1";
                     break;
                 case buss2:
-                    chatRoom = "2";
+                    chatRoom = chatRoom + "2";
                     break;
                 case buss3:
-                    chatRoom = "3";
+                    chatRoom = chatRoom + "3";
                     break;
                 case buss4:
-                    chatRoom = "4";
+                    chatRoom = chatRoom + "4";
                     break;
                 case buss5:
-                    chatRoom = "5";
+                    chatRoom = chatRoom + "5";
                     break;
                 case buss6:
-                    chatRoom = "6";
+                    chatRoom = chatRoom + "6";
                     break;
                 case buss7:
-                    chatRoom = "7";
+                    chatRoom = chatRoom + "7";
                     break;
                 case buss8:
-                    chatRoom = "8";
+                    chatRoom = chatRoom + "8";
                     break;
                 case buss9:
-                    chatRoom = "9";
+                    chatRoom = chatRoom + "9";
                     break;
                 case buss10:
-                    chatRoom = "10";
+                    chatRoom = chatRoom + "10";
                     break;
             }
-            if(chatRoom!="") {
+            if(chatRoom!="chatRooms/") {
                 Intent intent = new Intent(this, ChatActivity.class);
                 intent.putExtra("EXTRA_ROOM", chatRoom);
                 startActivity(intent);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }*/
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("EXTRA_ROOM", chatRoom);
+        intent.putExtra("EXTRA_ROOM", "");
         startActivity(intent);
     }
 
