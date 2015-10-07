@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void enterDiscussion(View view) {
         String chatRoom = "";
-        if(checkWifiState(this)){
+        /*if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
                 case bssidMightos:
@@ -121,7 +121,10 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
-        }
+        }*/
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("EXTRA_ROOM", chatRoom);
+        startActivity(intent);
     }
 
     public void goToProfile(View view){
