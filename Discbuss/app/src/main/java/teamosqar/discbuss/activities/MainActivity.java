@@ -8,7 +8,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
-            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null) {
+            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
                 return false;
             }
             return true;
@@ -75,63 +74,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterDiscussion(View view) {
-        String chatRoom = "mightoz";
-        goToChatRoom();
+        String chatRoom = "chatRooms/";
         /*if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
                 case bssidMightos:
-                    chatRoom = "mightoz";
+                    chatRoom = chatRoom + "mightoz";
                     break;
                 case buss1:
-                    chatRoom = "1";
+                    chatRoom = chatRoom + "1";
                     break;
                 case buss2:
-                    chatRoom = "2";
+                    chatRoom = chatRoom + "2";
                     break;
                 case buss3:
-                    chatRoom = "3";
+                    chatRoom = chatRoom + "3";
                     break;
                 case buss4:
-                    chatRoom = "4";
+                    chatRoom = chatRoom + "4";
                     break;
                 case buss5:
-                    chatRoom = "5";
+                    chatRoom = chatRoom + "5";
                     break;
                 case buss6:
-                    chatRoom = "6";
+                    chatRoom = chatRoom + "6";
                     break;
                 case buss7:
-                    chatRoom = "7";
+                    chatRoom = chatRoom + "7";
                     break;
                 case buss8:
-                    chatRoom = "8";
+                    chatRoom = chatRoom + "8";
                     break;
                 case buss9:
-                    chatRoom = "9";
+                    chatRoom = chatRoom + "9";
                     break;
                 case buss10:
-                    chatRoom = "10";
+                    chatRoom = chatRoom + "10";
                     break;
             }
-            //TODO: Erase comment on code once login is complete.
-            *//*Intent intent = new Intent(this, ChatActivity.class);
-            intent.putExtra("EXTRA_ROOM", chatRoom);
-            startActivity(intent);*//*
+            if(chatRoom!="chatRooms/") {
+                Intent intent = new Intent(this, ChatActivity.class);
+                intent.putExtra("EXTRA_ROOM", chatRoom);
+                startActivity(intent);
+            } else {
+                Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
 
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Connect to buss WiFi", Toast.LENGTH_SHORT);
-            toast.show();
+            Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }*/
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("EXTRA_ROOM", "");
+        startActivity(intent);
     }
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToChatRoom(){
-        Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
     }
 
