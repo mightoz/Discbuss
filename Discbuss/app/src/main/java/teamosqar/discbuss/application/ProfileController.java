@@ -37,7 +37,7 @@ public class ProfileController extends Observable {
         });
     }
 
-    /**
+     /**
      * Gets the name from the snapshot data and returns it as a string.
      * @return the displayname for the user that is currently logged in.
      */
