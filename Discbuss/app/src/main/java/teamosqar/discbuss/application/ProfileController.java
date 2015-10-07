@@ -18,12 +18,12 @@ import teamosqar.discbuss.model.Model;
  */
 public class ProfileController extends Observable {
 
-    private Firebase userRef;
-    private DataSnapshot snapshot;
+    private Firebase userRef; //firebase reference to the user that is currently logged in.
+    private DataSnapshot snapshot; //reference to the data contained in this user.
 
     public ProfileController(){
         userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
@@ -58,6 +58,29 @@ public class ProfileController extends Observable {
         AuthData authData = userRef.getAuth();
         email = (String)authData.getProviderData().get("email");
         return email;
+    }
+
+    /**
+     * Gets the karma from the snapshot data and returns it as a string.
+     * @return the karma for the user that is currently logged in.
+     */
+    public String getKarma() {
+        String karma = "";
+        int karmaVal;
+        if(snapshot != null) {
+            karmaVal = snapshot.child("karma").getValue(Integer.class);
+            karma = Integer.toString(karmaVal);
+        }
+        return karma;
+    }
+
+    /**
+     * Changes the "display" name for the user.
+     * @param newName, the new name the user wants to use as display name
+     */
+    public void setNewDisplayName(String newName){
+        userRef.child("name").setValue(newName);
+        Model.getInstance().setUsername(newName);
     }
 
 }

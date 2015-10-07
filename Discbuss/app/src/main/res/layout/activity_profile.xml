@@ -13,10 +13,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Namn: "
         android:id="@+id/nametag"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="35dp"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/pwtag"
-        android:layout_alignEnd="@+id/pwtag" />
+        android:layout_alignEnd="@+id/emailtag" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,29 +23,28 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Email: "
         android:id="@+id/emailtag"
-        android:layout_marginTop="40dp"
         android:layout_below="@+id/nametag"
-        android:layout_alignRight="@+id/pwtag"
-        android:layout_alignEnd="@+id/pwtag" />
+        android:layout_alignEnd="@+id/karmatag"
+        android:layout_marginTop="35dp"/>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Lösenord: "
-        android:id="@+id/pwtag"
-        android:layout_marginTop="38dp"
+        android:text="Karma: "
+        android:id="@+id/karmatag"
         android:layout_below="@+id/emailtag"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/displayname"
-        android:editable="true"
-        android:layout_alignTop="@+id/nametag"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -55,17 +53,55 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/useremail"
         android:layout_alignTop="@+id/emailtag"
-        android:layout_alignLeft="@+id/userpassword"
-        android:layout_alignStart="@+id/userpassword" />
+        android:layout_alignLeft="@+id/displayname"
+        android:layout_alignStart="@+id/displayname" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="************"
-        android:id="@+id/userpassword"
-        android:layout_alignTop="@+id/pwtag"
+        android:id="@+id/userkarma"
+        android:layout_alignTop="@+id/karmatag"
         android:layout_alignLeft="@+id/displayname"
         android:layout_alignStart="@+id/displayname" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change password"
+        android:id="@+id/changePwButton"
+        android:onClick="changePassword"
+        android:layout_marginBottom="25dp"
+        android:layout_above="@+id/topstatementButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View top statements"
+        android:onClick="presentTopStatements"
+        android:id="@+id/topstatementButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change display name"
+        android:onClick="changeUserName"
+        android:id="@+id/displaynameButton"
+        android:layout_above="@+id/changePwButton"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true" />
+
+    <FrameLayout
+        android:id="@+id/fragmentPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
