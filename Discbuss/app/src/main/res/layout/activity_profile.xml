@@ -12,19 +12,19 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Namn: "
-        android:id="@+id/nametag"
+        android:id="@+id/textViewNameTag"
         android:layout_marginTop="35dp"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/emailtag" />
+        android:layout_alignEnd="@+id/textViewEmailTag" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Email: "
-        android:id="@+id/emailtag"
-        android:layout_below="@+id/nametag"
-        android:layout_alignEnd="@+id/karmatag"
+        android:id="@+id/textViewEmailTag"
+        android:layout_below="@+id/textViewNameTag"
+        android:layout_alignEnd="@+id/textViewKarmaTag"
         android:layout_marginTop="35dp"/>
 
 
@@ -33,17 +33,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Karma: "
-        android:id="@+id/karmatag"
-        android:layout_below="@+id/emailtag"
+        android:id="@+id/textViewKarmaTag"
+        android:layout_below="@+id/textViewEmailTag"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="35dp"/>
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/displayname"
+        android:id="@+id/textViewDisplayName"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
 
@@ -51,20 +51,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/useremail"
-        android:layout_alignTop="@+id/emailtag"
-        android:layout_alignLeft="@+id/displayname"
-        android:layout_alignStart="@+id/displayname" />
+        android:id="@+id/textViewUserEmail"
+        android:layout_alignTop="@+id/textViewEmailTag"
+        android:layout_alignLeft="@+id/textViewDisplayName"
+        android:layout_alignStart="@+id/textViewDisplayName" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/userkarma"
-        android:layout_alignTop="@+id/karmatag"
-        android:layout_alignLeft="@+id/displayname"
-        android:layout_alignStart="@+id/displayname" />
+        android:id="@+id/textViewUserKarma"
+        android:layout_alignTop="@+id/textViewKarmaTag"
+        android:layout_alignLeft="@+id/textViewDisplayName"
+        android:layout_alignStart="@+id/textViewDisplayName" />
 
     <Button
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:id="@+id/changePwButton"
         android:onClick="changePassword"
         android:layout_marginBottom="25dp"
-        android:layout_above="@+id/topstatementButton"
+        android:layout_above="@+id/topStatementButton"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:text="View top statements"
         android:onClick="presentTopStatements"
-        android:id="@+id/topstatementButton"
+        android:id="@+id/topStatementButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp" />

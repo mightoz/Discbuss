@@ -37,14 +37,14 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         profileController.addObserver(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        name = (EditText)findViewById(R.id.displayname);
-        email = (TextView)findViewById(R.id.useremail);
+        name = (TextView)findViewById(R.id.textViewDisplayName);
+        email = (TextView)findViewById(R.id.textViewUserEmail);
         name.setClickable(false);
         name.setFocusable(false);
         name.setBackgroundColor(Color.TRANSPARENT);
-        karma = (TextView) findViewById(R.id.userkarma);
+        karma = (TextView) findViewById(R.id.textViewUserKarma);
         pwButton = (Button) findViewById(R.id.changePwButton);
-        statementButton = (Button) findViewById(R.id.topstatementButton);
+        statementButton = (Button) findViewById(R.id.topStatementButton);
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
         displaynameFragment = new EditDisplayname();
     }
