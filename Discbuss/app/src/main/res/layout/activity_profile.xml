@@ -7,6 +7,15 @@
     android:launchMode="singleInstance"
     tools:context="teamosqar.discbuss.activities.ProfileActivity">
 
+
+    <FrameLayout
+        android:id="@+id/changePasswordPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

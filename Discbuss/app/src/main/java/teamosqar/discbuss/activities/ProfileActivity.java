@@ -18,15 +18,17 @@ import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.ProfileController;
+import teamosqar.discbuss.fragments.ChangePasswordFragment;
 import teamosqar.discbuss.fragments.EditDisplayname;
 import teamosqar.discbuss.util.Toaster;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private ProfileController profileController;
-    private TextView name, email, karma;
+    private TextView name, email, karma, nameTag, emailTag, karmaTag;
     private Button pwButton, statementButton, displayNameButton;
     private EditDisplayname displaynameFragment;
+    private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
     private FragmentTransaction ft;
 
@@ -39,14 +41,15 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_profile);
         name = (TextView)findViewById(R.id.textViewDisplayName);
         email = (TextView)findViewById(R.id.textViewUserEmail);
-        name.setClickable(false);
-        name.setFocusable(false);
-        name.setBackgroundColor(Color.TRANSPARENT);
         karma = (TextView) findViewById(R.id.textViewUserKarma);
+        karmaTag = (TextView)findViewById(R.id.textViewKarmaTag);
+        emailTag = (TextView)findViewById(R.id.textViewEmailTag);
+        nameTag = (TextView)findViewById(R.id.textViewNameTag);
         pwButton = (Button) findViewById(R.id.changePwButton);
         statementButton = (Button) findViewById(R.id.topStatementButton);
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
         displaynameFragment = new EditDisplayname();
+        pwFragment = new ChangePasswordFragment();
     }
 
     @Override
@@ -111,6 +114,50 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
 
     public void changePassword(View view) {
         //TODO create this, what will happen when this button is pressed?
+        pwButton.setVisibility(View.GONE);
+        statementButton.setVisibility(View.GONE);
+        displayNameButton.setVisibility(View.GONE);
+        name.setVisibility(View.GONE);
+        email.setVisibility(View.GONE);
+        karma.setVisibility(View.GONE);
+        karmaTag.setVisibility(View.GONE);
+        emailTag.setVisibility(View.GONE);
+        nameTag.setVisibility(View.GONE);
+
+        fm = getFragmentManager();
+        FragmentTransaction newFt = fm.beginTransaction();
+        newFt.add(R.id.changePasswordPlaceholder, pwFragment);
+        newFt.commit();
 
     }
+
+    public void setNewPassword(View view) {
+
+        EditText newPassword = (EditText)findViewById(R.id.editTextNewPassword);
+        EditText confirmPassword = (EditText)findViewById(R.id.editTextConfirmPassword);
+        EditText oldPassword = (EditText)findViewById(R.id.editTextOldPassword);
+
+        if(newPassword.getText().toString().equals(confirmPassword.getText().toString())){
+
+            profileController.changePassword(oldPassword.toString(), newPassword.getText().toString(), this);
+
+            FragmentTransaction newFt = fm.beginTransaction();
+            newFt.remove(pwFragment);
+            newFt.commit();
+
+
+            pwButton.setVisibility(View.VISIBLE);
+            statementButton.setVisibility(View.VISIBLE);
+            displayNameButton.setVisibility(View.VISIBLE);
+            name.setVisibility(View.VISIBLE);
+            email.setVisibility(View.VISIBLE);
+            karma.setVisibility(View.VISIBLE);
+            karmaTag.setVisibility(View.VISIBLE);
+            emailTag.setVisibility(View.VISIBLE);
+            nameTag.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
 }

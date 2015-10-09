@@ -1,5 +1,9 @@
 package teamosqar.discbuss.application;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -9,6 +13,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.Observable;
 
 import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.util.Toaster;
 
 /**
  * Created by rutanjr on 2015-10-05.
@@ -83,4 +88,20 @@ public class ProfileController extends Observable {
         Model.getInstance().setUsername(newName);
     }
 
+
+    public void changePassword(String oldPw, String newPw, final Context context) {
+
+        userRef.changePassword(userRef.getAuth().getProviderData().get("email").toString(), oldPw, newPw, new Firebase.ResultHandler() {
+            @Override
+            public void onSuccess() {
+                Toaster.displayToast("Password successfully changed", context, Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                Toaster.displayToast("Password change failed", context, Toast.LENGTH_LONG);
+            }
+        });
+
+    }
 }
