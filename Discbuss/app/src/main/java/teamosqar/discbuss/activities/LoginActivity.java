@@ -156,4 +156,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
             }
         }
     }
+
+    @Override
+    public void onStop(){
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        super.onStop();
+    }
 }
