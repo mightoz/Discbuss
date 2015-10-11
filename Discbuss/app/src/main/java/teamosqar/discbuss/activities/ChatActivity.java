@@ -37,6 +37,11 @@ public class ChatActivity extends ListActivity {
         msgToSend = (EditText) findViewById(R.id.msgToSend);
 
     }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
 
     @Override
     protected void onStart(){
