@@ -2,6 +2,7 @@ package teamosqar.discbuss.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,11 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import teamosqar.discbuss.application.RegisterController;
+import teamosqar.discbuss.fragments.GenderChoiceList;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -25,8 +28,9 @@ import teamosqar.discbuss.util.Toaster;
  */
 public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
-    private String name, mail, password, confPassword;
+    private String name, mail, password, confPassword, gender;
     private RegisterController rc;
+    private GenderChoiceList genderChoice = new GenderChoiceList();
 
     @Override
     protected void onStart(){
@@ -37,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         editMail = (EditText) findViewById(R.id.editTextEmail);
         editPass = (EditText) findViewById(R.id.editTextPassword);
         editConfPass = (EditText) findViewById(R.id.editTextConfPass);
+
     }
 
     public void registerPressed(View view){
@@ -44,11 +49,17 @@ public class RegisterActivity extends AppCompatActivity {
         mail = editMail.getText().toString();
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
+        gender = genderChoice.getSelection();
         if(checkData()){
-            rc.registerUser(name, mail, password);
+            rc.registerUser(name, mail, password, gender);
             goToLogin();
         }
     }
+
+    public void genderPressed(View view){
+        genderChoice.show(getFragmentManager(), "genderChoice");
+    }
+
     private void goToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
