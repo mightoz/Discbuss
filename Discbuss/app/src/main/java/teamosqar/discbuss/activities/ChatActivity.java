@@ -66,10 +66,14 @@ public class ChatActivity extends ListActivity {
     }
 
     public void upVote(View view){
-        chatAdapter.upVote(view);
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent());
+        chatAdapter.upVote(pos);
     }
 
     public void downVote(View view){
-        chatAdapter.downVote(view);
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent());
+        chatAdapter.downVote(pos);
     }
 }
