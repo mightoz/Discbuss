@@ -154,6 +154,8 @@ public class ChatAdapter extends BaseAdapter {
         });
 
 
+
+        //Adds the karma change to model. Not finished.
         //Sets userRef to the karma child of the users child
         /*Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
 
@@ -219,20 +221,18 @@ public class ChatAdapter extends BaseAdapter {
         TextView msgView = (TextView) view.findViewById(R.id.message);
         EditText commentKarma = (EditText) view.findViewById(R.id.commentKarma);
 
-        if(message.getUid()!= null && message.getUid().equals(Model.getInstance().getUid())){
+
+        //Sets color of your usrname to green and others' to gray. Not finished.
+
+      /*  if(message.getUid()!= null && message.getUid().equals(Model.getInstance().getUid())){
             authorView.setTextColor(Color.GREEN);
-        }
+        }else{
+            authorView.setTextColor(Color.DKGRAY);
+        }*/
 
         authorView.setText(author + ": ");
         msgView.setText(msg);
         commentKarma.setText(Integer.toString(karma));
-
-       /* if(karma>0){
-            commentKarma.setTextColor(Color.GREEN);
-        }else if(karma<0){
-            commentKarma.setTextColor(Color.RED);
-        }
-        */
 
     }
 }
