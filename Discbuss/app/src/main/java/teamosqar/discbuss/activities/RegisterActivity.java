@@ -1,26 +1,23 @@
 package teamosqar.discbuss.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.sql.Array;
+import java.util.Calendar;
+import java.util.Date;
 
 import teamosqar.discbuss.application.RegisterController;
-import teamosqar.discbuss.fragments.GenderChoiceList;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -28,9 +25,9 @@ import teamosqar.discbuss.util.Toaster;
  */
 public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
-    private String name, mail, password, confPassword, gender;
+    private String name, mail, password, confPassword, genderSelection,
+            birthYear, birthMonth, birthDay, age;
     private RegisterController rc;
-    private GenderChoiceList genderChoice = new GenderChoiceList();
 
     @Override
     protected void onStart(){
@@ -49,15 +46,11 @@ public class RegisterActivity extends AppCompatActivity {
         mail = editMail.getText().toString();
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
-        gender = genderChoice.getSelection();
         if(checkData()){
-            rc.registerUser(name, mail, password, gender);
+            calculateAge();
+            rc.registerUser(name, mail, password, genderSelection, age);
             goToLogin();
         }
-    }
-
-    public void genderPressed(View view){
-        genderChoice.show(getFragmentManager(), "genderChoice");
     }
 
     private void goToLogin(){
@@ -83,7 +76,29 @@ public class RegisterActivity extends AppCompatActivity {
         } else if(!password.equals(confPassword)){
             Toaster.displayToast("Passwords don't match", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
+        } else if(genderSelection.isEmpty()){
+            Toaster.displayToast("No gender selected", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            return false;
         }
+        if(birthMonth.equals("4")||birthMonth.equals("6")||birthMonth.equals("9")||birthMonth.equals("11")) {
+            if (Integer.parseInt(birthDay) > 30) {
+                Toaster.displayToast("Date does not exist", this.getApplicationContext(), Toast.LENGTH_SHORT);
+                return false;
+            }
+        }
+        //Taking leap years into consideration.
+        else if((Integer.parseInt(birthYear) % 4 == 0) &&
+                (Integer.parseInt(birthYear) % 100 != 0) ||
+                (Integer.parseInt(birthYear) % 400 == 0)) {
+            if (birthMonth.equals("2") && Integer.parseInt(birthDay) > 29) {
+                Toaster.displayToast("Date does not exist", this.getApplicationContext(), Toast.LENGTH_SHORT);
+                return false;
+            }
+        } else if(birthMonth.equals("2")&&Integer.parseInt(birthDay)>28){
+            Toaster.displayToast("Date does not exist", this.getApplicationContext(),Toast.LENGTH_SHORT);
+            return false;
+        }
+
         return true;
     }
     private boolean validateEmail(){
@@ -96,10 +111,112 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
+    private void initiateAllSpinners(){
+        Spinner genderSpinner;
+        ArrayAdapter<CharSequence> genderAdapter;
+
+        genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
+        genderAdapter = ArrayAdapter.createFromResource(this, R.array.genders, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    genderSelection = (String) parent.getItemAtPosition(position);
+
+                } else {
+                    Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
+        });
+
+        Spinner yearSpinner;
+        ArrayAdapter<CharSequence> yearAdapter;
+
+        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        yearAdapter = ArrayAdapter.createFromResource(this, R.array.yearOfBirth, android.R.layout.simple_spinner_item);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(yearAdapter);
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                birthYear = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
+        });
+
+        Spinner monthSpinner;
+        ArrayAdapter<CharSequence> monthAdapter;
+
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        monthAdapter = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_item);
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthSpinner.setAdapter(monthAdapter);
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                birthMonth = Integer.toString(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
+        });
+
+        Spinner dateSpinner;
+        ArrayAdapter<CharSequence> dateAdapter;
+
+        dateSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        dateAdapter = ArrayAdapter.createFromResource(this, R.array.date, android.R.layout.simple_spinner_item);
+        dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dateSpinner.setAdapter(dateAdapter);
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                birthDay = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private String calculateAge() {
+
+        int year = Integer.parseInt(birthYear);
+        int month = Integer.parseInt(birthMonth);
+        int date = Integer.parseInt(birthDay);
+        int tempAge;
+        Calendar today = Calendar.getInstance();
+        tempAge = today.get(Calendar.YEAR) - year;
+        if (month > today.get(Calendar.MONTH)) {
+            tempAge--;
+        } else if ((month == today.get(Calendar.MONTH)) &&
+                (date > today.get(Calendar.DAY_OF_MONTH))) {
+            tempAge--;
+        }
+        age = Integer.toString(tempAge);
+        return age;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        initiateAllSpinners();
+
     }
 
     @Override
