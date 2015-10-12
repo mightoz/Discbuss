@@ -72,4 +72,16 @@ public class ChatActivity extends ListActivity {
         }, 400);
 
     }
+
+    public void upVote(View view){
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent().getParent());
+        chatAdapter.upVote(pos);
+    }
+
+    public void downVote(View view){
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent().getParent());
+        chatAdapter.downVote(pos);
+    }
 }

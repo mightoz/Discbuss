@@ -1,11 +1,13 @@
 package teamosqar.discbuss.application;
 
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
@@ -148,13 +150,15 @@ public class ChatAdapter extends BaseAdapter {
             @Override
             public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
                 //datasnapshot is the karma child? will this work?
-                messageModels.get(message).setKarma((Integer) dataSnapshot.getValue());
+                messageModels.get(message).setKarma(((Long)dataSnapshot.getValue()).intValue());
             }
         });
 
 
+
+        //Adds the karma change to model. Not finished.
         //Sets userRef to the karma child of the users child
-        Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
+        /*Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
 
         userRef.runTransaction(new Transaction.Handler() {
 
@@ -173,7 +177,7 @@ public class ChatAdapter extends BaseAdapter {
             public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
                 //If we add karma to model, this is where we know it has been updated in firebase
             }
-        });
+        });*/
     }
 
     public void sendMessage(String msg){
@@ -212,13 +216,24 @@ public class ChatAdapter extends BaseAdapter {
     private void populateView(View view, Message message){
         String author = message.getAuthor();
         String msg = message.getMessage();
+        int karma = message.getKarma();
 
         TextView authorView = (TextView) view.findViewById(R.id.author);
-
         TextView msgView = (TextView) view.findViewById(R.id.message);
+        EditText commentKarma = (EditText) view.findViewById(R.id.commentKarma);
+
+
+        //Sets color of your usrname to green and others' to gray. Not finished.
+
+      /*  if(message.getUid()!= null && message.getUid().equals(Model.getInstance().getUid())){
+            authorView.setTextColor(Color.GREEN);
+        }else{
+            authorView.setTextColor(Color.DKGRAY);
+        }*/
 
         authorView.setText(author + ": ");
         msgView.setText(msg);
+        commentKarma.setText(Integer.toString(karma));
 
     }
 }
