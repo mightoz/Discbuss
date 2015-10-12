@@ -53,7 +53,7 @@
             android:ems="10"
             android:layout_weight="1"
             android:id="@+id/commentKarma"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="25dp"/>
 
     </LinearLayout>
 

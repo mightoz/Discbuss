@@ -149,13 +149,13 @@ public class ChatAdapter extends BaseAdapter {
             @Override
             public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
                 //datasnapshot is the karma child? will this work?
-                messageModels.get(message).setKarma((Integer) dataSnapshot.getValue());
+                messageModels.get(message).setKarma(((Long)dataSnapshot.getValue()).intValue());
             }
         });
 
 
         //Sets userRef to the karma child of the users child
-        Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
+        /*Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
 
         userRef.runTransaction(new Transaction.Handler() {
 
@@ -174,7 +174,7 @@ public class ChatAdapter extends BaseAdapter {
             public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
                 //If we add karma to model, this is where we know it has been updated in firebase
             }
-        });
+        });*/
     }
 
     public void sendMessage(String msg){
@@ -219,15 +219,13 @@ public class ChatAdapter extends BaseAdapter {
         TextView msgView = (TextView) view.findViewById(R.id.message);
         EditText commentKarma = (EditText) view.findViewById(R.id.commentKarma);
 
-        if(message.getUid().equals(Model.getInstance().getUid())){
+        if(message.getUid()!= null && message.getUid().equals(Model.getInstance().getUid())){
             authorView.setTextColor(Color.GREEN);
-        }else{
-            authorView.setTextColor(Color.BLACK);
         }
 
         authorView.setText(author + ": ");
         msgView.setText(msg);
-        /*commentKarma.setText(karma);*/
+        commentKarma.setText(Integer.toString(karma));
 
        /* if(karma>0){
             commentKarma.setTextColor(Color.GREEN);
