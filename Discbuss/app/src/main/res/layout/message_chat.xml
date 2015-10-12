@@ -26,20 +26,22 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:gravity="right">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <ImageButton
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:id="@+id/upVoteBtn"/>
 
         <ImageButton
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:id="@+id/downVoteBtn"/>
 
         <EditText
             android:layout_gravity="center"
@@ -48,7 +50,7 @@
             android:inputType="number"
             android:ems="10"
             android:layout_weight="1"
-            android:id="@+id/editText"
+            android:id="@+id/commentKarma"
             android:layout_marginRight="10dp"/>
 
     </LinearLayout>
