@@ -34,7 +34,10 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
-
+        </activity>
+        <activity
+            android:name=".MessageActivity"
+            android:label="@string/title_activity_message" >
         </activity>
     </application>
 

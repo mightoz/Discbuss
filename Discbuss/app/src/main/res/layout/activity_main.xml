@@ -44,4 +44,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"></FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Messages"
+        android:id="@+id/messagesButton"
+        android:layout_below="@+id/buttonProfile"
+        android:layout_centerHorizontal="true"
+        android:onClick="goToMessages"/>
 </RelativeLayout>
