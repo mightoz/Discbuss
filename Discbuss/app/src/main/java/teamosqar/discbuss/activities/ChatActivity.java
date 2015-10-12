@@ -64,4 +64,12 @@ public class ChatActivity extends ListActivity {
         }, 400);
 
     }
+
+    public void upVote(View view){
+        chatAdapter.upVote(view);
+    }
+
+    public void downVote(View view){
+        chatAdapter.downVote(view);
+    }
 }

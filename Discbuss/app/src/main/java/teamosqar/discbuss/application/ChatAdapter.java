@@ -120,11 +120,11 @@ public class ChatAdapter extends BaseAdapter {
         });
     }
 
-    public void upVote(int i){
+    public void upVote(View view){
         performKarmaChange(i, 1);
     }
 
-    public void downVote(int i){
+    public void downVote(View view){
         performKarmaChange(i, -1);
     }
 

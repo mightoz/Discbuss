@@ -34,14 +34,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/upVoteBtn"/>
+                android:id="@+id/upVoteBtn"
+                android:onClick="upVote"/>
 
         <ImageButton
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/downVoteBtn"/>
+                android:id="@+id/downVoteBtn"
+                android:onClick="downVote"/>
 
         <EditText
             android:layout_gravity="center"
