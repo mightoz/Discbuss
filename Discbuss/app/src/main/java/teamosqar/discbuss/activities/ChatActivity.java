@@ -3,6 +3,7 @@ package teamosqar.discbuss.activities;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class ChatActivity extends ListActivity {
 
     private ChatAdapter chatAdapter;
     private EditText msgToSend;
+    private String roomName;
 
 
     @Override
@@ -30,9 +32,15 @@ public class ChatActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
-        chatAdapter = new ChatAdapter(this.getLayoutInflater());
+        roomName = getIntent().getExtras().getString("EXTRA_ROOM");
+        chatAdapter = new ChatAdapter(this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
 
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
     @Override
