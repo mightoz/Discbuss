@@ -247,7 +247,7 @@ public class MessageController extends BaseAdapter {
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
         TextView messageReadView = (TextView) view.findViewById(R.id.messageInboxRead);
 
-        authorView.setText(author);
+        authorView.setText("Chat with: " + author);
         messageView.setText(msg);
         if(messageInboxes.get(position).isSeenByMe()){
             messageView.setTypeface(null, Typeface.BOLD);
