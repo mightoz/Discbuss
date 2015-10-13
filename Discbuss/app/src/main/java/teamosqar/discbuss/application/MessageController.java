@@ -1,9 +1,12 @@
 package teamosqar.discbuss.application;
 
+import android.graphics.Typeface;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -13,6 +16,7 @@ import com.firebase.client.FirebaseError;
 import java.util.ArrayList;
 import java.util.List;
 
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.MessageInbox;
@@ -26,10 +30,13 @@ public class MessageController extends BaseAdapter {
     private ChildEventListener messageListener;
     private List<MessageInbox> messageInboxes;
     private List<Message> mostRecentMsg;
-    private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model
+    private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model, keys does not controll the ordering in this case
+    private LayoutInflater inflater;
 
-    public MessageController(){
+    public MessageController(LayoutInflater inflater){
         messagesFirebaseRef = Model.getInstance().getMRef().child("duoChats");
+
+        this.inflater = inflater;
 
         messageInboxes = new ArrayList<MessageInbox>();
         mostRecentMsg = new ArrayList<Message>();
@@ -37,6 +44,8 @@ public class MessageController extends BaseAdapter {
 
         messageListener = messagesFirebaseRef.addChildEventListener(new ChildEventListener() {
             @Override
+            //Remember that seenByY and seenByX will translate directly into messageInbox seenByMe and seenByOther
+            //Will need to be switched in case they are incorrect, or controlled in some other way!
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
 
                 if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())){
@@ -152,6 +161,35 @@ public class MessageController extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        if(convertView == null){
+            convertView = inflater.inflate(R.layout.message_inbox, parent, false);
+        }
+
+        populateView(convertView, position);
+        return convertView;
+    }
+
+    private void populateView(View view, int position){
+        String msg = mostRecentMsg.get(position).getMessage();
+        String author = mostRecentMsg.get(position).getAuthor();
+
+        TextView authorView = (TextView) view.findViewById(R.id.messageInboxNick);
+        TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
+        TextView messageReadView = (TextView) view.findViewById(R.id.messageInboxRead);
+
+        authorView.setText(author);
+        messageView.setText(msg);
+        if(messageInboxes.get(position).isSeenByMe()){
+            messageView.setTypeface(null, Typeface.BOLD);
+            authorView.setTypeface(null, Typeface.BOLD);
+        }else{
+            messageView.setTypeface(null, Typeface.NORMAL);
+            authorView.setTypeface(null, Typeface.NORMAL);
+        }
+        if(messageInboxes.get(position).isSeenByOther()) {
+            messageReadView.setText("Read");
+        }else{
+            messageReadView.setText("");
+        }
     }
 }
