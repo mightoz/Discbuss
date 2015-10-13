@@ -33,12 +33,20 @@ public class Model{
         return uid;
     }
     public void addUserToChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).setValue(uid);
-        mref.child("testChat").child("activeUsers").child(uid).setValue(uid);
+        if(activeChat.charAt(0) == '!'){
+
+        } else {
+            //mref.child("chatRooms").child(activeChat).setValue(uid);
+            mref.child("testChat").child("activeUsers").child(uid).setValue(uid);
+        }
     }
     public void removeUserFromChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();
-        mref.child("testChat").child("activeUsers").child(uid).removeValue();
+        if(activeChat.charAt(0) == '!'){
+
+        } else {
+            //mref.child("chatRooms").child(activeChat).child(uid).removeValue();
+            mref.child("testChat").child("activeUsers").child(uid).removeValue();
+        }
     }
 
     public void setUsername(String username){
