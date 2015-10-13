@@ -185,9 +185,21 @@ public class MessageController extends BaseAdapter {
                 otherPersonUid = dataSnapshotChild.getKey();
             }
         }
-        MessageInbox messageInbox = new MessageInbox(latestActivity, seenByMe, seenByOther);
+        final MessageInbox messageInbox = new MessageInbox(latestActivity, seenByMe, seenByOther);
         if(otherPersonUid != ""){
-            
+            Model.getInstance().getMRef().child("users").child(otherPersonUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String name = dataSnapshot.child("name").getValue(String.class);
+                    messageInbox.setOtherParticipant(name);
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
         }
         return messageInbox;
     }
@@ -247,7 +259,7 @@ public class MessageController extends BaseAdapter {
 
     private void populateView(View view, int position){
         String msg = mostRecentMsg.get(position).getMessage();
-        String chattingWith = mostRecentMsg.get(position).getAuthor();//This needs to be changed, author here is set to the latest message author, which might be myself.
+        String chattingWith = messageInboxes.get(position).getOtherParticipant();
 
         TextView authorView = (TextView) view.findViewById(R.id.messageInboxNick);
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
