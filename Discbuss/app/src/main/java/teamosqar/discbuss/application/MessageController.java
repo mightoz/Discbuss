@@ -97,7 +97,6 @@ public class MessageController extends BaseAdapter {
 
                 insertIntoLists(index, inbox, mostRecentMessage, key);
                 notifyDataSetChanged();
-
             }
 
             @Override
@@ -136,6 +135,7 @@ public class MessageController extends BaseAdapter {
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildKey) {
 
                 MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
+
                 Message message = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
                 int currentIndex = keys.indexOf(key);
@@ -173,6 +173,7 @@ public class MessageController extends BaseAdapter {
         String latestActivity = "";
         boolean seenByMe = false;
         boolean seenByOther = false;
+        String otherPersonUid = "";
         while(iterator.hasNext()){
             DataSnapshot dataSnapshotChild = (DataSnapshot)iterator.next();
             if(dataSnapshotChild.getKey().contains(Model.getInstance().getUid())){
@@ -181,9 +182,14 @@ public class MessageController extends BaseAdapter {
                 latestActivity = dataSnapshotChild.getValue(String.class);
             }else{
                 seenByOther = (boolean)dataSnapshotChild.getValue();
+                otherPersonUid = dataSnapshotChild.getKey();
             }
         }
-        return new MessageInbox(latestActivity, seenByMe, seenByOther);
+        MessageInbox messageInbox = new MessageInbox(latestActivity, seenByMe, seenByOther);
+        if(otherPersonUid != ""){
+            
+        }
+        return messageInbox;
     }
 
 
@@ -241,13 +247,13 @@ public class MessageController extends BaseAdapter {
 
     private void populateView(View view, int position){
         String msg = mostRecentMsg.get(position).getMessage();
-        String author = mostRecentMsg.get(position).getAuthor();//This needs to be changed, author here is set to the latest message author, which might be myself.
+        String chattingWith = mostRecentMsg.get(position).getAuthor();//This needs to be changed, author here is set to the latest message author, which might be myself.
 
         TextView authorView = (TextView) view.findViewById(R.id.messageInboxNick);
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
         TextView messageReadView = (TextView) view.findViewById(R.id.messageInboxRead);
 
-        authorView.setText("Chat with: " + author);
+        authorView.setText("Chat with: " + chattingWith);
         messageView.setText(msg);
         if(messageInboxes.get(position).isSeenByMe()){
             messageView.setTypeface(null, Typeface.BOLD);

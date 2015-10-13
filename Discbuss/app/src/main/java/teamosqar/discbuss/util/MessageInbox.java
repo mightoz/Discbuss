@@ -1,5 +1,8 @@
 package teamosqar.discbuss.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by joakim on 2015-10-12.
  */
@@ -8,6 +11,7 @@ public class MessageInbox {
     private boolean seenByMe;
     private boolean seenByOther;
     private String latestActivity; //Should contain date/time for latest activity in chat, should this be a string?
+    private String otherParticipant;
 
 
     private MessageInbox(){}
@@ -16,6 +20,7 @@ public class MessageInbox {
         this.latestActivity = latestActivity;
         this.seenByMe = seenByMe;
         this.seenByOther = seenByOther;
+        otherParticipant = "";
     }
 
     public boolean isBefore(String otherDate){
@@ -42,5 +47,13 @@ public class MessageInbox {
 
     public String getLatestActivity(){
         return latestActivity;
+    }
+
+    public void setOtherParticipant(String otherParticipant){
+        this.otherParticipant = otherParticipant;
+    }
+
+    public String getOtherParticipant(){
+        return otherParticipant;
     }
 }
