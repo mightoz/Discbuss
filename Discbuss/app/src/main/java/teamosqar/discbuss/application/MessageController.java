@@ -12,9 +12,12 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.model.Model;
@@ -27,10 +30,10 @@ import teamosqar.discbuss.util.MessageInbox;
 public class MessageController extends BaseAdapter {
 
     private Firebase messagesFirebaseRef;
-    private ChildEventListener messageListener;
     private List<MessageInbox> messageInboxes;
     private List<Message> mostRecentMsg;
     private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model, keys does not controll the ordering in this case
+    private Map<String, ChildEventListener> childEventListenerMap;
     private LayoutInflater inflater;
 
     public MessageController(LayoutInflater inflater){
@@ -41,76 +44,108 @@ public class MessageController extends BaseAdapter {
         messageInboxes = new ArrayList<MessageInbox>();
         mostRecentMsg = new ArrayList<Message>();
         keys = new ArrayList<String>();
+        childEventListenerMap = new HashMap<String, ChildEventListener>();
 
-        messageListener = messagesFirebaseRef.addChildEventListener(new ChildEventListener() {
+        Firebase activeChatsRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats");
+
+        ChildEventListener participatingChat = activeChatsRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String key = dataSnapshot.getValue(String.class);
+
+                startListeningAt(key);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getValue(String.class);
+
+                stopListeningAt(key);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+
+    private void startListeningAt(final String key){
+        ChildEventListener messageListener = messagesFirebaseRef.child(key).addChildEventListener(new ChildEventListener() {
             @Override
             //Remember that seenByY and seenByX will translate directly into messageInbox seenByMe and seenByOther
             //Will need to be switched in case they are incorrect, or controlled in some other way!
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
 
-                if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())){
-                    MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);//Should get the most recent message! is this correctly done??
-                    String key = dataSnapshot.getKey();
+                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);//Should get the most recent message! is this correctly done??                 String key = dataSnapshot.getKey();
 
-                    int index = getCorrectListSpot(inbox);
+                int index = getCorrectListSpot(inbox);
 
-                    insertIntoLists(index, inbox, mostRecentMessage, key);
+                insertIntoLists(index, inbox, mostRecentMessage, key);
+                notifyDataSetChanged();
 
-                    notifyDataSetChanged();
-                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())) {
-                    String key = dataSnapshot.getKey();
-                    int currentIndex = keys.indexOf(key);
-                    MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
-                    messageInboxes.remove(currentIndex);
-                    mostRecentMsg.remove(currentIndex);
-                    keys.remove(currentIndex);
+                int currentIndex = keys.indexOf(key);
+                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
-                    int newIndex = getCorrectListSpot(inbox);
+                messageInboxes.remove(currentIndex);
+                mostRecentMsg.remove(currentIndex);
+                keys.remove(currentIndex);
 
-                    insertIntoLists(newIndex, inbox, mostRecentMessage, key);
+                int newIndex = getCorrectListSpot(inbox);
 
-                    notifyDataSetChanged();
-                }
+                insertIntoLists(newIndex, inbox, mostRecentMessage, key);
+
+                notifyDataSetChanged();
+
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())) {
-                    String key = dataSnapshot.getKey();
-                    int index = keys.indexOf(key);
 
-                    keys.remove(index);
-                    messageInboxes.remove(index);
-                    mostRecentMsg.remove(index);
+                int index = keys.indexOf(key);
 
-                    notifyDataSetChanged();
-                }
+                keys.remove(index);
+                messageInboxes.remove(index);
+                mostRecentMsg.remove(index);
+
+                notifyDataSetChanged();
+
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildKey) {
-                if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())) {
-                    String key = dataSnapshot.getKey();
-                    MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message message = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
-                    int currentIndex = keys.indexOf(key);
-                    messageInboxes.remove(currentIndex);
-                    mostRecentMsg.remove(currentIndex);
-                    keys.remove(currentIndex);
+                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                Message message = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
-                    insertIntoLists(getCorrectListSpot(inbox), inbox, message, key);
+                int currentIndex = keys.indexOf(key);
+                messageInboxes.remove(currentIndex);
+                mostRecentMsg.remove(currentIndex);
+                keys.remove(currentIndex);
 
-                    notifyDataSetChanged();
-                }
+                insertIntoLists(getCorrectListSpot(inbox), inbox, message, key);
+
+                notifyDataSetChanged();
+
             }
 
             @Override
@@ -119,7 +154,19 @@ public class MessageController extends BaseAdapter {
             }
         });
 
+        childEventListenerMap.put(key, messageListener);
     }
+
+    private void stopListeningAt(String key){
+        messagesFirebaseRef.child(key).removeEventListener(childEventListenerMap.get(key));
+        childEventListenerMap.remove(key);
+
+        int index = keys.indexOf(key);
+        messageInboxes.remove(index);
+        mostRecentMsg.remove(index);
+        keys.remove(index);
+    }
+
 
     private void insertIntoLists(int position, MessageInbox inbox, Message mostRecentMessage, String key){
         if(position == messageInboxes.size()){
@@ -171,7 +218,7 @@ public class MessageController extends BaseAdapter {
 
     private void populateView(View view, int position){
         String msg = mostRecentMsg.get(position).getMessage();
-        String author = mostRecentMsg.get(position).getAuthor();
+        String author = mostRecentMsg.get(position).getAuthor();//This needs to be changed, author here is set to the latest message author, which might be myself.
 
         TextView authorView = (TextView) view.findViewById(R.id.messageInboxNick);
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
