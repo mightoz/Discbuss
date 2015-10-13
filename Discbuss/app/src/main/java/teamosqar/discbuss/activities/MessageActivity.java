@@ -40,9 +40,12 @@ public class MessageActivity extends ListActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //We need to send info on which room we are accessing!
-                //Intent intent = new Intent(this, DuoChatActivity.class);
-                //startActivity(intent);
+                /*
+                We need to send info on which room we are accessing!! chat ref key can be retrieved by:
+                messageController.getChatRefKey(position);
+                Intent intent = new Intent(this, DuoChatActivity.class);
+                startActivity(intent);
+                */
             }
         });
     }

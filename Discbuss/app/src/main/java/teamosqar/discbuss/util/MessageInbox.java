@@ -9,6 +9,9 @@ public class MessageInbox {
     private boolean seenByOther;
     private String latestActivity; //Should contain date/time for latest activity in chat, should this be a string?
 
+
+    private MessageInbox(){}
+
     public MessageInbox(String latestActivity, boolean seenByMe, boolean seenByOther){
         this.latestActivity = latestActivity;
         this.seenByMe = seenByMe;
@@ -16,9 +19,18 @@ public class MessageInbox {
     }
 
     public boolean isBefore(String otherDate){
+        String latestActivity_split[] = latestActivity.split("-");
+        String otherDate_split[] = otherDate.split("-");
+
+        for(int i = 0; i < latestActivity_split.length; i++){
+            if(Integer.parseInt(latestActivity_split[i]) < Integer.parseInt(otherDate_split[i])){
+                return true;
+            }
+        }
         //TODO: test if latestActivity is before otherDate, do we need to store this differently???
         return false;
     }
+
 
     public boolean isSeenByMe(){
         return seenByMe;

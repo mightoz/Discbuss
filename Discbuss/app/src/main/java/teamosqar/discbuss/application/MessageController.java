@@ -16,6 +16,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +90,7 @@ public class MessageController extends BaseAdapter {
             //Will need to be switched in case they are incorrect, or controlled in some other way!
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
 
-                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
                 Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);//Should get the most recent message! is this correctly done??                 String key = dataSnapshot.getKey();
 
                 int index = getCorrectListSpot(inbox);
@@ -103,7 +104,7 @@ public class MessageController extends BaseAdapter {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                 int currentIndex = keys.indexOf(key);
-                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
                 Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
                 messageInboxes.remove(currentIndex);
@@ -134,7 +135,7 @@ public class MessageController extends BaseAdapter {
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildKey) {
 
-                MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
+                MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
                 Message message = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
                 int currentIndex = keys.indexOf(key);
@@ -165,6 +166,24 @@ public class MessageController extends BaseAdapter {
         messageInboxes.remove(index);
         mostRecentMsg.remove(index);
         keys.remove(index);
+    }
+
+    private MessageInbox createMessageInbox(DataSnapshot dataSnapshot){
+        Iterator iterator = dataSnapshot.getChildren().iterator();
+        String latestActivity = "";
+        boolean seenByMe = false;
+        boolean seenByOther = false;
+        while(iterator.hasNext()){
+            DataSnapshot dataSnapshotChild = (DataSnapshot)iterator.next();
+            if(dataSnapshotChild.getKey().contains(Model.getInstance().getUid())){
+                seenByMe = (boolean)dataSnapshotChild.getValue();
+            }else if(dataSnapshotChild.getKey().contains("latest")){
+                latestActivity = dataSnapshotChild.getValue(String.class);
+            }else{
+                seenByOther = (boolean)dataSnapshotChild.getValue();
+            }
+        }
+        return new MessageInbox(latestActivity, seenByMe, seenByOther);
     }
 
 
@@ -199,6 +218,10 @@ public class MessageController extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return messageInboxes.get(position);
+    }
+
+    public String getChatRefKey(int position){
+        return keys.get(position);
     }
 
     @Override
