@@ -34,11 +34,11 @@ public class Model{
     }
     public void addUserToChat(String activeChat){
         //mref.child("chatRooms").child(activeChat).setValue(uid);
-        mref.child("testChat").child("activeUsers").child(uid).setValue(uid);
+        mref.child("activeUsers").child("chat").child(uid).setValue(uid);
     }
     public void removeUserFromChat(String activeChat){
         //mref.child("chatRooms").child(activeChat).child(uid).removeValue();
-        mref.child("testChat").child("activeUsers").child(uid).removeValue();
+        mref.child("activeUsers").child("chat").child(uid).removeValue();
     }
 
     public void setUsername(String username){

@@ -1,6 +1,8 @@
 package teamosqar.discbuss.application;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +35,19 @@ import teamosqar.discbuss.util.Message;
  */
 public class ChatAdapter extends BaseAdapter{
 
+    private final Context context;
     private LayoutInflater inflater;
     private Firebase chatFireBaseRef, activeUserRef;
-    private ChildEventListener chatListener, activeUserListener;
+    private ChildEventListener chatListener;
+    private ValueEventListener activeUserListener;
     private List<Message> messageModels;
     private List<String> messageKeys;
 
 
-    public ChatAdapter(LayoutInflater inflater, String chatRoom){
+    public ChatAdapter(Context context, LayoutInflater inflater, String chatRoom){
+        this.context = context;
         this.inflater = inflater;
+
         chatFireBaseRef = Model.getInstance().getMRef().child("chat");
         //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom);
         //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
@@ -124,6 +131,26 @@ public class ChatAdapter extends BaseAdapter{
                 Log.e("FirebaseListAdapter", "Listen was cancelled, no more updates will occur");
             }
         });
+
+        activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
+            int connectedUsers;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                connectedUsers = (int)dataSnapshot.getChildrenCount();
+                updateUserCount(connectedUsers);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private void updateUserCount(int users){
+        TextView numUsers = (TextView) ((Activity) context).findViewById(R.id.textViewActiveUsers);
+        numUsers.setText(Integer.toString(users));
     }
 
     public void upVote(int i){

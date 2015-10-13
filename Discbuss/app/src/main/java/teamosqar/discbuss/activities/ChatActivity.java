@@ -37,7 +37,7 @@ public class ChatActivity extends ListActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
-        chatAdapter = new ChatAdapter(this.getLayoutInflater(), roomName);
+        chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
         model = Model.getInstance();
