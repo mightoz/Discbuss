@@ -54,10 +54,12 @@ public class ChatActivity extends ListActivity {
         final ListView listView = getListView();
         listView.setAdapter(chatAdapter);
         model.addUserToChat(roomName);
+        chatAdapter.updateParticipants();
     }
 
     public void onStop(){
         model.removeUserFromChat(roomName);
+        chatAdapter.updateParticipants();
         super.onStop();
     }
 

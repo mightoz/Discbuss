@@ -33,8 +33,8 @@ import teamosqar.discbuss.util.Message;
 public class ChatAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
-    private Firebase chatFireBaseRef;
-    private ChildEventListener chatListener;
+    private Firebase chatFireBaseRef, activeUserRef;
+    private ChildEventListener chatListener, activeUserListener;
     private List<Message> messageModels;
     private List<String> messageKeys;
 
@@ -42,10 +42,11 @@ public class ChatAdapter extends BaseAdapter{
     public ChatAdapter(LayoutInflater inflater, String chatRoom){
         this.inflater = inflater;
         chatFireBaseRef = Model.getInstance().getMRef().child("chat");
-        //chatFireBaseRef = Model.getInstance().getMRef().child(chatRoom);
+        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom);
+        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
+        activeUserRef = Model.getInstance().getMRef().child("activesUsers").child("chat");
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
-
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -212,6 +213,7 @@ public class ChatAdapter extends BaseAdapter{
         Message msg = messageModels.get(position);
         populateView(convertView, msg);
 
+
         return convertView;
     }
 
@@ -237,5 +239,9 @@ public class ChatAdapter extends BaseAdapter{
         msgView.setText(msg);
         commentKarma.setText(Integer.toString(karma));
 
+    }
+
+    public void updateParticipants(){
+        //
     }
 }
