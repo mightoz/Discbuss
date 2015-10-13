@@ -51,7 +51,7 @@ public class ChatAdapter extends BaseAdapter{
         chatFireBaseRef = Model.getInstance().getMRef().child("chat");
         //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom);
         //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
-        activeUserRef = Model.getInstance().getMRef().child("activesUsers").child("chat");
+        activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
@@ -137,7 +137,7 @@ public class ChatAdapter extends BaseAdapter{
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                connectedUsers = (int)dataSnapshot.getChildrenCount();
+                connectedUsers = (int)(dataSnapshot.getChildrenCount());
                 updateUserCount(connectedUsers);
             }
 
