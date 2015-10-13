@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTextName"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="34dp"
         android:hint="Name"
         android:layout_alignLeft="@+id/editTextEmail"
         android:layout_alignStart="@+id/editTextEmail"
@@ -26,7 +26,7 @@
         android:id="@+id/editTextEmail"
         android:layout_below="@+id/editTextName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="11dp"
         android:hint="Email"/>
 
     <EditText
@@ -37,7 +37,7 @@
         android:id="@+id/editTextPassword"
         android:layout_below="@+id/editTextEmail"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="9dp"
         android:hint="Password"/>
 
     <EditText
@@ -48,16 +48,71 @@
         android:id="@+id/editTextConfPass"
         android:layout_below="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="11dp"
         android:hint="Confirm Password"/>
+
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Select Gender"
+        android:id="@+id/genderSpinner"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/editTextConfPass"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="Date of birth"
+        android:textSize="20dp"
+        android:id="@+id/birthText"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/genderSpinner"
+        android:layout_centerHorizontal="true"/>
+
+
+    <Spinner
+        android:layout_width="85dp"
+        android:layout_height="35dp"
+        android:text="Year"
+        android:id="@+id/yearSpinner"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/birthText"
+        android:layout_centerHorizontal="false" />
+
+    <Spinner
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:text="Month"
+        android:id="@+id/monthSpinner"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="105dp"
+        android:layout_below="@+id/birthText"
+        android:layout_centerHorizontal="false" />
+
+    <Spinner
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:text="Date"
+        android:id="@+id/dateSpinner"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="250dp"
+        android:layout_below="@+id/birthText"
+        android:layout_centerHorizontal="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/buttonRegister"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="200dp"
         android:onClick="registerPressed"
         android:layout_below="@+id/editTextConfPass"
         android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>
