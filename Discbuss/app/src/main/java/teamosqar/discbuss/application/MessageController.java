@@ -50,7 +50,7 @@ public class MessageController extends BaseAdapter {
 
                 if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())){
                     MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message mostRecentMessage = dataSnapshot.child("Chat").getChildren().iterator().next().getValue(Message.class);//Should get the most recent message! is this correctly done??
+                    Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);//Should get the most recent message! is this correctly done??
                     String key = dataSnapshot.getKey();
 
                     int index = getCorrectListSpot(inbox);
@@ -67,7 +67,7 @@ public class MessageController extends BaseAdapter {
                     String key = dataSnapshot.getKey();
                     int currentIndex = keys.indexOf(key);
                     MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message mostRecentMessage = dataSnapshot.child("Chat").getChildren().iterator().next().getValue(Message.class);
+                    Message mostRecentMessage = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
                     messageInboxes.remove(currentIndex);
                     mostRecentMsg.remove(currentIndex);
@@ -100,7 +100,7 @@ public class MessageController extends BaseAdapter {
                 if(dataSnapshot.child("participants").hasChild(Model.getInstance().getUid())) {
                     String key = dataSnapshot.getKey();
                     MessageInbox inbox = dataSnapshot.child("inboxInfo").getValue(MessageInbox.class);
-                    Message message = dataSnapshot.child("Chat").getChildren().iterator().next().getValue(Message.class);
+                    Message message = dataSnapshot.child("chat").getChildren().iterator().next().getValue(Message.class);
 
                     int currentIndex = keys.indexOf(key);
                     messageInboxes.remove(currentIndex);

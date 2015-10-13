@@ -23,12 +23,20 @@ public class MessageActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
         messageController = new MessageController(getLayoutInflater());
+        setContentView(R.layout.activity_message);
         noContentText = (TextView) findViewById(R.id.noContentMessage);
-        listView = getListView();
 
+
+        listView = getListView();
         listView.setAdapter(messageController);
+
+        if(messageController.getCount() == 0){
+            noContentText.setText("You do not participate in any duo chats");
+        } else {
+            noContentText.setText("");
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -41,10 +49,13 @@ public class MessageActivity extends ListActivity {
 
     @Override
     public void onContentChanged(){
-        if(messageController.getCount() == 0){
-            noContentText.setText("You do not participate in any duo chats");
-        }else{
-            noContentText.setText("");
+        super.onContentChanged();
+        if(noContentText != null){
+            if(messageController.getCount() == 0){
+                noContentText.setText("You do not participate in any duo chats");
+            } else {
+                noContentText.setText("");
+            }
         }
     }
 
