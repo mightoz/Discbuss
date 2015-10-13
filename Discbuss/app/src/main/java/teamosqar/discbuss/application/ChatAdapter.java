@@ -19,7 +19,9 @@ import com.firebase.client.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import teamosqar.discbuss.activities.ChatActivity;
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
@@ -28,7 +30,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-09-29.
  */
-public class ChatAdapter extends BaseAdapter {
+public class ChatAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
     private Firebase chatFireBaseRef;
