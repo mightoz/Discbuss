@@ -40,6 +40,9 @@ public class MessageActivity extends ListActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("EXTRA_ROOM", messageController.getChatRefKey(position));
+                startActivity(intent);
                 /*
                 We need to send info on which room we are accessing!! chat ref key can be retrieved by:
                 messageController.getChatRefKey(position);

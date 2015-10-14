@@ -3,6 +3,7 @@ package teamosqar.discbuss.application;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +48,7 @@ public class ChatAdapter extends BaseAdapter{
     private List<String> messageKeys;
     private int clickedMessage;
     private View clickedView;
-
+    boolean isPrivateChat;
 
     public ChatAdapter(Context context, LayoutInflater inflater, String chatRoom){
         this.context = context;
@@ -57,8 +58,17 @@ public class ChatAdapter extends BaseAdapter{
 
         //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
         //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
-        chatFireBaseRef = Model.getInstance().getMRef().child("chat");                        //TODO: Remove when done testing
-        activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");     //TODO: Remove when done testing
+        //chatFireBaseRef = Model.getInstance().getMRef().child("chat");                        //TODO: Remove when done testing
+        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");     //TODO: Remove when done testing
+
+        if(chatRoom.contains(Model.getInstance().getUid())){
+            chatFireBaseRef = Model.getInstance().getMRef().child("duoChats").child(chatRoom).child("content").child("chat");
+            isPrivateChat = true;
+        }else{
+            chatFireBaseRef = Model.getInstance().getMRef().child("chat");
+            activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");
+            isPrivateChat = false;
+        }
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
@@ -142,20 +152,22 @@ public class ChatAdapter extends BaseAdapter{
         /**
          * Listener for number of participants in chat rooms.
          */
-        activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
-            int connectedUsers;
+        if(!isPrivateChat) {
+            activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
+                int connectedUsers;
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                connectedUsers = (int)(dataSnapshot.getChildrenCount());
-                updateUserCount(connectedUsers);
-            }
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    connectedUsers = (int) (dataSnapshot.getChildrenCount());
+                    updateUserCount(connectedUsers);
+                }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void updateUserCount(int users){
@@ -309,7 +321,7 @@ public class ChatAdapter extends BaseAdapter{
     public void personalMessageClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
         if(!otherUid.equals(Model.getInstance().getUid())){
-            Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator children = dataSnapshot.getChildren().iterator();
@@ -337,10 +349,11 @@ public class ChatAdapter extends BaseAdapter{
                         chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR)+ "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
 
                     }
-
-                    /*
-                    TODO: Launch duoChatActivity with finalChatRef
-                    */
+                    if(!finalChatRef.equals("")) {
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("EXTRA_ROOM", finalChatRef);
+                        context.startActivity(intent);
+                    }
                 }
 
                 @Override
