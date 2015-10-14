@@ -170,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id == R.id.logout){
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("logout", "logout");
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

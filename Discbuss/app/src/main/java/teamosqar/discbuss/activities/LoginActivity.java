@@ -65,6 +65,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         Boolean autoLogin = sharedPref.getBoolean(AUTO_LOGIN, false);
+        Intent intent = getIntent();
+        if(intent.getStringExtra("logout") != null){
+            String activity = intent.getStringExtra("logout");
+            if(activity.equals("logout")){
+                autoLogin = false;
+            }
+        }
         if(autoLogin){
             editEmail.setText(sharedPref.getString(EMAIL, "email"));
             editPassword.setText(sharedPref.getString(PASSWORD, "pass"));
