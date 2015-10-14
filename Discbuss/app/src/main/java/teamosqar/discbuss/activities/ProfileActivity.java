@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
 
         if(newPassword.getText().toString().equals(confirmPassword.getText().toString())){
 
-            profileController.changePassword(oldPassword.toString(), newPassword.getText().toString(), this);
+            profileController.changePassword(oldPassword.getText().toString(), newPassword.getText().toString(), this);
 
             FragmentTransaction newFt = fm.beginTransaction();
             newFt.remove(pwFragment);
@@ -156,6 +156,8 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
             emailTag.setVisibility(View.VISIBLE);
             nameTag.setVisibility(View.VISIBLE);
 
+        }else{
+            Toaster.displayToast("Wrong confirmation password", this, Toast.LENGTH_LONG);
         }
 
     }
