@@ -222,7 +222,7 @@ public class ChatAdapter extends BaseAdapter{
 
         TextView authorView = (TextView) view.findViewById(R.id.author);
         TextView msgView = (TextView) view.findViewById(R.id.message);
-        EditText commentKarma = (EditText) view.findViewById(R.id.commentKarma);
+        TextView commentKarma = (TextView) view.findViewById(R.id.commentKarma);
 
 
         //Sets color of your usrname to green and others' to gray. Not finished.

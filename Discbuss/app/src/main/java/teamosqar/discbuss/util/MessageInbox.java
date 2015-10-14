@@ -32,7 +32,6 @@ public class MessageInbox {
                 return true;
             }
         }
-        //TODO: test if latestActivity is before otherDate, do we need to store this differently???
         return false;
     }
 
