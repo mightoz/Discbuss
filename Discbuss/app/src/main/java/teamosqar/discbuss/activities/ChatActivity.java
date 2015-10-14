@@ -40,7 +40,7 @@ public class ChatActivity extends ListActivity {
         chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
-        model = Model.getInstance();
+        model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
     }
     @Override
     public void onBackPressed(){

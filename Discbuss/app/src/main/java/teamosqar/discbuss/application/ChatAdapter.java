@@ -48,10 +48,10 @@ public class ChatAdapter extends BaseAdapter{
         this.context = context;
         this.inflater = inflater;
 
-        chatFireBaseRef = Model.getInstance().getMRef().child("chat");
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom);
-        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
-        activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");
+        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
+        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
+        chatFireBaseRef = Model.getInstance().getMRef().child("chat");                        //TODO: Remove when done testing
+        activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");     //TODO: Remove when done testing
         messageModels = new ArrayList<Message>();
         messageKeys = new ArrayList<String>();
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
@@ -132,6 +132,9 @@ public class ChatAdapter extends BaseAdapter{
             }
         });
 
+        /**
+         * Listener for number of participants in chat rooms.
+         */
         activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
             int connectedUsers;
 
@@ -152,11 +155,11 @@ public class ChatAdapter extends BaseAdapter{
         TextView numUsers = (TextView) ((Activity) context).findViewById(R.id.textViewActiveUsers);
         numUsers.setText(Integer.toString(users));
     }
-
+    //TODO: Only let a user have one upvote/downvote active for each comment.
     public void upVote(int i){
         performKarmaChange(i, 1);
     }
-
+    //TODO: Only let a user have one upvote/downvote active for each comment.
     public void downVote(int i){
         performKarmaChange(i, -1);
     }
@@ -186,6 +189,7 @@ public class ChatAdapter extends BaseAdapter{
 
 
 
+        //TODO: Not sure if this is needed yet. Add later if needed, else remove.
         //Adds the karma change to model. Not finished.
         //Sets userRef to the karma child of the users child
         /*Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
@@ -254,6 +258,7 @@ public class ChatAdapter extends BaseAdapter{
         EditText commentKarma = (EditText) view.findViewById(R.id.commentKarma);
 
 
+        //TODO: Change colour of comments to indicate which is yours. Make it work uniquely for each user.
         //Sets color of your usrname to green and others' to gray. Not finished.
 
       /*  if(message.getUid()!= null && message.getUid().equals(Model.getInstance().getUid())){
@@ -265,6 +270,8 @@ public class ChatAdapter extends BaseAdapter{
         authorView.setText(author + ": ");
         msgView.setText(msg);
         commentKarma.setText(Integer.toString(karma));
+
+        //TODO: Make good looking up/down-vote buttons. Downvote should glow red if clicked, upvote should glow green.
 
     }
 
