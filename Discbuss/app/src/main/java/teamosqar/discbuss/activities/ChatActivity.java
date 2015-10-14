@@ -37,10 +37,10 @@ public class ChatActivity extends ListActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
-        chatAdapter = new ChatAdapter(this.getLayoutInflater(), roomName);
+        chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
-        model = Model.getInstance();
+        model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
     }
     @Override
     public void onBackPressed(){
@@ -54,10 +54,12 @@ public class ChatActivity extends ListActivity {
         final ListView listView = getListView();
         listView.setAdapter(chatAdapter);
         model.addUserToChat(roomName);
+        chatAdapter.updateParticipants();
     }
 
     public void onStop(){
         model.removeUserFromChat(roomName);
+        chatAdapter.updateParticipants();
         super.onStop();
     }
 
