@@ -32,6 +32,14 @@ public class Model{
     public String getUid(){
         return uid;
     }
+    public void addUserToChat(String activeChat){
+        //mref.child("chatRooms").child(activeChat).setValue(uid); //TODO: Use when finished
+        mref.child("activeUsers").child("chat").child(uid).setValue(uid);//TODO: Remove when finished
+    }
+    public void removeUserFromChat(String activeChat){
+        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Use when finished
+        mref.child("activeUsers").child("chat").child(uid).removeValue();//TODO: Remove when finished
+    }
 
     public void setUsername(String username){
         this.username = username;

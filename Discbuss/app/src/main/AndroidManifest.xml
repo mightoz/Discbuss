@@ -21,21 +21,28 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ChatActivity"
-            android:label="@string/title_activity_chat" >
+            android:label="@string/title_activity_chat"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile" >
-
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MessageActivity"
+            android:label="@string/title_activity_message"
+            android:screenOrientation="portrait">
         </activity>
     </application>
-
 </manifest>

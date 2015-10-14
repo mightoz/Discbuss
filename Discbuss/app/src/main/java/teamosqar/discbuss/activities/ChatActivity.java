@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.firebase.client.Firebase;
@@ -16,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import teamosqar.discbuss.application.ChatAdapter;
+import teamosqar.discbuss.model.Model;
 
 /**
  * Created by joakim on 2015-09-29.
@@ -24,7 +26,9 @@ public class ChatActivity extends ListActivity {
 
     private ChatAdapter chatAdapter;
     private EditText msgToSend;
+    private TextView activeUsers;
     private String roomName;
+    private Model model;
 
 
     @Override
@@ -33,9 +37,10 @@ public class ChatActivity extends ListActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
-        chatAdapter = new ChatAdapter(this.getLayoutInflater(), roomName);
+        chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
-
+        activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
+        model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
     }
     @Override
     public void onBackPressed(){
@@ -48,9 +53,13 @@ public class ChatActivity extends ListActivity {
         super.onStart();
         final ListView listView = getListView();
         listView.setAdapter(chatAdapter);
+        model.addUserToChat(roomName);
+        chatAdapter.updateParticipants();
     }
 
     public void onStop(){
+        model.removeUserFromChat(roomName);
+        chatAdapter.updateParticipants();
         super.onStop();
     }
 
@@ -71,5 +80,17 @@ public class ChatActivity extends ListActivity {
             }
         }, 400);
 
+    }
+
+    public void upVote(View view){
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent().getParent());
+        chatAdapter.upVote(pos);
+    }
+
+    public void downVote(View view){
+        ListView lv = getListView();
+        int pos = lv.getPositionForView((View)view.getParent().getParent());
+        chatAdapter.downVote(pos);
     }
 }
