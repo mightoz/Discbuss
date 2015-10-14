@@ -22,6 +22,7 @@ import java.util.TimerTask;
 
 import teamosqar.discbuss.application.ChatAdapter;
 import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.util.Message;
 
 /**
  * Created by joakim on 2015-09-29.
@@ -106,5 +107,13 @@ public class ChatActivity extends ListActivity {
         ListView lv = getListView();
         int pos = lv.getPositionForView((View)view.getParent().getParent());
         chatAdapter.downVote(pos);
+    }
+
+    public void viewPersonalProfileClicked(View view){
+        chatAdapter.personalProfileClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
+    }
+
+    public void sendPersonalMessageClicked(View view){
+        chatAdapter.personalMessageClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
     }
 }

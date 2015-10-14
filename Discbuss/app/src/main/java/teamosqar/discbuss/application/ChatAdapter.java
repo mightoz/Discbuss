@@ -21,6 +21,9 @@ import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -301,5 +304,53 @@ public class ChatAdapter extends BaseAdapter{
             clickedMessage = -1;
         }
         notifyDataSetChanged();
+    }
+
+    public void personalMessageClicked(int position){
+        final String otherUid = messageModels.get(position).getUid();
+        if(!otherUid.equals(Model.getInstance().getUid())){
+            Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterator children = dataSnapshot.getChildren().iterator();
+                    boolean foundChat = false;
+                    while(children.hasNext()){
+                        DataSnapshot snap = (DataSnapshot)children.next();
+                        String currentChatRef = snap.getValue(String.class);
+                        if(currentChatRef.contains(otherUid)){
+                            foundChat = true;
+                            /*
+                            TODO: Launch duoChatActivity with currentChatRef, then break out of this loop
+                             */
+                        }
+                    }
+                    if(foundChat == false){
+                        Firebase userRef = Model.getInstance().getMRef().child("users");
+
+                        String newChatRef = otherUid + "!" + Model.getInstance().getUid();
+                        userRef.child(Model.getInstance().getUid()).child("activeChats").push().setValue(newChatRef);
+                        userRef.child(otherUid).child("activeChats").push().setValue(newChatRef);
+
+                        Firebase chatRef = Model.getInstance().getMRef().child("duoChats").child(newChatRef).child("content");
+                        chatRef.child("inboxInfo").child(otherUid).setValue(true);
+                        chatRef.child("inboxInfo").child(Model.getInstance().getUid()).setValue(false);
+                        Calendar calendar = Calendar.getInstance();
+                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR)+ "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+    }
+
+    public void personalProfileClicked(int position){
+        final String otherUid = messageModels.get(position).getUid();
+        if(!otherUid.equals(Model.getInstance().getUid())){
+            //TODO Launch profile using otherUid
+        }
     }
 }
