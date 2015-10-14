@@ -314,29 +314,33 @@ public class ChatAdapter extends BaseAdapter{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterator children = dataSnapshot.getChildren().iterator();
                     boolean foundChat = false;
+                    String finalChatRef = "";
                     while(children.hasNext()){
                         DataSnapshot snap = (DataSnapshot)children.next();
                         String currentChatRef = snap.getValue(String.class);
                         if(currentChatRef.contains(otherUid)){
                             foundChat = true;
-                            /*
-                            TODO: Launch duoChatActivity with currentChatRef, then break out of this loop
-                             */
+                            finalChatRef = currentChatRef;
                         }
                     }
-                    if(foundChat == false){
+                    if(!foundChat){
                         Firebase userRef = Model.getInstance().getMRef().child("users");
 
-                        String newChatRef = otherUid + "!" + Model.getInstance().getUid();
-                        userRef.child(Model.getInstance().getUid()).child("activeChats").push().setValue(newChatRef);
-                        userRef.child(otherUid).child("activeChats").push().setValue(newChatRef);
+                        finalChatRef = otherUid + "!" + Model.getInstance().getUid();
+                        userRef.child(Model.getInstance().getUid()).child("activeChats").push().setValue(finalChatRef);
+                        userRef.child(otherUid).child("activeChats").push().setValue(finalChatRef);
 
-                        Firebase chatRef = Model.getInstance().getMRef().child("duoChats").child(newChatRef).child("content");
+                        Firebase chatRef = Model.getInstance().getMRef().child("duoChats").child(finalChatRef).child("content");
                         chatRef.child("inboxInfo").child(otherUid).setValue(true);
                         chatRef.child("inboxInfo").child(Model.getInstance().getUid()).setValue(false);
                         Calendar calendar = Calendar.getInstance();
                         chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR)+ "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
+
                     }
+
+                    /*
+                    TODO: Launch duoChatActivity with finalChatRef
+                    */
                 }
 
                 @Override
@@ -350,7 +354,7 @@ public class ChatAdapter extends BaseAdapter{
     public void personalProfileClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
         if(!otherUid.equals(Model.getInstance().getUid())){
-            //TODO Launch profile using otherUid
+            //TODO: Launch profile using otherUid
         }
     }
 }
