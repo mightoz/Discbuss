@@ -23,10 +23,12 @@ import teamosqar.discbuss.util.Toaster;
  */
 public class ProfileController extends Observable {
 
+    private Firebase fireRef;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
 
     public ProfileController(){
+        fireRef = Model.getInstance().getMRef();
         userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,12 +88,12 @@ public class ProfileController extends Observable {
     public void setNewDisplayName(String newName){
         userRef.child("name").setValue(newName);
         Model.getInstance().setUsername(newName);
+        System.out.println(fireRef.getAuth().getProviderData().get("email").toString());
     }
 
 
     public void changePassword(String oldPw, String newPw, final Context context) {
-
-        userRef.changePassword(userRef.getAuth().getProviderData().get("email").toString(), oldPw, newPw, new Firebase.ResultHandler() {
+        fireRef.changePassword(fireRef.getAuth().getProviderData().get("email").toString(), oldPw, newPw, new Firebase.ResultHandler() {
             @Override
             public void onSuccess() {
                 Toaster.displayToast("Password successfully changed", context, Toast.LENGTH_LONG);
