@@ -52,7 +52,6 @@ public class MessageActivity extends ListActivity {
 
     @Override
     public void onContentChanged(){
-        super.onContentChanged();
         if(noContentText != null){
             if(messageController.getCount() == 0){
                 noContentText.setText("You do not participate in any duo chats");
@@ -60,6 +59,7 @@ public class MessageActivity extends ListActivity {
                 noContentText.setText("");
             }
         }
+        super.onContentChanged();
     }
 
     @Override

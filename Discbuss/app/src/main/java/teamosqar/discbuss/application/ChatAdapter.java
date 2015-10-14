@@ -42,11 +42,15 @@ public class ChatAdapter extends BaseAdapter{
     private ValueEventListener activeUserListener;
     private List<Message> messageModels;
     private List<String> messageKeys;
+    private int clickedMessage;
+    private View clickedView;
 
 
     public ChatAdapter(Context context, LayoutInflater inflater, String chatRoom){
         this.context = context;
         this.inflater = inflater;
+        clickedMessage = -1;
+        clickedView = null;
 
         //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
         //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
@@ -238,9 +242,20 @@ public class ChatAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
+        if(clickedMessage == position) {
+            if(clickedView != null){
+                convertView = clickedView;
+            }else {
+                convertView = inflater.inflate(R.layout.message_chat, parent, false);
+                View viewExtension = inflater.inflate(R.layout.message_chat_extension, null);
+                ((ViewGroup) convertView).addView(viewExtension, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                clickedView = convertView;
+            }
+        }else if (convertView == null || clickedView == convertView) {
             convertView = inflater.inflate(R.layout.message_chat, parent, false);
         }
+
+
         Message msg = messageModels.get(position);
         populateView(convertView, msg);
 
@@ -267,7 +282,7 @@ public class ChatAdapter extends BaseAdapter{
             authorView.setTextColor(Color.DKGRAY);
         }*/
 
-        authorView.setText(author + ": ");
+        authorView.setText(author);
         msgView.setText(msg);
         commentKarma.setText(Integer.toString(karma));
 
@@ -277,5 +292,14 @@ public class ChatAdapter extends BaseAdapter{
 
     public void updateParticipants(){
         //
+    }
+
+    public void messageClicked(int position) {
+        if(clickedMessage != position) {
+            clickedMessage = position;
+        }else{
+            clickedMessage = -1;
+        }
+        notifyDataSetChanged();
     }
 }

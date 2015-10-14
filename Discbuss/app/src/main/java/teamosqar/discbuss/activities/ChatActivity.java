@@ -4,10 +4,14 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -29,6 +33,7 @@ public class ChatActivity extends ListActivity {
     private TextView activeUsers;
     private String roomName;
     private Model model;
+    private ListView listView;
 
 
     @Override
@@ -41,6 +46,17 @@ public class ChatActivity extends ListActivity {
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
         model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
+
+        listView = getListView();
+        listView.setAdapter(chatAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                chatAdapter.messageClicked(position);
+            }
+        });
     }
     @Override
     public void onBackPressed(){
@@ -51,8 +67,6 @@ public class ChatActivity extends ListActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        final ListView listView = getListView();
-        listView.setAdapter(chatAdapter);
         model.addUserToChat(roomName);
         chatAdapter.updateParticipants();
     }
