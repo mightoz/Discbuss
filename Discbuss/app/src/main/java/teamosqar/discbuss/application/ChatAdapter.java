@@ -76,7 +76,7 @@ public class ChatAdapter extends BaseAdapter{
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
 
-                Message message = dataSnapshot.getValue(Message.class);
+                Message message = dataSnapshot.child("message").getValue(Message.class);
                 String key = dataSnapshot.getKey();
 
                 //Insert into correct location, based on previous child
@@ -100,7 +100,7 @@ public class ChatAdapter extends BaseAdapter{
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getKey();
-                Message message = dataSnapshot.getValue(Message.class);
+                Message message = dataSnapshot.child("message").getValue(Message.class);
                 int index = messageKeys.indexOf(key);
 
                 messageModels.set(index, message);
@@ -120,7 +120,7 @@ public class ChatAdapter extends BaseAdapter{
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildKey) {
                 String key = dataSnapshot.getKey();
-                Message message = dataSnapshot.getValue(Message.class);
+                Message message = dataSnapshot.child("message").getValue(Message.class);
 
                 int index = messageKeys.indexOf(key);
                 messageModels.remove(index);
@@ -184,59 +184,91 @@ public class ChatAdapter extends BaseAdapter{
     }
 
     private void performKarmaChange(final int message, final int change){
-        Firebase voteRef = chatFireBaseRef.child(messageKeys.get(message)).child("karma");
+        final Firebase messageRef = chatFireBaseRef.child(messageKeys.get(message));
 
-        voteRef.runTransaction(new Transaction.Handler(){
-
+        messageRef.child("usersVoted").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                if(mutableData.getValue() == null){
-                    mutableData.setValue(change);
-                }else{
-                    mutableData.setValue((Long)mutableData.getValue() + change);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                boolean doTransaction = false;
+                boolean changeShouldDouble = false;
+                if(!messageModels.get(message).getUid().equals(Model.getInstance().getUid())) {
+                    if (!dataSnapshot.hasChild(Model.getInstance().getUid())) {
+                        doTransaction = true;
+                    } else if ((dataSnapshot.child(Model.getInstance().getUid()).getValue(Integer.class) != change)) {
+                        doTransaction = true;
+                        changeShouldDouble = true;
+                    }
                 }
 
-                return Transaction.success(mutableData);
+                if (doTransaction) {
+
+                    messageRef.child("usersVoted").child(Model.getInstance().getUid()).setValue(change);
+                    final int correctedChange;
+
+                    if(changeShouldDouble){
+                       correctedChange = change*2;
+                    }else{
+                        correctedChange = change;
+                    }
+
+                    messageRef.child("message").child("karma").runTransaction(new Transaction.Handler() {
+
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            if (mutableData.getValue() == null) {
+                                mutableData.setValue(correctedChange);
+                            } else {
+                                mutableData.setValue((Long) mutableData.getValue() + correctedChange);
+                            }
+
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                            //datasnapshot is the karma child? will this work?
+                            messageModels.get(message).setKarma(((Long) dataSnapshot.getValue()).intValue());
+                        }
+                    });
+
+
+                    Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(message).getUid()).child("karma");
+
+                    userRef.runTransaction(new Transaction.Handler() {
+
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            if (mutableData.getValue() == null) {
+                                mutableData.setValue(correctedChange);
+                            } else {
+                                mutableData.setValue((Long) mutableData.getValue() + correctedChange);
+                            }
+
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                            //Karma has been added to the specified user
+                        }
+                    });
+                }
             }
 
             @Override
-            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                //datasnapshot is the karma child? will this work?
-                messageModels.get(message).setKarma(((Long)dataSnapshot.getValue()).intValue());
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
 
 
-
-        //TODO: Not sure if this is needed yet. Add later if needed, else remove.
-        //Adds the karma change to model. Not finished.
-        //Sets userRef to the karma child of the users child
-        /*Firebase userRef = Model.getInstance().getMRef().child("users").child(messageModels.get(messageKeys.indexOf(message)).getUid()).child("karma");
-
-        userRef.runTransaction(new Transaction.Handler() {
-
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                if (mutableData.getValue() == null) {
-                    mutableData.setValue(change);
-                } else {
-                    mutableData.setValue((Long) mutableData.getValue() + change);
-                }
-
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                //If we add karma to model, this is where we know it has been updated in firebase
-            }
-        });*/
     }
 
     public void sendMessage(String msg){
         if(!msg.equals("")) {
             Message message = new Message(Model.getInstance().getUid(), msg, Model.getInstance().getUsername());
-            chatFireBaseRef.push().setValue(message);
+            chatFireBaseRef.push().child("message").setValue(message);
         }
     }
 
