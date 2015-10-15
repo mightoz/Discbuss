@@ -1,5 +1,6 @@
 package teamosqar.discbuss.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -41,6 +42,11 @@ public class ProfileActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.logout){
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("logout", "logout");
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
