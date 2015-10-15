@@ -39,7 +39,9 @@
             android:layout_weight="1"
             android:background="@drawable/button_shape"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"/>
 
         <Button
             android:layout_width="fill_parent"
