@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.activities.R;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 
 /**

@@ -2,14 +2,10 @@ package teamosqar.discbuss.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +15,6 @@ import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
-import teamosqar.discbuss.application.Model;
 import teamosqar.discbuss.util.Toaster;
 
 public class MainActivity extends AppCompatActivity {

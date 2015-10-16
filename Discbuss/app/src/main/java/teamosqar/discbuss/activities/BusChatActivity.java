@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
-import teamosqar.discbuss.model.Model;
 
 /**
  * Created by joakim on 2015-10-16.

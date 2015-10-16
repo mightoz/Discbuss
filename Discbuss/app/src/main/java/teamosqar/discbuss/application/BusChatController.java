@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 import teamosqar.discbuss.activities.DuoChatActivity;
 import teamosqar.discbuss.activities.R;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 
 /**
@@ -37,7 +36,7 @@ public class BusChatController extends ChatController{
         this.context = context;
         this.chatRoom = chatRoom;
 
-        Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");
+        Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
         chatFirebaseRef = getFirebaseChatRef(chatRoom);
 
         ValueEventListener activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
@@ -58,7 +57,7 @@ public class BusChatController extends ChatController{
 
     @Override
     protected Firebase getFirebaseChatRef(String chatRoom) {
-        return Model.getInstance().getMRef().child("chat");
+        return Model.getInstance().getMRef().child(chatRoom);
     }
 
     public void onEnteredChat(){

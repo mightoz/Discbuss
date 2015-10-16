@@ -16,8 +16,6 @@ import com.firebase.client.FirebaseError;
 import java.util.ArrayList;
 import java.util.List;
 
-import teamosqar.discbuss.activities.R;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,17 +19,16 @@ import android.widget.Toast;
 import java.util.Observable;
 import java.util.Observer;
 
-import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
 import teamosqar.discbuss.fragments.EditDisplayname;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Toaster;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private ProfileController profileController;
-    private Model model = Model.getInstance();
+    //TODO: This should not be saved here. -> Move to controller.
+//    private Model model = Model.getInstance();
     private TextView name, email, karma, nameTag, emailTag, karmaTag;
     private Button pwButton, statementButton, displayNameButton;
     private EditDisplayname displaynameFragment;
@@ -64,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
     }
-
-    @Override
+    //TODO: Needs refactoring, model is held in controller.
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -87,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     public void update(Observable observable, Object data){
         name.setText(profileController.getName());
