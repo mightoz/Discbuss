@@ -2,13 +2,10 @@ package teamosqar.discbuss.application;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
 
-import teamosqar.discbuss.activities.ChatActivity;
-import teamosqar.discbuss.util.Toaster;
+
 
 /**
  * Created by Oscar on 16/10/15.
@@ -39,7 +36,7 @@ public class MainController {
         idIndex = model.getIndexOfBSSID();
         connectedToBusWifi = true;
 
-        //This code should be used when not testing, i.e. real connection to buses.
+        //This code should be used when not testing, i.e. real connection to buses. Not tested.
         /*try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
@@ -84,16 +81,5 @@ public class MainController {
     public void submitStatement(String statement){
         model.getMRef().child("statements").push().setValue(statement);
     }
-   /* public void tryEnterChat(Class<ChatActivity> chatActivityClass){
-        if(connectedToBusWifi){
-            String chatRoom = "chatRooms/";
-            chatRoom = chatRoom + idIndex;
-            Intent intent = new Intent(context, chatActivityClass);
-            intent.putExtra("EXTRA_ROOM", chatRoom);
-            context.startActivity(intent);
-        }else{
-            Toaster.displayToast("Connect to buss WiFi", , Toast.LENGTH_SHORT);
-        }
-    */
 
 }

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //ABOVE ONLY FOR TESTING...
 
     private EditText fragmentData;
+    //TODO: Remove when other code is tested.
     private WifiInfo wifiInfo;
     private FragmentManager fm;
     private FragmentTransaction ft;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         Firebase.setAndroidContext(this);
+        //TODO: Remove when other code is tested.
         //mref = Model.getInstance().getMRef();
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }
+        //TODO: Remove when other code is tested.
         /*if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
+            //TODO: Remove when other code is tested.
             //mref.child("statements").push().setValue(fragmentData.getText().toString());
             //TODO: Add toast saying it was successful! Remove Fragment.
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
