@@ -69,6 +69,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         if(intent.getStringExtra("logout") != null){
             String activity = intent.getStringExtra("logout");
             if(activity.equals("logout")){
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(AUTO_LOGIN, false);
+                editor.apply();
+                Log.d("AUTOLOGIN", "set to false");
                 autoLogin = false;
             }
         }
@@ -145,13 +149,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
     @Override
     public void update(Observable observable, Object data) {
-/*<<<<<<< HEAD
-        Log.d("notifications", "received notification");
-        if(loginController.getLoginStatus()){
-            SharedPreferences.Editor editor = sharedPref.edit();
 
-            if(autoLoginCheckbox.isChecked()) {
-=======*/
         Log.d("notifications", "recieved notification");
         //progressDialog.dismiss();
         if(tryingLogin) {

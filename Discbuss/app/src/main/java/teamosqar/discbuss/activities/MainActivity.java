@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private MainController mainController;
     private Firebase mref;
+    //TODO: Remove, model should not be saved in here. Use controller instead.
+//    private Model model = Model.getInstance();
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
     //ABOVE ONLY FOR TESTING...
 
     private EditText fragmentData;
-    //TODO: Remove when other code is tested.
-    private WifiInfo wifiInfo;
     private FragmentManager fm;
     private FragmentTransaction ft;
     private SuggestFragment fragment;
@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         Firebase.setAndroidContext(this);
-        //TODO: Remove when other code is tested.
-        //mref = Model.getInstance().getMRef();
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
     }
@@ -69,62 +67,15 @@ public class MainActivity extends AppCompatActivity {
         String chatRoom = "chatRooms/";
 
         if(mainController.isConnectedToBus()){
-            chatRoom = chatRoom + (mainController.getIndexOfId()+1);
-            Intent intent = new Intent(this, ChatActivity.class);
+            String roomNbr = Integer.toString(mainController.getIndexOfId()+1);
+            chatRoom = chatRoom + roomNbr;
+            Intent intent = new Intent(this, BusChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);
         }else {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }
-        //TODO: Remove when other code is tested.
-        /*if(checkWifiState(this)){
-            switch (wifiInfo.getBSSID()) {
-                //temporary
-                case bssidMightos:
-                    chatRoom = chatRoom + "mightoz";
-                    break;
-                case buss1:
-                    chatRoom = chatRoom + "1";
-                    break;
-                case buss2:
-                    chatRoom = chatRoom + "2";
-                    break;
-                case buss3:
-                    chatRoom = chatRoom + "3";
-                    break;
-                case buss4:
-                    chatRoom = chatRoom + "4";
-                    break;
-                case buss5:
-                    chatRoom = chatRoom + "5";
-                    break;
-                case buss6:
-                    chatRoom = chatRoom + "6";
-                    break;
-                case buss7:
-                    chatRoom = chatRoom + "7";
-                    break;
-                case buss8:
-                    chatRoom = chatRoom + "8";
-                    break;
-                case buss9:
-                    chatRoom = chatRoom + "9";
-                    break;
-                case buss10:
-                    chatRoom = chatRoom + "10";
-                    break;
-            }
-            if(chatRoom!="chatRooms/") {
-                Intent intent = new Intent(this, ChatActivity.class);
-                intent.putExtra("EXTRA_ROOM", chatRoom);
-                startActivity(intent);
-            } else {
-                Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
-            }
 
-        } else {
-            Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
-        }*/
     }
 
     public void goToProfile(View view){
@@ -147,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
-            //TODO: Remove when other code is tested.
-            //mref.child("statements").push().setValue(fragmentData.getText().toString());
             //TODO: Add toast saying it was successful! Remove Fragment.
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
@@ -165,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    @Override
+
+    //TODO: Refactor this method. -> Move to controller and call from here.
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -180,8 +131,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("logout", "logout");
             startActivity(intent);
+            model.resetModel();
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

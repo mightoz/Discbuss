@@ -31,12 +31,12 @@ public class MainController {
      */
     public void checkWifiState(){
 
-        //Testcode, to be removed when finished
+        //TODO:Testcode, to be removed when finished
         model.setCurrentBSSID("testId");
         idIndex = model.getIndexOfBSSID();
         connectedToBusWifi = true;
 
-        //This code should be used when not testing, i.e. real connection to buses. Not tested.
+        //TODO:This code should be used when not testing, i.e. real connection to buses. Not tested.
         /*try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();

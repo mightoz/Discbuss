@@ -11,25 +11,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+
 import com.firebase.client.Firebase;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import teamosqar.discbuss.application.ChatAdapter;
-import teamosqar.discbuss.application.Model;
+import teamosqar.discbuss.application.ChatController;
+
 
 /**
  * Created by joakim on 2015-09-29.
  */
-public class ChatActivity extends ListActivity {
+public abstract class ChatActivity extends ListActivity {
 
-    private ChatAdapter chatAdapter;
     private EditText msgToSend;
-    private TextView activeUsers;
-    private String roomName;
-    private Model model;
     private ListView listView;
+
 
 
     @Override
@@ -37,41 +35,35 @@ public class ChatActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
-        roomName = getIntent().getExtras().getString("EXTRA_ROOM");
-        chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
-        msgToSend = (EditText) findViewById(R.id.msgToSend);
-        activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
-        model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
 
+        msgToSend = (EditText) findViewById(R.id.msgToSend);
+
+        setAdapter();
+
+    }
+
+    private void setAdapter(){
+        //Chatadapter needs to be set before calling oncreate from subclasses extending this class
         listView = getListView();
-        listView.setAdapter(chatAdapter);
+        listView.setAdapter(getChatController());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                chatAdapter.messageClicked(position);
+                getChatController().messageClicked(position);
             }
         });
     }
+
+    protected abstract ChatController getChatController();
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();
         finish();
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        model.addUserToChat(roomName);
-        chatAdapter.updateParticipants();
-    }
-
-    public void onStop(){
-        model.removeUserFromChat(roomName);
-        chatAdapter.updateParticipants();
-        super.onStop();
-    }
 
     /**
      * Sends entered message to database. Also delays minimization of keyboard.
@@ -79,7 +71,7 @@ public class ChatActivity extends ListActivity {
      */
     public void sendMessage(View view){
 
-        chatAdapter.sendMessage(msgToSend.getText().toString());
+        getChatController().sendMessage(msgToSend.getText().toString());
         msgToSend.setText("");
         new Timer().schedule(new TimerTask() {
             @Override
@@ -89,26 +81,21 @@ public class ChatActivity extends ListActivity {
                 imm.hideSoftInputFromWindow(msgToSend.getWindowToken(), 0);
             }
         }, 400);
-
-    }
-
-    public void upVote(View view){
-        ListView lv = getListView();
-        int pos = lv.getPositionForView((View)view.getParent().getParent());
-        chatAdapter.upVote(pos);
-    }
-
-    public void downVote(View view){
-        ListView lv = getListView();
-        int pos = lv.getPositionForView((View)view.getParent().getParent());
-        chatAdapter.downVote(pos);
     }
 
     public void viewPersonalProfileClicked(View view){
-        chatAdapter.personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
+        getChatController().personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
 
-    public void sendPersonalMessageClicked(View view){
-        chatAdapter.personalMessageClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
+    @Override
+    protected void onStart(){
+        super.onStart();
+        getChatController().onEnteredChat();
+    }
+
+    @Override
+    public void onStop(){
+        getChatController().onLeftChat();
+        super.onStop();
     }
 }

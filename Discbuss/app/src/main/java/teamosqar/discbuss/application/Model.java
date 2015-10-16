@@ -116,4 +116,10 @@ public class Model{
     protected String getUsername(){
         return username;
     }
+
+    public void resetModel(){
+        username = "";
+        uid = "";
+        email = "";
+    }
 }

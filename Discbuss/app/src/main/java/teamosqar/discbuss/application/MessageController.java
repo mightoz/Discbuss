@@ -27,7 +27,7 @@ import teamosqar.discbuss.util.MessageInbox;
 /**
  * Created by joakim on 2015-10-11.
  */
-public class MessageAdapter extends BaseAdapter {
+public class MessageController extends BaseAdapter {
 
     private Firebase messagesFirebaseRef;
     private List<MessageInbox> messageInboxes;
@@ -36,7 +36,7 @@ public class MessageAdapter extends BaseAdapter {
     private Map<String, ChildEventListener> childEventListenerMap;
     private LayoutInflater inflater;
 
-    public MessageAdapter(LayoutInflater inflater){
+    public MessageController(LayoutInflater inflater){
         messagesFirebaseRef = Model.getInstance().getMRef().child("duoChats");
 
         this.inflater = inflater;
