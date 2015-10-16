@@ -145,6 +145,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
     @Override
     public void update(Observable observable, Object data) {
+/*<<<<<<< HEAD
+        Log.d("notifications", "received notification");
+        if(loginController.getLoginStatus()){
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            if(autoLoginCheckbox.isChecked()) {
+=======*/
         Log.d("notifications", "recieved notification");
         //progressDialog.dismiss();
         if(tryingLogin) {

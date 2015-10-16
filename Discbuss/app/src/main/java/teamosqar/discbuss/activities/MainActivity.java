@@ -133,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToMessages(View view){
+        Intent intent = new Intent(this, MessageActivity.class);
+        startActivity(intent);
+    }
+
     public void suggestStatement(View view){
         fm = getFragmentManager();
         ft = fm.beginTransaction();

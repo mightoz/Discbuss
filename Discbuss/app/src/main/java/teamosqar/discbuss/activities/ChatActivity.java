@@ -4,10 +4,15 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import com.firebase.client.Firebase;
@@ -16,6 +21,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import teamosqar.discbuss.application.ChatAdapter;
+import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.util.Message;
 
 /**
  * Created by joakim on 2015-09-29.
@@ -24,7 +31,10 @@ public class ChatActivity extends ListActivity {
 
     private ChatAdapter chatAdapter;
     private EditText msgToSend;
+    private TextView activeUsers;
     private String roomName;
+    private Model model;
+    private ListView listView;
 
 
     @Override
@@ -33,9 +43,21 @@ public class ChatActivity extends ListActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
-        chatAdapter = new ChatAdapter(this.getLayoutInflater(), roomName);
+        chatAdapter = new ChatAdapter(this, this.getLayoutInflater(), roomName);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
+        activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);
+        model = Model.getInstance(); //TODO: Should we really have a ref to model in activities? Move to controller.
 
+        listView = getListView();
+        listView.setAdapter(chatAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                chatAdapter.messageClicked(position);
+            }
+        });
     }
     @Override
     public void onBackPressed(){
@@ -46,11 +68,13 @@ public class ChatActivity extends ListActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        final ListView listView = getListView();
-        listView.setAdapter(chatAdapter);
+        model.addUserToChat(roomName);
+        chatAdapter.updateParticipants();
     }
 
     public void onStop(){
+        model.removeUserFromChat(roomName);
+        chatAdapter.updateParticipants();
         super.onStop();
     }
 
@@ -83,5 +107,13 @@ public class ChatActivity extends ListActivity {
         ListView lv = getListView();
         int pos = lv.getPositionForView((View)view.getParent().getParent());
         chatAdapter.downVote(pos);
+    }
+
+    public void viewPersonalProfileClicked(View view){
+        chatAdapter.personalProfileClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
+    }
+
+    public void sendPersonalMessageClicked(View view){
+        chatAdapter.personalMessageClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
     }
 }
