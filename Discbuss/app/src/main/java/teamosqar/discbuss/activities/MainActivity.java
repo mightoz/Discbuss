@@ -24,6 +24,7 @@ import teamosqar.discbuss.util.Toaster;
 public class MainActivity extends AppCompatActivity {
 
     private Firebase mref;
+    private Model model = Model.getInstance();
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
@@ -179,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("logout", "logout");
             startActivity(intent);
+            model.resetModel();
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
