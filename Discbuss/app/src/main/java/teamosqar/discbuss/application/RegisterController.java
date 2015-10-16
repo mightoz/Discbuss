@@ -1,13 +1,9 @@
 package teamosqar.discbuss.application;
 
-import android.util.Log;
-
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.Map;
-
-import teamosqar.discbuss.model.Model;
 
 /**
  * Created by Jakob on 02/10/15.

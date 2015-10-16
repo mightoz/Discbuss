@@ -3,15 +3,11 @@ package teamosqar.discbuss.activities;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -21,8 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import teamosqar.discbuss.application.ChatAdapter;
-import teamosqar.discbuss.model.Model;
-import teamosqar.discbuss.util.Message;
+import teamosqar.discbuss.application.Model;
 
 /**
  * Created by joakim on 2015-09-29.
@@ -110,10 +105,10 @@ public class ChatActivity extends ListActivity {
     }
 
     public void viewPersonalProfileClicked(View view){
-        chatAdapter.personalProfileClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
+        chatAdapter.personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
 
     public void sendPersonalMessageClicked(View view){
-        chatAdapter.personalMessageClicked(listView.getPositionForView((View)view.getParent().getParent().getParent()));
+        chatAdapter.personalMessageClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
 }

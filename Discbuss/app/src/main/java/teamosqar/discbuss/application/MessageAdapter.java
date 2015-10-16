@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import teamosqar.discbuss.activities.R;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.MessageInbox;
 

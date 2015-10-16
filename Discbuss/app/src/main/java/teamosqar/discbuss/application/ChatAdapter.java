@@ -4,13 +4,11 @@ package teamosqar.discbuss.application;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
@@ -23,14 +21,11 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
 
 import teamosqar.discbuss.activities.ChatActivity;
 import teamosqar.discbuss.activities.R;
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Message;
 
 
@@ -192,7 +187,7 @@ public class ChatAdapter extends BaseAdapter{
 
                 boolean doTransaction = false;
                 boolean changeShouldDouble = false;
-                if(!messageModels.get(message).getUid().equals(Model.getInstance().getUid())) {
+                if (!messageModels.get(message).getUid().equals(Model.getInstance().getUid())) {
                     if (!dataSnapshot.hasChild(Model.getInstance().getUid())) {
                         doTransaction = true;
                     } else if ((dataSnapshot.child(Model.getInstance().getUid()).getValue(Integer.class) != change)) {
@@ -206,9 +201,9 @@ public class ChatAdapter extends BaseAdapter{
                     messageRef.child("usersVoted").child(Model.getInstance().getUid()).setValue(change);
                     final int correctedChange;
 
-                    if(changeShouldDouble){
-                       correctedChange = change*2;
-                    }else{
+                    if (changeShouldDouble) {
+                        correctedChange = change * 2;
+                    } else {
                         correctedChange = change;
                     }
 

@@ -1,7 +1,6 @@
 package teamosqar.discbuss.application;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -12,7 +11,6 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Observable;
 
-import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Toaster;
 
 /**

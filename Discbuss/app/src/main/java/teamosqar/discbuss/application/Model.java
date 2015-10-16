@@ -1,4 +1,4 @@
-package teamosqar.discbuss.model;
+package teamosqar.discbuss.application;
 
 import com.firebase.client.Firebase;
 
@@ -48,48 +48,50 @@ public class Model{
 
     }
 
-    public List<String> getBusBSSIDs(){
+    protected List<String> getBusBSSIDs(){
         List<String> buses = busBSSIDs;
         return buses;
     }
 
-    public static Model getInstance(){
+    protected static Model getInstance(){
         return model;
     }
 
-    public Firebase getMRef(){
+    protected Firebase getMRef(){
         return mref;
     }
 
-    public void setUid(String uid){
+    protected void setUid(String uid){
         this.uid = uid;
     }
 
-    public String getUid(){
+    protected String getUid(){
         return uid;
     }
-    public void addUserToChat(String activeChat){
+
+    protected void addUserToChat(String activeChat){
         //mref.child("chatRooms").child(activeChat).setValue(uid); //TODO: Use when finished
         mref.child("activeUsers").child("chat").child(uid).setValue(uid);//TODO: Remove when finished
     }
-    public void removeUserFromChat(String activeChat){
+
+    protected void removeUserFromChat(String activeChat){
         //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Use when finished
         mref.child("activeUsers").child("chat").child(uid).removeValue();//TODO: Remove when finished
     }
 
-    public void setUsername(String username){
+    protected void setUsername(String username){
         this.username = username;
     }
 
-    public void setEmail(String email){
+    protected void setEmail(String email){
         this.email = email;
     }
 
-    public String getEmail(){
+    protected String getEmail(){
         return email;
     }
 
-    public String getUsername(){
+    protected String getUsername(){
         return username;
     }
 }

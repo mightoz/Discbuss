@@ -10,9 +10,6 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Observable;
 
-import teamosqar.discbuss.activities.LoginActivity;
-import teamosqar.discbuss.model.Model;
-
 /**
  * Created by joakim on 2015-10-02.
  */

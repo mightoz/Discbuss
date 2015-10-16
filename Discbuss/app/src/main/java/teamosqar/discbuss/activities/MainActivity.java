@@ -19,7 +19,7 @@ import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
-import teamosqar.discbuss.model.Model;
+import teamosqar.discbuss.application.Model;
 import teamosqar.discbuss.util.Toaster;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
-        if(checkWifiState(this)){
+        mainController = new MainController(this);
+
+
+        if(mainController.checkWifiState()){
             connectedToWifi=true;
 
 
