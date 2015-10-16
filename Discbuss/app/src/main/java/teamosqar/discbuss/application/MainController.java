@@ -48,6 +48,7 @@ public class MainController {
                 idIndex = model.getIndexOfBSSID();
                 if(idIndex != -1){
                     connectedToBusWifi = true;
+                    model.startRetrievingStopInfo();
                 }else{
                     connectedToBusWifi = false;
                 }

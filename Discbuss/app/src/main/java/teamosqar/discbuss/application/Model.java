@@ -70,6 +70,11 @@ public class Model{
         return busBSSIDs.indexOf(currentBSSID);
     }
 
+    protected void startRetrievingStopInfo(){
+        stopUpdater = new StopUpdater(currentBSSID);
+        //stopUpdater.run();
+    }
+
     protected static Model getInstance(){
         return model;
     }
