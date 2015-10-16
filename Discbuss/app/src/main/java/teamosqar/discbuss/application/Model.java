@@ -3,7 +3,11 @@ package teamosqar.discbuss.application;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import teamosqar.discbuss.net.StopUpdater;
 
 /**
  * Created by Oscar on 2015-09-30.
@@ -14,7 +18,9 @@ public class Model{
     private String username;
     private String email;
     private String uid;
-    private List<String> busBSSIDs;
+    private StopUpdater stopUpdater;
+    private String currentBSSID;
+    private ArrayList<String> busBSSIDs;
 
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
@@ -27,10 +33,11 @@ public class Model{
     private final String buss9 = "n/a";
     private final String buss10 = "04:f0:21:10:09:b7";
 
+
     private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
         username="";
-        busBSSIDs = new ArrayList<>(10);
+        busBSSIDs = new ArrayList<>();
         loadBusIds();
     }
 
@@ -51,6 +58,14 @@ public class Model{
     protected List<String> getBusBSSIDs(){
         List<String> buses = busBSSIDs;
         return buses;
+    }
+
+    protected void setCurrentBSSID(String bssid){
+        this.currentBSSID = bssid;
+    }
+
+    protected int getIndexOfBSSID(){
+        return busBSSIDs.indexOf(currentBSSID);
     }
 
     protected static Model getInstance(){

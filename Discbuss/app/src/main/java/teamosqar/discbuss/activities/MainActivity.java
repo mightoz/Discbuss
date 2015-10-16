@@ -30,23 +30,13 @@ public class MainActivity extends AppCompatActivity {
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
     //ABOVE ONLY FOR TESTING...
-    private final String buss1 = "04:f0:21:10:09:df";
-    private final String buss2 = "04:f0:21:10:09:b9";
-    private final String buss3 = "04:f0:21:10:09:e8";
-    private final String buss4 = "04:f0:21:10:09:b7";
-    private final String buss5 = "04:f0:21:10:09:53";
-    private final String buss6 = "04:f0:21:10:09:5b";
-    private final String buss7 = "04:f0:21:10:09:b8";
-    private final String buss8 = "04:f0:21:10:09:b9";
-    private final String buss9 = "n/a";
-    private final String buss10 = "04:f0:21:10:09:b7";
+
     private EditText fragmentData;
     private WifiInfo wifiInfo;
     private FragmentManager fm;
     private FragmentTransaction ft;
     private SuggestFragment fragment;
 
-    private boolean connectedToWifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,40 +44,33 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
         mainController = new MainController(this);
+        mainController.checkWifiState();
 
 
-        if(mainController.checkWifiState()){
-            connectedToWifi=true;
-
-
-        }
     }
 
     @Override
     protected void onStart(){
         super.onStart();
         Firebase.setAndroidContext(this);
-        mref = Model.getInstance().getMRef();
+        //mref = Model.getInstance().getMRef();
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
     }
 
-    public boolean checkWifiState(Context context){
-        try {
-            WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-            wifiInfo=mWifiManager.getConnectionInfo();
-            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
-                return false;
-            }
-            return true;
-        }
-        catch (  Exception e) {
-            return false;
-        }
-    }
-
     public void enterDiscussion(View view) {
+
         String chatRoom = "chatRooms/";
+
+        if(mainController.isConnectedToBus()){
+            chatRoom = chatRoom + mainController.getIndexOfId();
+
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("EXTRA_ROOM", chatRoom);
+            startActivity(intent);
+        }else {
+            Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
+        }
         /*if(checkWifiState(this)){
             switch (wifiInfo.getBSSID()) {
                 //temporary
@@ -136,9 +119,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }*/
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("EXTRA_ROOM", "");
-        startActivity(intent);
     }
 
     public void goToProfile(View view){
