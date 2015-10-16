@@ -2,6 +2,9 @@ package teamosqar.discbuss.model;
 
 import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Oscar on 2015-09-30.
  */
@@ -11,10 +14,43 @@ public class Model{
     private String username;
     private String email;
     private String uid;
+    private List<String> busBSSIDs;
+
+    private final String buss1 = "04:f0:21:10:09:df";
+    private final String buss2 = "04:f0:21:10:09:b9";
+    private final String buss3 = "04:f0:21:10:09:e8";
+    private final String buss4 = "04:f0:21:10:09:b7";
+    private final String buss5 = "04:f0:21:10:09:53";
+    private final String buss6 = "04:f0:21:10:09:5b";
+    private final String buss7 = "04:f0:21:10:09:b8";
+    private final String buss8 = "04:f0:21:10:09:b9";
+    private final String buss9 = "n/a";
+    private final String buss10 = "04:f0:21:10:09:b7";
 
     private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
-        username = "jag";
+        username="";
+        busBSSIDs = new ArrayList<>(10);
+        loadBusIds();
+    }
+
+    private void loadBusIds(){
+        busBSSIDs.add(buss1);
+        busBSSIDs.add(buss2);
+        busBSSIDs.add(buss3);
+        busBSSIDs.add(buss4);
+        busBSSIDs.add(buss5);
+        busBSSIDs.add(buss6);
+        busBSSIDs.add(buss7);
+        busBSSIDs.add(buss8);
+        busBSSIDs.add(buss9);
+        busBSSIDs.add(buss10);
+
+    }
+
+    public List<String> getBusBSSIDs(){
+        List<String> buses = busBSSIDs;
+        return buses;
     }
 
     public static Model getInstance(){

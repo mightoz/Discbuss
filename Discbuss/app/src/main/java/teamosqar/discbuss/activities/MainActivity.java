@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
+import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Toaster;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainController mainController;
     private Firebase mref;
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
@@ -35,14 +37,29 @@ public class MainActivity extends AppCompatActivity {
     private final String buss5 = "04:f0:21:10:09:53";
     private final String buss6 = "04:f0:21:10:09:5b";
     private final String buss7 = "04:f0:21:10:09:b8";
-    private final String buss8 = "1";
-    private final String buss9 = "2";
-    private final String buss10 = "3";
+    private final String buss8 = "04:f0:21:10:09:b9";
+    private final String buss9 = "n/a";
+    private final String buss10 = "04:f0:21:10:09:b7";
     private EditText fragmentData;
     private WifiInfo wifiInfo;
     private FragmentManager fm;
     private FragmentTransaction ft;
     private SuggestFragment fragment;
+
+    private boolean connectedToWifi;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        setContentView(R.layout.activity_main);
+        if(checkWifiState(this)){
+            connectedToWifi=true;
+
+
+        }
+    }
+
     @Override
     protected void onStart(){
         super.onStart();
@@ -50,13 +67,6 @@ public class MainActivity extends AppCompatActivity {
         mref = Model.getInstance().getMRef();
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        setContentView(R.layout.activity_main);
     }
 
     public boolean checkWifiState(Context context){
