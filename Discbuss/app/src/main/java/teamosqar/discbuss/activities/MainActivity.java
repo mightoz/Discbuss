@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }*/
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, BusChatActivity.class);
         intent.putExtra("EXTRA_ROOM", "");
         startActivity(intent);
     }

@@ -10,26 +10,26 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import teamosqar.discbuss.application.MessageAdapter;
+import teamosqar.discbuss.application.MessageController;
 
 public class MessageActivity extends ListActivity {
 
-    private MessageAdapter messageAdapter;
+    private MessageController messageController;
     private ListView listView;
     private TextView noContentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        messageAdapter = new MessageAdapter(getLayoutInflater());
+        messageController = new MessageController(getLayoutInflater());
         setContentView(R.layout.activity_message);
         noContentText = (TextView) findViewById(R.id.noContentMessage);
 
 
         listView = getListView();
-        listView.setAdapter(messageAdapter);
+        listView.setAdapter(messageController);
 
-        if(messageAdapter.getCount() == 0){
+        if(messageController.getCount() == 0){
             noContentText.setText("You do not participate in any duo chats");
         } else {
             noContentText.setText("");
@@ -38,12 +38,12 @@ public class MessageActivity extends ListActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                intent.putExtra("EXTRA_ROOM", messageAdapter.getChatRefKey(position));
+                Intent intent = new Intent(getApplicationContext(), DuoChatActivity.class);
+                intent.putExtra("EXTRA_ROOM", messageController.getChatRefKey(position));
                 startActivity(intent);
                 /*
                 We need to send info on which room we are accessing!! chat ref key can be retrieved by:
-                messageAdapter.getChatRefKey(position);
+                messageController.getChatRefKey(position);
                 Intent intent = new Intent(this, DuoChatActivity.class);
                 startActivity(intent);
                 */
@@ -54,7 +54,7 @@ public class MessageActivity extends ListActivity {
     @Override
     public void onContentChanged(){
         if(noContentText != null){
-            if(messageAdapter.getCount() == 0){
+            if(messageController.getCount() == 0){
                 noContentText.setText("You do not participate in any duo chats");
             } else {
                 noContentText.setText("");

@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
     @Override
     public void update(Observable observable, Object data) {
-        
+
         Log.d("notifications", "recieved notification");
         //progressDialog.dismiss();
         if(tryingLogin) {
