@@ -22,14 +22,25 @@ public class MainController {
     private int idIndex;
 
     public MainController(Context context){
-        connectedToBusWifi = false;
+        //connectedToBusWifi = false;
         this.context = context;
         model = Model.getInstance();
 
     }
 
+    /**
+     * Checks if unit is connected to a bus wifi. Sets idIndex to -1 if not, otherwise the index of
+     * the bus.
+     */
     public void checkWifiState(){
-        try {
+
+        //Testcode, to be removed when finished
+        model.setCurrentBSSID("testId");
+        idIndex = model.getIndexOfBSSID();
+        connectedToBusWifi = true;
+
+        //This code should be used when not testing, i.e. real connection to buses.
+        /*try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
             if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
@@ -46,17 +57,32 @@ public class MainController {
         }
         catch (  Exception e) {
 
-        }
+        }*/
     }
 
+    /**
+     *
+     * @return True if connected to a bus.
+     */
     public boolean isConnectedToBus() {
-        return isConnectedToBus();
+        return connectedToBusWifi;
     }
 
+    /**
+     *
+     * @return Which bus currently connected to, -1 if none.
+     */
     public int getIndexOfId(){
         return idIndex;
     }
 
+    /**
+     * Submits statement to DB.
+     * @param statement to be submitted.
+     */
+    public void submitStatement(String statement){
+        model.getMRef().child("statements").push().setValue(statement);
+    }
    /* public void tryEnterChat(Class<ChatActivity> chatActivityClass){
         if(connectedToBusWifi){
             String chatRoom = "chatRooms/";

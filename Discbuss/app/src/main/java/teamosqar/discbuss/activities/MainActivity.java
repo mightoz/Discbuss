@@ -58,13 +58,16 @@ public class MainActivity extends AppCompatActivity {
         fragment = new SuggestFragment();
     }
 
+    /**
+     * If connected to a bus wifi, enter it's chat room. Otherwise displays error toast.
+     * @param view
+     */
     public void enterDiscussion(View view) {
 
         String chatRoom = "chatRooms/";
 
         if(mainController.isConnectedToBus()){
-            chatRoom = chatRoom + mainController.getIndexOfId();
-
+            chatRoom = chatRoom + (mainController.getIndexOfId()+1);
             Intent intent = new Intent(this, ChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);
@@ -140,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
     public void submitStatement(View view){
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
-            mref.child("statements").push().setValue(fragmentData.getText().toString());
+            mainController.submitStatement(fragmentData.getText().toString());
+            //mref.child("statements").push().setValue(fragmentData.getText().toString());
             //TODO: Add toast saying it was successful! Remove Fragment.
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
