@@ -61,12 +61,12 @@ public class BusChatController extends ChatController{
     }
 
     public void onEnteredChat(){
-        Model.getInstance().addUserToChat(chatRoom);//TODO: MOVE TO CORRECT CHATADAPTER
+        Model.getInstance().addUserToChat(chatRoom);
         updateParticipants();//TODO:Why is this called? this method is empty
     }
 
     public void onLeftChat(){
-        Model.getInstance().removeUserFromChat(chatRoom);//TODO: MOVE TO CORRECT CHATADAPTER
+        Model.getInstance().removeUserFromChat(chatRoom);
         updateParticipants();//TODO:Why is this called? this method is empty
     }
 
