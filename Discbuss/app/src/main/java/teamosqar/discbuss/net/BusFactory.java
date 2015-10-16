@@ -19,34 +19,34 @@ public class BusFactory {
     public static String getDgwVin(String bssid){
         String dgwVin ="";
         switch(bssid){
-            case "1":
+            case "04:f0:21:10:0a:07":
                 dgwVin = "?dgw=Ericsson$100020$Vin_Num_YV3U0V222FA100020";
                 break;
-            case "2":
+            case "04:f0:21:10:09:df":
                 dgwVin = "?dgw=Ericsson$100021$Vin_Num_YV3U0V222FA100021";
                 break;
-            case "3":
+            case "04:f0:21:10:09:e8":
                 dgwVin = "?dgw=Ericsson$100022$Vin_Num_YV3U0V222FA100022";
                 break;
-            case "4":
+            case "04:f0:21:10:09:b8":
                 dgwVin = "?dgw=Ericsson$171164$Vin_Num_YV3T1U22XF1171164";
                 break;
-            case "5":
+            case "04:f0:21:10:09:e7":
                 dgwVin = "?dgw=Ericsson$171234$Vin_Num_YV3T1U225F1171234";
                 break;
-            case "6":
+            case "04:f0:21:10:09:5b":
                 dgwVin = "?dgw=Ericsson$171235$Vin_Num_YV3T1U227F1171235";
                 break;
-            case "7":
+            case "04:f0:21:10:09:53":
                 dgwVin = "?dgw=Ericsson$171327$Vin_Num_YV3T1U221F1171327";
                 break;
-            case "8":
+            case "04:f0:21:10:09:b9":
                 dgwVin = "?dgw=Ericsson$171328$Vin_Num_YV3T1U223F1171328";
                 break;
             case "9":
                 dgwVin = "?dgw=Ericsson$171329$Vin_Num_YV3T1U225F1171329";
                 break;
-            case "10":
+            case "04:f0:21:10:09:b7":
                 dgwVin = "?dgw=Ericsson$171330$Vin_Num_YV3T1U223F1171330";
                 break;
         }
