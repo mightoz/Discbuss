@@ -56,4 +56,10 @@ public class Model{
     public String getUsername(){
         return username;
     }
+
+    public void resetModel(){
+        username = "";
+        uid = "";
+        email = "";
+    }
 }

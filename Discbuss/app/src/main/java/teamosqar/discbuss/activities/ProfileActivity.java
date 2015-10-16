@@ -24,11 +24,13 @@ import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
 import teamosqar.discbuss.fragments.EditDisplayname;
+import teamosqar.discbuss.model.Model;
 import teamosqar.discbuss.util.Toaster;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private ProfileController profileController;
+    private Model model = Model.getInstance();
     private TextView name, email, karma, nameTag, emailTag, karmaTag;
     private Button pwButton, statementButton, displayNameButton;
     private EditDisplayname displaynameFragment;
@@ -80,6 +82,8 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("logout", "logout");
             startActivity(intent);
+            model.resetModel();
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
