@@ -3,12 +3,16 @@ package teamosqar.discbuss.application;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * Created by Oscar on 16/10/15.
  */
-public class MainController {
+public class MainController implements Observer {
 
     private Context context;
     private Model model;
@@ -29,31 +33,43 @@ public class MainController {
      */
     public void checkWifiState(){
 
-        //TODO:Testcode, to be removed when finished
-        model.setCurrentBSSID("testId");
-        idIndex = model.getIndexOfBSSID();
-        connectedToBusWifi = true;
 
-        //TODO:This code should be used when not testing, i.e. real connection to buses. Not tested.
-        /*try {
+        //TODO: If not connected to a bus, connects to a simulated bus. Replace code with comments to only enable app when connected to a real bus.
+        try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
             if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
-                model.setCurrentBSSID(wifiInfo.getBSSID());
+                if(model.getBusBSSIDs().contains(wifiInfo.getBSSID())){
+                    model.setCurrentBSSID(wifiInfo.getBSSID());
+                    idIndex = model.getIndexOfBSSID();
+                    connectedToBusWifi = true;
+                    model.startRetrievingStopInfo();
+                }else{
+                    model.setCurrentBSSID("testBus");
+                    idIndex = model.getIndexOfBSSID();
+                    connectedToBusWifi = true;
+                    model.startRetrievingStopInfo();
+                }
+                /*model.setCurrentBSSID(wifiInfo.getBSSID());
                 idIndex = model.getIndexOfBSSID();
                 if(idIndex != -1){
                     connectedToBusWifi = true;
                     model.startRetrievingStopInfo();
                 }else{
                     connectedToBusWifi = false;
-                }
+                }*/
             }else{
-                connectedToBusWifi = false;
+                model.setCurrentBSSID("testBus");
+                idIndex = model.getIndexOfBSSID();
+                connectedToBusWifi = true;
+                model.startRetrievingStopInfo();
+                //connectedToBusWifi = false;
             }
+            addAsObserver();
         }
         catch (  Exception e) {
 
-        }*/
+        }
     }
 
     /**
@@ -80,4 +96,12 @@ public class MainController {
         model.getMRef().child("statements").push().setValue(statement);
     }
 
+    public void addAsObserver(){
+        model.addObserverToList(this);
+    }
+
+    @Override
+    public void update(Observable observable, Object nextBusStop) {
+        //TODO: Draw next bus stop here.
+    }
 }

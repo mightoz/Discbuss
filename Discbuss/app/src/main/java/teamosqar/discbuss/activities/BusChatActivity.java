@@ -3,7 +3,7 @@ package teamosqar.discbuss.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
@@ -14,7 +14,6 @@ import teamosqar.discbuss.application.ChatController;
 public class BusChatActivity extends ChatActivity {
 
     private String roomName;
-    private TextView activeUsers;
     private BusChatController chatController;
 
     @Override
@@ -22,8 +21,12 @@ public class BusChatActivity extends ChatActivity {
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
         super.onCreate(savedInstanceState);
+    }
 
-        activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);//TODO: What do we store this for? it is not used?
+    @Override
+    protected void onStart(){
+        super.onStart();
+        chatController.addAsObserver();
     }
 
     @Override

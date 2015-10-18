@@ -17,6 +17,8 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import teamosqar.discbuss.activities.DuoChatActivity;
 import teamosqar.discbuss.activities.R;
@@ -25,16 +27,18 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-10-16.
  */
-public class BusChatController extends ChatController{
+public class BusChatController extends ChatController implements Observer{
 
     private Firebase chatFirebaseRef; //TODO: This is also kept in superclass.. Should we consider other solution? variable needed for performKarmaChange
     private Context context;
     private String chatRoom;
+    private Model model;
 
     public BusChatController(Context context, String chatRoom) {
         super(context, chatRoom);
         this.context = context;
         this.chatRoom = chatRoom;
+        model = Model.getInstance();
 
         Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
         System.out.println(chatRoom.toString());
@@ -192,6 +196,15 @@ public class BusChatController extends ChatController{
 
     }
 
+    @Override
+    protected void populateViewOnExtension(View view, Message message){
+        if(message.getUid().equals(Model.getInstance().getUid())){
+            view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.GONE);
+        }else{
+            view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.VISIBLE);
+        }
+    }
+
     public void personalMessageClicked(int position){
         final String otherUid = getMessageModel(position).getUid();
         if(!otherUid.equals(Model.getInstance().getUid())){
@@ -201,15 +214,15 @@ public class BusChatController extends ChatController{
                     Iterator children = dataSnapshot.getChildren().iterator();
                     boolean foundChat = false;
                     String finalChatRef = "";
-                    while(children.hasNext()){
-                        DataSnapshot snap = (DataSnapshot)children.next();
+                    while (children.hasNext()) {
+                        DataSnapshot snap = (DataSnapshot) children.next();
                         String currentChatRef = snap.getValue(String.class);
-                        if(currentChatRef.contains(otherUid)){
+                        if (currentChatRef.contains(otherUid)) {
                             foundChat = true;
                             finalChatRef = currentChatRef;
                         }
                     }
-                    if(!foundChat){
+                    if (!foundChat) {
                         Firebase userRef = Model.getInstance().getMRef().child("users");
 
                         finalChatRef = otherUid + "!" + Model.getInstance().getUid();
@@ -220,10 +233,10 @@ public class BusChatController extends ChatController{
                         chatRef.child("inboxInfo").child(otherUid).setValue(true);
                         chatRef.child("inboxInfo").child(Model.getInstance().getUid()).setValue(false);
                         Calendar calendar = Calendar.getInstance();
-                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR)+ "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
+                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR) + "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
 
                     }
-                    if(!finalChatRef.equals("")) {
+                    if (!finalChatRef.equals("")) {
                         Intent intent = new Intent(context, DuoChatActivity.class);
                         intent.putExtra("EXTRA_ROOM", finalChatRef);
                         context.startActivity(intent);
@@ -247,4 +260,16 @@ public class BusChatController extends ChatController{
     protected View getMessageViewExtension(){
         return LayoutInflater.from(context).inflate(R.layout.message_buschat_extension, null);
     }
+
+    public void addAsObserver(){
+        model.addObserverToList(this);
+    }
+
+    @Override
+    public void update(Observable observable, Object nextBusStop) {
+        //TODO: Draw next bus stop here.
+    }
+
+    @Override
+    protected void onSentMessage() {}
 }

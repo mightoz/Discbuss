@@ -91,10 +91,9 @@ public class MessageController extends BaseAdapter {
 
                 MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
                 Iterator iterator = dataSnapshot.child("chat").getChildren().iterator();
-                Message mostRecentMessage = null;
-                if(iterator.hasNext()) {
-                    mostRecentMessage = ((DataSnapshot)iterator.next()).child("message").getValue(Message.class);//Should get the most recent message! is this correctly done??                 String key = dataSnapshot.getKey();
-                }
+                Message mostRecentMessage = getLastIteratorMessage(iterator);
+
+
                 int index = getCorrectListSpot(inbox);
 
                 insertIntoLists(index, inbox, mostRecentMessage, key);
@@ -107,10 +106,10 @@ public class MessageController extends BaseAdapter {
                 int currentIndex = keys.indexOf(key);
                 MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
                 Iterator iterator = dataSnapshot.child("chat").getChildren().iterator();
-                Message mostRecentMessage = null;
-                if(iterator.hasNext()) {
-                    mostRecentMessage = ((DataSnapshot)iterator.next()).child("message").getValue(Message.class);//Should get the most recent message! is this correctly done??                 String key = dataSnapshot.getKey();
-                }
+
+                Message mostRecentMessage = getLastIteratorMessage(iterator);
+
+
                 messageInboxes.remove(currentIndex);
                 mostRecentMsg.remove(currentIndex);
                 keys.remove(currentIndex);
@@ -142,10 +141,9 @@ public class MessageController extends BaseAdapter {
                 MessageInbox inbox = createMessageInbox(dataSnapshot.child("inboxInfo"));
 
                 Iterator iterator = dataSnapshot.child("chat").getChildren().iterator();
-                Message mostRecentMessage = null;
-                if(iterator.hasNext()) {
-                    mostRecentMessage = ((DataSnapshot)iterator.next()).child("message").getValue(Message.class);//Should get the most recent message! is this correctly done??                 String key = dataSnapshot.getKey();
-                }
+
+                Message mostRecentMessage = getLastIteratorMessage(iterator);
+
                 int currentIndex = keys.indexOf(key);
                 messageInboxes.remove(currentIndex);
                 mostRecentMsg.remove(currentIndex);
@@ -174,6 +172,14 @@ public class MessageController extends BaseAdapter {
         messageInboxes.remove(index);
         mostRecentMsg.remove(index);
         keys.remove(index);
+    }
+
+    private Message getLastIteratorMessage(Iterator iterator){
+        Message lastElement = null;
+        while(iterator.hasNext()){
+            lastElement = ((DataSnapshot)iterator.next()).child("message").getValue(Message.class);
+        }
+        return lastElement;
     }
 
     private MessageInbox createMessageInbox(DataSnapshot dataSnapshot){
@@ -277,7 +283,7 @@ public class MessageController extends BaseAdapter {
         if(msg != null) {
             messageView.setText(msg.getMessage());
         }
-        if(messageInboxes.get(position).isSeenByMe()){
+        if(!messageInboxes.get(position).isSeenByMe()){
             messageView.setTypeface(null, Typeface.BOLD);
             authorView.setTypeface(null, Typeface.BOLD);
         }else{
