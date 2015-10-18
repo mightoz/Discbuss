@@ -20,11 +20,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Karma: "
-        android:id="@+id/textViewKarmaTag"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:textSize="25sp"
+        android:id="@+id/textViewUserKarma"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="125dp" />
 
     <TextView
@@ -39,26 +37,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:id="@+id/textViewUserKarma"
-        android:layout_alignTop="@+id/textViewKarmaTag"
-        android:layout_alignLeft="@+id/textViewDisplayName"
-        android:layout_alignStart="@+id/textViewDisplayName" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Top Comments"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:id="@+id/topComments"
-        android:layout_marginTop="280dp"
+        android:layout_above="@id/fragmentPlaceholder"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp" />
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"/>

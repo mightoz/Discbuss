@@ -27,9 +27,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private ProfileController profileController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        profileController = new ProfileController();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         profileController.addObserver(this);
@@ -99,11 +101,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             statementButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void presentTopStatements(View view) {
-        //TODO what will happen here?
-
     }
 
     public void changePassword(View view) {

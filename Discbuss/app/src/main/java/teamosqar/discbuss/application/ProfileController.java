@@ -9,8 +9,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
+import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -22,9 +25,12 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable {
 
     private Firebase fireRef;
+    private Firebase messagesRef = new Firebase("https://boiling-heat-3778.firebaseio.com/chatRooms");
+    private List<Message> allMessages;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     private Model model = Model.getInstance();
+
 
     public ProfileController(){
         fireRef = Model.getInstance().getMRef();
@@ -39,6 +45,24 @@ public class ProfileController extends Observable {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    public ProfileController(String uid){
+        fireRef = Model.getInstance().getMRef();
+        userRef = fireRef.child("users").child(uid);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                snapshot = dataSnapshot;
+                setChanged();
+                notifyObservers();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }

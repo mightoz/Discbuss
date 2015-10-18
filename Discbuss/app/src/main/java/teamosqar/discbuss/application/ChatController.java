@@ -2,6 +2,7 @@ package teamosqar.discbuss.application;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.firebase.client.FirebaseError;
 import java.util.ArrayList;
 import java.util.List;
 
+import teamosqar.discbuss.activities.MyProfileActivity;
+import teamosqar.discbuss.activities.OtherProfileActivity;
 import teamosqar.discbuss.util.Message;
 
 
@@ -209,7 +212,12 @@ public abstract class ChatController extends BaseAdapter{
     public void personalProfileClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
         if(!otherUid.equals(Model.getInstance().getUid())){
-            //TODO: Launch profile using otherUid
+            Intent intent = new Intent(context, OtherProfileActivity.class);
+            intent.putExtra("uid", otherUid);
+            context.startActivity(intent);
+        }else{
+            Intent intent = new Intent(context, MyProfileActivity.class);
+            context.startActivity(intent);
         }
     }
 

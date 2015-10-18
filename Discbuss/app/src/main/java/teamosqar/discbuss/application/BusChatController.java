@@ -131,8 +131,8 @@ public class BusChatController extends ChatController implements Observer{
 
                         @Override
                         public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
-                            //datasnapshot is the karma child? will this work?
                             getMessageModel(message).setKarma(((Long) dataSnapshot.getValue()).intValue());
+                            updateTopStatement(message);
                         }
                     });
 
@@ -165,10 +165,58 @@ public class BusChatController extends ChatController implements Observer{
 
             }
         });
-
-
     }
 
+    private void updateTopStatement(int message){
+        final Message messageModel = getMessageModel(message);
+        final String messageKey = getMessageKey(message);
+        final Firebase topStatementsRef = Model.getInstance().getMRef().child("users").child(messageModel.getUid()).child("topStatements");
+
+        topStatementsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(messageKey) || dataSnapshot.getChildrenCount() < 3) {
+                    setTopStatement(topStatementsRef, messageModel, messageKey);
+                }else {
+                    Iterator iterator = dataSnapshot.getChildren().iterator();
+
+                    DataSnapshot lowestKarmaSnapshot = (DataSnapshot)iterator.next();
+                    while (iterator.hasNext()) {
+                        DataSnapshot currentSnapshot = (DataSnapshot)iterator.next();
+                        if((Long)currentSnapshot.child("karma").getValue() < (Long)lowestKarmaSnapshot.child("karma").getValue()){
+                            lowestKarmaSnapshot = currentSnapshot;
+                        }
+                    }
+
+                    if((Long)lowestKarmaSnapshot.child("karma").getValue() < messageModel.getKarma()){
+                        topStatementsRef.child(lowestKarmaSnapshot.getKey()).removeValue();
+                        setTopStatement(topStatementsRef, messageModel, messageKey);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private void setTopStatement(Firebase topStatementsRef, final Message messageModel, String messageKey){
+        topStatementsRef.child(messageKey).runTransaction(new Transaction.Handler() {
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                mutableData.setValue(messageModel);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
 
     @Override
     protected void populateView(View view, Message message){
