@@ -214,15 +214,15 @@ public class BusChatController extends ChatController implements Observer{
                     Iterator children = dataSnapshot.getChildren().iterator();
                     boolean foundChat = false;
                     String finalChatRef = "";
-                    while(children.hasNext()){
-                        DataSnapshot snap = (DataSnapshot)children.next();
+                    while (children.hasNext()) {
+                        DataSnapshot snap = (DataSnapshot) children.next();
                         String currentChatRef = snap.getValue(String.class);
-                        if(currentChatRef.contains(otherUid)){
+                        if (currentChatRef.contains(otherUid)) {
                             foundChat = true;
                             finalChatRef = currentChatRef;
                         }
                     }
-                    if(!foundChat){
+                    if (!foundChat) {
                         Firebase userRef = Model.getInstance().getMRef().child("users");
 
                         finalChatRef = otherUid + "!" + Model.getInstance().getUid();
@@ -233,10 +233,10 @@ public class BusChatController extends ChatController implements Observer{
                         chatRef.child("inboxInfo").child(otherUid).setValue(true);
                         chatRef.child("inboxInfo").child(Model.getInstance().getUid()).setValue(false);
                         Calendar calendar = Calendar.getInstance();
-                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR)+ "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
+                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR) + "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
 
                     }
-                    if(!finalChatRef.equals("")) {
+                    if (!finalChatRef.equals("")) {
                         Intent intent = new Intent(context, DuoChatActivity.class);
                         intent.putExtra("EXTRA_ROOM", finalChatRef);
                         context.startActivity(intent);
@@ -269,4 +269,7 @@ public class BusChatController extends ChatController implements Observer{
     public void update(Observable observable, Object nextBusStop) {
         //TODO: Draw next bus stop here.
     }
+
+    @Override
+    protected void onSentMessage() {}
 }

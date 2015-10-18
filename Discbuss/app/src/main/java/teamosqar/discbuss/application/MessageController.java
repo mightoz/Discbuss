@@ -283,7 +283,7 @@ public class MessageController extends BaseAdapter {
         if(msg != null) {
             messageView.setText(msg.getMessage());
         }
-        if(messageInboxes.get(position).isSeenByMe()){
+        if(!messageInboxes.get(position).isSeenByMe()){
             messageView.setTypeface(null, Typeface.BOLD);
             authorView.setTypeface(null, Typeface.BOLD);
         }else{

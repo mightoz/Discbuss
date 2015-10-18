@@ -17,10 +17,23 @@ import teamosqar.discbuss.util.Message;
 public class DuoChatController extends ChatController{
 
     private Context context;
+    private Firebase chatRoomRef;
+    private Firebase seenByMeRef, seenByOtherRef;
 
     public DuoChatController(Context context, String chatRoom) {
         super(context, chatRoom);
         this.context = context;
+        this.chatRoomRef = Model.getInstance().getMRef().child("duoChats").child(chatRoom).child("content");
+
+        String chatterUIds[] = chatRoom.split("!");
+
+        for(int i = 0; i < chatterUIds.length; i++) {
+            if(chatterUIds[i].equals(Model.getInstance().getUid())) {
+                seenByMeRef = this.chatRoomRef.child("inboxInfo").child(chatterUIds[i]);
+            }else{
+                seenByOtherRef = this.chatRoomRef.child("inboxInfo").child(chatterUIds[i]);
+            }
+        }
     }
 
 
@@ -54,4 +67,32 @@ public class DuoChatController extends ChatController{
 
     @Override
     protected void populateViewOnExtension(View view, Message message){}
+
+    @Override
+    public void onEnteredChat() {
+        setSeenLatestMessage();
+    }
+
+    @Override
+    public void onLeftChat() {}
+
+
+    @Override
+    public void notifyDataSetChanged(){
+        setSeenLatestMessage();
+        super.notifyDataSetChanged();
+    }
+
+    private void setSeenLatestMessage(){
+        seenByMeRef.setValue(true);
+    }
+
+    private void setNewMessageToSee(){
+        seenByOtherRef.setValue(false);
+    }
+
+    @Override
+    protected void onSentMessage() {
+        setNewMessageToSee();
+    }
 }

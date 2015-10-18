@@ -141,9 +141,12 @@ public abstract class ChatController extends BaseAdapter{
     public void sendMessage(String msg){
         if(!msg.equals("")) {
             Message message = new Message(Model.getInstance().getUid(), msg, Model.getInstance().getUsername());
+            onSentMessage();
             chatFireBaseRef.push().child("message").setValue(message);
         }
     }
+
+    protected abstract void onSentMessage();
 
     @Override
     public int getCount() {
@@ -210,8 +213,8 @@ public abstract class ChatController extends BaseAdapter{
         }
     }
 
-    public void onEnteredChat(){}
+    public abstract void onEnteredChat();
 
-    public void onLeftChat(){}
+    public abstract void onLeftChat();
 
 }
