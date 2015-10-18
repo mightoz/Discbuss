@@ -3,7 +3,7 @@ package teamosqar.discbuss.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;

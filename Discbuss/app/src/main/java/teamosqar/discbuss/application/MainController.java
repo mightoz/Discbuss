@@ -101,7 +101,7 @@ public class MainController implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object data) {
-
+    public void update(Observable observable, Object nextBusStop) {
+        //TODO: Draw next bus stop here.
     }
 }
