@@ -1,6 +1,10 @@
 package teamosqar.discbuss.application;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -10,7 +14,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.Observable;
+import java.util.Observer;
 
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -19,19 +25,27 @@ import teamosqar.discbuss.util.Toaster;
  * A controller class for the ProfileActivity class. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
-public class ProfileController extends Observable {
+public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
+    private String nextStop;
+    private Model model;
+    Context context;
+    private TextView actionBarText, nameText, emailText, pwText;
 
-    public ProfileController(){
-        fireRef = Model.getInstance().getMRef();
-        userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
+    public ProfileController(Context context){
+        this.context = context;
+        model = Model.getInstance();
+        model.addObserverToList(this);
+        fireRef = model.getMRef();
+        userRef = model.getMRef().child("users").child(Model.getInstance().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
+
                 setChanged();
                 notifyObservers();
             }
@@ -40,6 +54,11 @@ public class ProfileController extends Observable {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+        nextStop = "";
+    }
+
+    public String getNextStop() {
+        return nextStop;
     }
 
      /**
@@ -100,6 +119,21 @@ public class ProfileController extends Observable {
             @Override
             public void onError(FirebaseError firebaseError) {
                 Toaster.displayToast("Password change failed", context, Toast.LENGTH_LONG);
+            }
+        });
+
+    }
+
+
+    @Override
+    public void update(Observable observable, Object nextBusStop) {
+        nextStop = (String)nextBusStop;
+        Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                textView.setText("Nästa: " + nextStop);
             }
         });
 

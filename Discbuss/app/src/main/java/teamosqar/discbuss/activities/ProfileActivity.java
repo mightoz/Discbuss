@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,17 +32,18 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
     private ProfileController profileController;
     //TODO: This should not be saved here. -> Move to controller.
 //    private Model model = Model.getInstance();
-    private TextView name, email, karma, nameTag, emailTag, karmaTag;
+    private TextView name, email, karma, nameTag, emailTag, karmaTag, actionBarText;
     private Button pwButton, statementButton, displayNameButton;
     private EditDisplayname displaynameFragment;
     private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private ActionBar actionBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        profileController = new ProfileController();
+        profileController = new ProfileController(this);
         profileController.addObserver(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -54,6 +58,22 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
         displaynameFragment = new EditDisplayname();
         pwFragment = new ChangePasswordFragment();
+
+        /*=============================================================== */
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.activity_action_bar,
+                null);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarLayout);
+        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+        actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
+
+        actionBarText.setTextColor(Color.GRAY);
+        /*=============================================================== */
+
     }
 
     @Override

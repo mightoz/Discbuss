@@ -1,12 +1,18 @@
 package teamosqar.discbuss.application;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import teamosqar.discbuss.activities.MainActivity;
+import teamosqar.discbuss.activities.R;
 
 
 /**
@@ -101,8 +107,15 @@ public class MainController implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object nextBusStop) {
-        //TODO: Draw next bus stop here.
-        System.out.println(nextBusStop);
+    public void update(Observable observable, final Object nextBusStop) {
+
+        Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                textView.setText("Nästa: " + nextBusStop.toString());
+            }
+        });
     }
 }
