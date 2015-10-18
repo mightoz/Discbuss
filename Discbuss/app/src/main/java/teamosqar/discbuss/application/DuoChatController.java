@@ -51,4 +51,7 @@ public class DuoChatController extends ChatController{
         msgView.setText(msg);
 
     }
+
+    @Override
+    protected void populateViewOnExtension(View view, Message message){}
 }

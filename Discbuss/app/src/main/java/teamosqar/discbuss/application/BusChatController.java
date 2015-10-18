@@ -196,6 +196,15 @@ public class BusChatController extends ChatController implements Observer{
 
     }
 
+    @Override
+    protected void populateViewOnExtension(View view, Message message){
+        if(message.getUid().equals(Model.getInstance().getUid())){
+            view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.GONE);
+        }else{
+            view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.VISIBLE);
+        }
+    }
+
     public void personalMessageClicked(int position){
         final String otherUid = getMessageModel(position).getUid();
         if(!otherUid.equals(Model.getInstance().getUid())){

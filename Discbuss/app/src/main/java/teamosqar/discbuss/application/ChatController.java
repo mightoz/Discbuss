@@ -162,6 +162,8 @@ public abstract class ChatController extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Message msg = messageModels.get(position);
+
         if(clickedMessage == position) {
             if(clickedView != null){
                 convertView = clickedView;
@@ -173,12 +175,11 @@ public abstract class ChatController extends BaseAdapter{
                 }
                 clickedView = convertView;
             }
+            populateViewOnExtension(convertView, msg);
         }else if (convertView == null || clickedView == convertView) {
             convertView = getMessageView(parent);
         }
 
-
-        Message msg = messageModels.get(position);
         populateView(convertView, msg);
 
 
@@ -190,6 +191,8 @@ public abstract class ChatController extends BaseAdapter{
     protected abstract View getMessageViewExtension();
 
     protected abstract void populateView(View view, Message message);
+
+    protected abstract void populateViewOnExtension(View view, Message message);
 
     public void messageClicked(int position) {
         if(clickedMessage != position) {
