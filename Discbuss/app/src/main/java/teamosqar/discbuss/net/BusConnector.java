@@ -1,5 +1,7 @@
 package teamosqar.discbuss.net;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 /**
@@ -13,7 +15,7 @@ public class BusConnector {
         eAPI = new ElecApi(bssid);
         vAPI = new VastApi();
     }
-    public String getNextStop() throws IOException {
+    public String getNextStop() throws IOException, JSONException {
         return eAPI.getNextBusStop();
     }
 }

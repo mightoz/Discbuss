@@ -1,5 +1,11 @@
 package teamosqar.discbuss.net;
 
+import android.util.JsonReader;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +21,7 @@ public class ElecApi {
     private String bssid;
     private String baseUrl;
     private String key;
+    private String nextStop;
 
     public ElecApi(String bssid){
         this.bssid = bssid;
@@ -23,7 +30,7 @@ public class ElecApi {
 
     }
 
-    public String getNextBusStop()throws IOException {
+    public String getNextBusStop()throws IOException, JSONException {
 
         long t2 = System.currentTimeMillis();
         long t1 = t2 - (1000 * 5);
@@ -33,10 +40,11 @@ public class ElecApi {
 
         URL requestURL = new URL(baseUrl+dgwVin+"&sensorSpec=Ericsson$Next_Stop&t1="
                 + t1 + "&t2=" + t2);
+        System.out.println(requestURL);
         HttpsURLConnection con = (HttpsURLConnection) requestURL
                 .openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty("Authorization", "Basic "+key);
+        con.setRequestProperty("Authorization", "Basic " + key);
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + baseUrl);
@@ -51,8 +59,12 @@ public class ElecApi {
             response.append(inputLine);
         }
         in.close();
-        System.out.println(response.toString());
-        //TODO: Format response.toString() to get next dest.
-        return "s";
+        
+        JSONArray arr = new JSONArray(response.toString());
+        for(int i = 0; i < arr.length(); i++){
+            nextStop = arr.getJSONObject(i).getString("value");
+        }
+
+        return nextStop;
     }
 }

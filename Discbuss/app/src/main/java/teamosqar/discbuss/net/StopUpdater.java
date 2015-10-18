@@ -1,5 +1,7 @@
 package teamosqar.discbuss.net;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -44,7 +46,6 @@ public class StopUpdater extends Observable{
     private class Updater extends TimerTask{
 
         public void run(){
-            System.out.println("timer kördes");
             try {
                 String next = "";
                 if(nextBusStop!= null){
@@ -56,6 +57,8 @@ public class StopUpdater extends Observable{
                     notifyObservers();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            }catch(JSONException e){
                 e.printStackTrace();
             }
         }

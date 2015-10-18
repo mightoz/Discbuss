@@ -268,6 +268,7 @@ public class BusChatController extends ChatController implements Observer{
     @Override
     public void update(Observable observable, Object nextBusStop) {
         //TODO: Draw next bus stop here.
+        System.out.println(nextBusStop);
     }
 
     @Override
