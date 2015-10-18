@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        profileController = new ProfileController();
+        profileController = new ProfileController(this);
         profileController.addObserver(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -63,16 +63,13 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
-
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-        actionBarText.setText(profileController.getNextBusStop());
-
-        actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
+        actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
 
         actionBarText.setTextColor(Color.GRAY);
         /*=============================================================== */
@@ -114,14 +111,6 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         name.setText(profileController.getName());
         email.setText(profileController.getEmail());
         karma.setText(profileController.getKarma());
-        try {
-
-            Toaster.displayToast(data.toString(), this, Toast.LENGTH_LONG);
-        }
-        catch(NullPointerException e) {
-            System.out.println("Caught Exception");
-        }
-
     }
 
     public void changeUserName(View view) {

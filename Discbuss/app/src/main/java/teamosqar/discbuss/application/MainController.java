@@ -107,15 +107,15 @@ public class MainController implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object nextBusStop) {
+    public void update(Observable observable, final Object nextBusStop) {
         //TODO: Draw next bus stop here.
-        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
-        TextView v = (TextView)rootView.findViewById(R.id.actionBarTextView);
-        try{
-            v.setText("Setting new text");
-            System.out.println("MainController: " + nextBusStop);
-        } catch (NullPointerException e) {
-            System.out.println("MainController: " + e.getCause() + " " + e.getMessage());
-        }
+        Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                textView.setText("Nästa: " + nextBusStop.toString());
+            }
+        });
     }
 }

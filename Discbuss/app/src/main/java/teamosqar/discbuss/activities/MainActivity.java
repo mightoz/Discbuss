@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         mainController = new MainController(this);
         mainController.checkWifiState();
 
+
+
         /*=======================================================================*/
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
@@ -130,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     //TODO: Refactor this method. -> Move to controller and call from here.
     /*@Override
