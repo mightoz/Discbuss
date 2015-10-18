@@ -18,9 +18,9 @@ public class BusChatActivity extends ChatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
