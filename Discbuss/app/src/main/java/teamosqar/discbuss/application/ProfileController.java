@@ -1,6 +1,7 @@
 package teamosqar.discbuss.application;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -10,6 +11,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import teamosqar.discbuss.util.Toaster;
 
@@ -19,13 +21,17 @@ import teamosqar.discbuss.util.Toaster;
  * A controller class for the ProfileActivity class. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
-public class ProfileController extends Observable {
+public class ProfileController extends Observable implements Observer{
 
     private Firebase fireRef;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
+    private String nextStop;
+    private Model model;
 
     public ProfileController(){
+        model = Model.getInstance();
+        model.addObserverToList(this);
         fireRef = Model.getInstance().getMRef();
         userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
@@ -40,6 +46,7 @@ public class ProfileController extends Observable {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+        nextStop = "";
     }
 
      /**
@@ -103,5 +110,15 @@ public class ProfileController extends Observable {
             }
         });
 
+    }
+
+    public String getNextBusStop() {
+        return nextStop;
+    }
+
+    @Override
+    public void update(Observable observable, Object nextBusStop) {
+        nextStop = (String)nextBusStop;
+        System.out.println("ProfileController: nextStop = " + nextStop);
     }
 }

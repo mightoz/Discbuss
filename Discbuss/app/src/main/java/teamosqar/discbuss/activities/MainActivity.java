@@ -3,10 +3,13 @@ package teamosqar.discbuss.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentTransaction ft;
     private SuggestFragment fragment;
+    TextView actionBarText;
 
 
     @Override
@@ -42,6 +46,22 @@ public class MainActivity extends AppCompatActivity {
         mainController = new MainController(this);
         mainController.checkWifiState();
 
+        /*=======================================================================*/
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.activity_action_bar,
+                null);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarLayout);
+        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+
+        actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
+
+        actionBarText.setTextColor(Color.GRAY);
+        /*=======================================================================*/
 
     }
 
