@@ -69,7 +69,9 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
         TextView actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-        actionBarText.setText("CustomMessage");
+
+        actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
+
         actionBarText.setTextColor(Color.GRAY);
         /*=============================================================== */
 

@@ -1,10 +1,7 @@
-package teamosqar.discbuss;
+package teamosqar.discbuss.activities;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-
-import teamosqar.discbuss.activities.R;
 
 public class actionBar_Activity extends ActionBarActivity {
     @Override
