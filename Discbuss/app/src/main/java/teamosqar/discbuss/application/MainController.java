@@ -72,6 +72,10 @@ public class MainController implements Observer {
         }
     }
 
+    public void resetModel(){
+        Model.getInstance().resetModel();
+    }
+
     /**
      *
      * @return True if connected to a bus.

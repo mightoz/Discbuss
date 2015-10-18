@@ -24,6 +24,7 @@ public class ProfileController extends Observable {
     private Firebase fireRef;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
+    private Model model = Model.getInstance();
 
     public ProfileController(){
         fireRef = Model.getInstance().getMRef();
@@ -52,6 +53,22 @@ public class ProfileController extends Observable {
             name = snapshot.child("name").getValue(String.class);
         }
         return name;
+    }
+
+    public String getGender(){
+        String gender = "";
+        if(snapshot != null) {
+            gender = snapshot.child("gender").getValue(String.class);
+        }
+        return gender;
+    }
+
+    public String getAge(){
+        String age = "";
+        if(snapshot != null) {
+            age = snapshot.child("age").getValue(String.class);
+        }
+        return age;
     }
 
     /**
@@ -103,5 +120,8 @@ public class ProfileController extends Observable {
             }
         });
 
+    }
+    public void resetModel(){
+        Model.getInstance().resetModel();
     }
 }
