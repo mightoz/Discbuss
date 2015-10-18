@@ -4,11 +4,14 @@ package teamosqar.discbuss.application;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * Created by Oscar on 16/10/15.
  */
-public class MainController {
+public class MainController implements Observer {
 
     private Context context;
     private Model model;
@@ -32,6 +35,7 @@ public class MainController {
         //TODO:Testcode, to be removed when finished
         model.setCurrentBSSID("testId");
         idIndex = model.getIndexOfBSSID();
+        model.startRetrievingStopInfo();
         connectedToBusWifi = true;
 
         //TODO:This code should be used when not testing, i.e. real connection to buses. Not tested.
@@ -80,4 +84,12 @@ public class MainController {
         model.getMRef().child("statements").push().setValue(statement);
     }
 
+    public void addAsObserver(){
+        model.addObserverToList(this);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+
+    }
 }

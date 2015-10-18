@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
+        mainController.addAsObserver();
     }
 
     /**

@@ -14,16 +14,19 @@ import teamosqar.discbuss.application.ChatController;
 public class BusChatActivity extends ChatActivity {
 
     private String roomName;
-    private TextView activeUsers;
     private BusChatController chatController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
-        super.onCreate(savedInstanceState);
+    }
 
-        activeUsers = (TextView) findViewById(R.id.textViewActiveUsers);//TODO: What do we store this for? it is not used?
+    @Override
+    protected void onStart(){
+        super.onStart();
+        chatController.addAsObserver();
     }
 
     @Override

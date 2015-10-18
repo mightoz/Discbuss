@@ -4,6 +4,7 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 import teamosqar.discbuss.net.StopUpdater;
 
@@ -70,7 +71,11 @@ public class Model {
 
     protected void startRetrievingStopInfo(){
         stopUpdater = new StopUpdater(currentBSSID);
-        //stopUpdater.run();
+        stopUpdater.start();
+    }
+
+    protected void addObserverToList(Observer o){
+        stopUpdater.addObserver(o);
     }
 
     protected static Model getInstance(){
