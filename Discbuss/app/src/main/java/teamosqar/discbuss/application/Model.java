@@ -90,15 +90,13 @@ public class Model {
     }
 
     protected void addUserToChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).setValue(uid); //TODO: Use when finished
-        mref.child("activeUsers").child("chat").child(uid).setValue(uid);//TODO: Remove when finished
-        //mref.child("activeUsers").child(activeChat).child(uid).setValue(uid); //TODO: Will this fix #participants bug?
+        //mref.child("chatRooms").child(activeChat).setValue(uid); //TODO: Should this really be used?
+        mref.child("activeUsers").child(activeChat).child(uid).setValue(uid);
     }
 
     protected void removeUserFromChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Use when finished
-        mref.child("activeUsers").child("chat").child(uid).removeValue();//TODO: Remove when finished
-       // mref.child("activeUsers").child(activeChat).child(uid).removeValue(); //TODO: Will this fix #participants bug?
+        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Should this really be used?
+        mref.child("activeUsers").child(activeChat).child(uid).removeValue();
     }
 
     protected void setUsername(String username){

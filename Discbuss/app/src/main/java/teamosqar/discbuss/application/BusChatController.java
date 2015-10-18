@@ -37,6 +37,7 @@ public class BusChatController extends ChatController{
         this.chatRoom = chatRoom;
 
         Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
+        System.out.println(chatRoom.toString());
         chatFirebaseRef = getFirebaseChatRef(chatRoom);
 
         ValueEventListener activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
@@ -61,13 +62,11 @@ public class BusChatController extends ChatController{
     }
 
     public void onEnteredChat(){
-        Model.getInstance().addUserToChat(chatRoom);
-        updateParticipants();//TODO:Why is this called? this method is empty
+            Model.getInstance().addUserToChat(chatRoom);
     }
 
     public void onLeftChat(){
         Model.getInstance().removeUserFromChat(chatRoom);
-        updateParticipants();//TODO:Why is this called? this method is empty
     }
 
     private void updateUserCount(int users){
@@ -166,9 +165,6 @@ public class BusChatController extends ChatController{
 
     }
 
-    public void updateParticipants(){
-        //TODO:for what purpose was this method intended? found it empty, leaving it
-    }
 
     @Override
     protected void populateView(View view, Message message){
