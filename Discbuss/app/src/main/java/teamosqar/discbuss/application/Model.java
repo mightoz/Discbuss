@@ -31,7 +31,7 @@ public class Model {
     private final String buss8 = "04:f0:21:10:09:b9";
     private final String buss9 = "n/a";
     private final String buss10 = "04:f0:21:10:09:b7";
-    private final String test = "testId";
+    private final String testBus = "testBus";
 
 
     private Model(){
@@ -52,7 +52,7 @@ public class Model {
         busBSSIDs.add(buss8);
         busBSSIDs.add(buss9);
         busBSSIDs.add(buss10);
-        busBSSIDs.add(test);
+        busBSSIDs.add(testBus);
 
     }
 

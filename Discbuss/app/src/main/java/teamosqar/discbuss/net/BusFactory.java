@@ -49,6 +49,8 @@ public class BusFactory {
             case "04:f0:21:10:09:b7":
                 dgwVin = "?dgw=Ericsson$171330$Vin_Num_YV3T1U223F1171330";
                 break;
+            case "testBus":
+                dgwVin = "?dgw=Ericsson$Vin_Num_001";
         }
         if(dgwVin.equals(""))throw new IllegalArgumentException("Invalid BSSID");
         return dgwVin;
