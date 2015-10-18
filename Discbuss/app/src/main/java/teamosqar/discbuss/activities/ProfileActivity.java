@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,6 +57,22 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
         displaynameFragment = new EditDisplayname();
         pwFragment = new ChangePasswordFragment();
+
+        /*=============================================================== */
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.activity_action_bar,
+                null);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarLayout);
+        TextView actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+        actionBarText.setText("CustomMessage");
+        actionBarText.setTextColor(Color.GRAY);
+        /*=============================================================== */
+
     }
 
     @Override

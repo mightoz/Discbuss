@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    tools:context="teamosqar.discbuss.actionBar_Activity"
+    android:theme="@style/Theme.AppCompat.Light"
+    android:enabled="false"
+    android:orientation="horizontal"
+    android:paddingEnd="8dip">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/actionBarTextView"/>
+
+</LinearLayout>
