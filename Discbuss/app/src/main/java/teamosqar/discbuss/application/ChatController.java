@@ -1,6 +1,7 @@
 package teamosqar.discbuss.application;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -16,16 +18,19 @@ import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import teamosqar.discbuss.activities.MyProfileActivity;
 import teamosqar.discbuss.activities.OtherProfileActivity;
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
 
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatController extends BaseAdapter{
+public abstract class ChatController extends BaseAdapter implements Observer {
 
     private final Context context;
     private LayoutInflater inflater;
@@ -41,6 +46,8 @@ public abstract class ChatController extends BaseAdapter{
         this.inflater = LayoutInflater.from(context);
         clickedMessage = -1;
         clickedView = null;
+
+        Model.getInstance().addObserverToList(this);
 
         //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
         //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
@@ -225,4 +232,16 @@ public abstract class ChatController extends BaseAdapter{
 
     public abstract void onLeftChat();
 
+    @Override
+    public void update(Observable observable, final Object nextBusStop) {
+
+        Activity activity = (Activity)context;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                textView.setText("Nästa: " + nextBusStop.toString());
+            }
+        });
+    }
 }

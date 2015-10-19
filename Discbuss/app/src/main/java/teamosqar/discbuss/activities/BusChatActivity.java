@@ -2,6 +2,8 @@ package teamosqar.discbuss.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 
@@ -21,6 +23,13 @@ public class BusChatActivity extends ChatActivity {
         roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
         super.onCreate(savedInstanceState);
+
+        ViewGroup layout = (ViewGroup) findViewById(R.id.actionBarPlaceholder);
+        View actionBarLayout = getLayoutInflater().inflate(
+                R.layout.action_bar_layout,
+                null);
+        layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
     }
 
     @Override
@@ -35,18 +44,18 @@ public class BusChatActivity extends ChatActivity {
     }
 
     public void upVote(View view){
-        ListView lv = getListView();
+        ListView lv = (ListView)findViewById(R.id.myList);
         int pos = lv.getPositionForView((View)view.getParent().getParent());
         chatController.upVote(pos);
     }
 
     public void downVote(View view){
-        ListView lv = getListView();
+        ListView lv = (ListView)findViewById(R.id.myList);
         int pos = lv.getPositionForView((View)view.getParent().getParent());
         chatController.downVote(pos);
     }
 
     public void sendPersonalMessageClicked(View view){
-        chatController.personalMessageClicked(getListView().getPositionForView((View) view.getParent().getParent().getParent()));
+        chatController.personalMessageClicked(((ListView)findViewById(R.id.myList)).getPositionForView((View) view.getParent().getParent().getParent()));
     }
 }
