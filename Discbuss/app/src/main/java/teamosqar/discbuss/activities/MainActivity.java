@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             newFt.remove(fragment);
             newFt.commit();
             findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
+            //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
             fragmentOpen = false;
         } else {
             Log.d("not quitting", "not quitting");
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void suggestStatement(View view){
         findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
+        //findViewById(R.id.buttonProfile).setVisibility(View.INVISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
         ft.add(R.id.fragmentPlaceholder, fragment);
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             newFt.remove(fragment);
             newFt.commit();
             findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
+            //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
             Toaster.displayToast("Statement submitted!", getApplicationContext(), Toast.LENGTH_SHORT);
             fragmentOpen = false;
         } else {
