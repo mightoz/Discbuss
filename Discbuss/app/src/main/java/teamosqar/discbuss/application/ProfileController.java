@@ -13,10 +13,13 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
+import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -28,19 +31,27 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
+    private Firebase messagesRef = new Firebase("https://boiling-heat-3778.firebaseio.com/chatRooms");
+    private List<Message> allMessages;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     private String nextStop;
-    private Model model;
     Context context;
     private TextView actionBarText, nameText, emailText, pwText;
+    private Model model = Model.getInstance();
 
-    public ProfileController(Context context){
+    public ProfileController(Context context) {
         this.context = context;
         model = Model.getInstance();
         model.addObserverToList(this);
         fireRef = model.getMRef();
         userRef = model.getMRef().child("users").child(Model.getInstance().getUid());
+
+    }
+
+    public ProfileController(){
+        fireRef = Model.getInstance().getMRef();
+        userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -57,9 +68,29 @@ public class ProfileController extends Observable implements Observer {
         nextStop = "";
     }
 
+    public ProfileController(String uid){
+        fireRef = Model.getInstance().getMRef();
+        userRef = fireRef.child("users").child(uid);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                snapshot = dataSnapshot;
+                setChanged();
+                notifyObservers();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
     public String getNextStop() {
         return nextStop;
     }
+
+
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
@@ -71,6 +102,22 @@ public class ProfileController extends Observable implements Observer {
             name = snapshot.child("name").getValue(String.class);
         }
         return name;
+    }
+
+    public String getGender(){
+        String gender = "";
+        if(snapshot != null) {
+            gender = snapshot.child("gender").getValue(String.class);
+        }
+        return gender;
+    }
+
+    public String getAge(){
+        String age = "";
+        if(snapshot != null) {
+            age = snapshot.child("age").getValue(String.class);
+        }
+        return age;
     }
 
     /**
@@ -127,8 +174,8 @@ public class ProfileController extends Observable implements Observer {
 
     @Override
     public void update(Observable observable, Object nextBusStop) {
-        nextStop = (String)nextBusStop;
-        Activity activity = (Activity)context;
+        nextStop = (String) nextBusStop;
+        Activity activity = (Activity) context;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -136,6 +183,10 @@ public class ProfileController extends Observable implements Observer {
                 textView.setText("Nästa: " + nextStop);
             }
         });
+    }
+
+    public void resetModel(){
+        Model.getInstance().resetModel();
 
     }
 }
