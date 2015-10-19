@@ -6,11 +6,15 @@
     android:layout_height="50dp"
     tools:context="teamosqar.discbuss.activities.ActionBar_Activity"
     android:theme="@style/Theme.AppCompat.Light"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:enabled="false">
+
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/actionBarTextView"/>
+        android:id="@+id/actionBarTextView"
+        android:textColor="#ff99cc00"/>
 
 </LinearLayout>

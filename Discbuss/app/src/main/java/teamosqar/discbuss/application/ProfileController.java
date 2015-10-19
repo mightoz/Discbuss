@@ -40,23 +40,15 @@ public class ProfileController extends Observable implements Observer {
     private TextView actionBarText, nameText, emailText, pwText;
     private Model model = Model.getInstance();
 
-    public ProfileController(Context context) {
+
+    public ProfileController(Context context){
         this.context = context;
-        model = Model.getInstance();
-        model.addObserverToList(this);
-        fireRef = model.getMRef();
-        userRef = model.getMRef().child("users").child(Model.getInstance().getUid());
-
-    }
-
-    public ProfileController(){
         fireRef = Model.getInstance().getMRef();
         userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-
                 setChanged();
                 notifyObservers();
             }
@@ -89,8 +81,6 @@ public class ProfileController extends Observable implements Observer {
     public String getNextStop() {
         return nextStop;
     }
-
-
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
@@ -187,6 +177,5 @@ public class ProfileController extends Observable implements Observer {
 
     public void resetModel(){
         Model.getInstance().resetModel();
-
     }
 }

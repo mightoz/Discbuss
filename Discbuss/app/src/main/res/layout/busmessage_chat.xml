@@ -33,10 +33,11 @@
 
             <ImageButton
                 android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="18dp"
                 android:layout_weight="1"
                 android:id="@+id/downVoteBtn"
+                android:background="@drawable/arrows_03"
                 android:onClick="downVote" />
 
             <TextView
@@ -52,10 +53,11 @@
 
             <ImageButton
                 android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="18dp"
                 android:layout_weight="1"
                 android:id="@+id/upVoteBtn"
+                android:background="@drawable/arrows_02"
                 android:onClick="upVote" />
 
         </LinearLayout>

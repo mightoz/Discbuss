@@ -35,7 +35,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        profileController = new ProfileController();
+        profileController = new ProfileController(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         profileController.addObserver(this);
@@ -63,7 +63,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
         actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
 
-        actionBarText.setTextColor(Color.GRAY);
         /*=============================================================== */
     }
 

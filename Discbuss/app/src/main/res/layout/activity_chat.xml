@@ -56,9 +56,9 @@
             android:text="Send"
             android:layout_weight="4"
             android:onClick="sendMessage"
-            android:background="@drawable/button_shape"
             android:layout_marginRight="10dp"
-            android:textColor="#7e7e7e"/>
+            android:textColor="#7e7e7e"
+            android:background="@drawable/button_shape" />
     </LinearLayout>
 
 
