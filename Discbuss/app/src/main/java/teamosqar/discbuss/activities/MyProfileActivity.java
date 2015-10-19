@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,6 +22,7 @@ import teamosqar.discbuss.application.Model;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
 import teamosqar.discbuss.fragments.EditDisplayname;
+import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.Toaster;
 
 public class MyProfileActivity extends ProfileActivity implements Observer {
@@ -91,6 +94,8 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     public void changeUserName(View view) {
         pwButton.setVisibility(View.GONE);

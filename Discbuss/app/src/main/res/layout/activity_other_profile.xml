@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:launchMode="singleInstance"
-    tools:context="teamosqar.discbuss.activities.MyProfileActivity">
+    tools:context="teamosqar.discbuss.activities.OtherProfileActivity">
 
 
     <FrameLayout
@@ -40,16 +40,94 @@
         android:text="Top Comments"
         android:textSize="25sp"
         android:id="@+id/topComments"
-        android:layout_above="@id/fragmentPlaceholder"
+        android:layout_above="@+id/topCommentsPlaceholder"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp" />
 
-    <FrameLayout
-        android:id="@+id/fragmentPlaceholder"
+    <RelativeLayout
+        android:id="@+id/topCommentsPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="201dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:id="@+id/topCommentsView"
+            android:layout_width="300dp"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/topComment1"
+                android:layout_width="match_parent"
+                android:layout_height="67dp">
+                <TextView
+                    android:id="@+id/topComment1Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topComment2"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_below="@+id/topComment1">
+                <TextView
+                    android:id="@+id/topComment2Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topComment3"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_below="@+id/topComment2">
+                <TextView
+                    android:id="@+id/topComment3Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/topCommentsKarma"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/topCommentsView">
+            <FrameLayout
+                android:id="@+id/topKarma1"
+                android:layout_width="match_parent"
+                android:layout_height="67dp">
+                <TextView
+                    android:id="@+id/topKarma1Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topKarma2"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_below="@+id/topKarma1">
+                <TextView
+                    android:id="@+id/topKarma2Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topKarma3"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_below="@+id/topKarma2">
+                <TextView
+                    android:id="@+id/topKarma3Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"/>
+            </FrameLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

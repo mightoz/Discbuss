@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
+import java.util.ArrayList;
+
+import teamosqar.discbuss.util.Message;
+
 public abstract class ProfileActivity extends AppCompatActivity {
 
     @Override
@@ -19,11 +23,6 @@ public abstract class ProfileActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
-    }
-
-    public void presentTopStatements(View view) {
-        //TODO what will happen here?
-
     }
 
 }

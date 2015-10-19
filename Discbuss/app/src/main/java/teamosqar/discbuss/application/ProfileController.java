@@ -34,7 +34,7 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
-    private ArrayList<Message> topMessages;
+    private ArrayList<String> topMessages, topKarma;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     private String nextStop;
@@ -54,17 +54,22 @@ public class ProfileController extends Observable implements Observer {
     public ProfileController(){
         fireRef = Model.getInstance().getMRef();
         userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
+        topMessages = new ArrayList<>();
+        topKarma = new ArrayList<>();
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                topMessages = new ArrayList<>();
-                Message tempMsg;
+                String tempMsg;
+                String tempKarma;
+                DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
-                    snapshot = (DataSnapshot)iterator.next();
-                    tempMsg = snapshot.getValue(Message.class);
+                    sstemp = (DataSnapshot)iterator.next();
+                    tempMsg = sstemp.getValue(Message.class).getMessage();
+                    tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
                     topMessages.add(tempMsg);
+                    topKarma.add(tempKarma);
                 }
                 setChanged();
                 notifyObservers();
@@ -80,17 +85,22 @@ public class ProfileController extends Observable implements Observer {
     public ProfileController(String uid){
         fireRef = Model.getInstance().getMRef();
         userRef = fireRef.child("users").child(uid);
+        topMessages = new ArrayList<>();
+        topKarma = new ArrayList<>();
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                topMessages = new ArrayList<>();
-                Message tempMsg;
+                String tempMsg;
+                String tempKarma;
+                DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
-                    snapshot = (DataSnapshot)iterator.next();
-                    tempMsg = snapshot.getValue(Message.class);
+                    sstemp = (DataSnapshot)iterator.next();
+                    tempMsg = sstemp.getValue(Message.class).getMessage();
+                    tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
                     topMessages.add(tempMsg);
+                    topKarma.add(tempKarma);
                 }
                 setChanged();
                 notifyObservers();
@@ -107,9 +117,10 @@ public class ProfileController extends Observable implements Observer {
         return nextStop;
     }
 
-    public ArrayList<Message> getTopMessages(){
+    public ArrayList<String> getTopMessages(){
         return topMessages;
     }
+    public ArrayList<String> getTopKarma() { return topKarma; }
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
