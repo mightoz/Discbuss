@@ -72,13 +72,11 @@ public class BusChatController extends ChatController implements Observer{
                     int tmp;
                     DataSnapshot ds = (DataSnapshot)iterator.next();
                     if(ds.child("usersVoted").hasChild(model.getUid())){
-                        Log.d("value of vote", ds.child("usersVoted").child(model.getUid()).getValue().toString());
-                        tmp = (int)ds.child("usersVoted").child(model.getUid()).getValue();
+                        tmp = ((Long)ds.child("usersVoted").child(model.getUid()).getValue()).intValue();
                     } else {
                         tmp = 0;
                     }
-                    messageValues.add(0, tmp);
-                    //TODO: Insert tmp to the ArrayList in correct position
+                    messageValues.add(getMessageKeys().indexOf(ds.getKey()), tmp);
                 }
             }
 
@@ -206,18 +204,18 @@ public class BusChatController extends ChatController implements Observer{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(messageKey) || dataSnapshot.getChildrenCount() < 3) {
                     setTopStatement(topStatementsRef, messageModel, messageKey);
-                }else {
+                } else {
                     Iterator iterator = dataSnapshot.getChildren().iterator();
 
-                    DataSnapshot lowestKarmaSnapshot = (DataSnapshot)iterator.next();
+                    DataSnapshot lowestKarmaSnapshot = (DataSnapshot) iterator.next();
                     while (iterator.hasNext()) {
-                        DataSnapshot currentSnapshot = (DataSnapshot)iterator.next();
-                        if((Long)currentSnapshot.child("karma").getValue() < (Long)lowestKarmaSnapshot.child("karma").getValue()){
+                        DataSnapshot currentSnapshot = (DataSnapshot) iterator.next();
+                        if ((Long) currentSnapshot.child("karma").getValue() < (Long) lowestKarmaSnapshot.child("karma").getValue()) {
                             lowestKarmaSnapshot = currentSnapshot;
                         }
                     }
 
-                    if((Long)lowestKarmaSnapshot.child("karma").getValue() < messageModel.getKarma()){
+                    if ((Long) lowestKarmaSnapshot.child("karma").getValue() < messageModel.getKarma()) {
                         topStatementsRef.child(lowestKarmaSnapshot.getKey()).removeValue();
                         setTopStatement(topStatementsRef, messageModel, messageKey);
                     }
@@ -248,7 +246,7 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected void populateView(View view, Message message){
+    protected void populateView(View view, Message message, int position){
         String author = message.getAuthor();
         String msg = message.getMessage();
         int karma = message.getKarma();
@@ -263,6 +261,18 @@ public class BusChatController extends ChatController implements Observer{
         }else{
             view.findViewById(R.id.upVoteBtn).setVisibility(View.VISIBLE);
             view.findViewById(R.id.downVoteBtn).setVisibility(View.VISIBLE);
+        }
+        if(messageValues.get(position) == 0){
+            view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_02);
+            view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_03);
+        }
+        else if(messageValues.get(position) == 1){
+            view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_05);
+            view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_03);
+        }
+        else if(messageValues.get(position) == -1){
+            view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_02);
+            view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_06);
         }
 
         authorView.setText(author);

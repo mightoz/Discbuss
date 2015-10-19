@@ -186,17 +186,21 @@ public abstract class ChatController extends BaseAdapter{
             convertView = getMessageView(parent);
         }
 
-        populateView(convertView, msg);
+        populateView(convertView, msg, position);
 
 
         return convertView;
+    }
+
+    public List getMessageKeys(){
+        return messageKeys;
     }
 
     protected abstract View getMessageView(ViewGroup parent);
 
     protected abstract View getMessageViewExtension();
 
-    protected abstract void populateView(View view, Message message);
+    protected abstract void populateView(View view, Message message, int position);
 
     protected abstract void populateViewOnExtension(View view, Message message);
 
