@@ -59,18 +59,11 @@ public class ElecApi {
             response.append(inputLine);
         }
         in.close();
-        System.out.println("Svar: " + "klass: " + response.getClass() + " " + response.toString());
-        if(!response.toString().isEmpty() || response!=null) {
-            System.out.println("Villkor okej");
+        
+        if(!response.toString().isEmpty()) {
             JSONArray arr = new JSONArray(response.toString());
             nextStop = arr.getJSONObject(arr.length() - 1).getString("value");
         }
-        /*JSONArray arr = new JSONArray(response.toString());
-        for(int i = 0; i < arr.length(); i++){
-            nextStop = arr.getJSONObject(i).getString("value");
-        }*/
-
-        System.out.println(nextStop);
         return nextStop;
     }
 }
