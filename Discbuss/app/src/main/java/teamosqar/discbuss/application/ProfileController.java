@@ -16,6 +16,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
@@ -145,7 +146,20 @@ public class ProfileController extends Observable implements Observer {
     public String getAge(){
         String age = "";
         if(snapshot != null) {
-            age = snapshot.child("age").getValue(String.class);
+            int year = Integer.parseInt(snapshot.child("year").getValue(String.class));
+            int month = Integer.parseInt(snapshot.child("month").getValue(String.class));
+            int date = Integer.parseInt(snapshot.child("day").getValue(String.class));
+            int tempAge;
+            Calendar today = Calendar.getInstance();
+            tempAge = today.get(Calendar.YEAR) - year;
+            if (month > today.get(Calendar.MONTH)) {
+                tempAge--;
+            } else if ((month == today.get(Calendar.MONTH)) &&
+                    (date > today.get(Calendar.DAY_OF_MONTH))) {
+                tempAge--;
+            }
+            age = Integer.toString(tempAge);
+
         }
         return age;
     }

@@ -47,8 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
         if(checkData()){
-            calculateAge();
-            rc.registerUser(name, mail, password, genderSelection, age);
+            rc.registerUser(name, mail, password, genderSelection, birthYear, birthMonth, birthDay);
             goToLogin();
         }
     }
@@ -191,24 +190,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
             }
         });
-    }
-
-    private String calculateAge() {
-
-        int year = Integer.parseInt(birthYear);
-        int month = Integer.parseInt(birthMonth);
-        int date = Integer.parseInt(birthDay);
-        int tempAge;
-        Calendar today = Calendar.getInstance();
-        tempAge = today.get(Calendar.YEAR) - year;
-        if (month > today.get(Calendar.MONTH)) {
-            tempAge--;
-        } else if ((month == today.get(Calendar.MONTH)) &&
-                (date > today.get(Calendar.DAY_OF_MONTH))) {
-            tempAge--;
-        }
-        age = Integer.toString(tempAge);
-        return age;
     }
 
     @Override
