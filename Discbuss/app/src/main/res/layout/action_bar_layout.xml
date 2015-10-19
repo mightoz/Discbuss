@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:paddingRight="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/activeUserLayout">
 
         <ImageView
@@ -42,13 +42,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statementText"
-        android:text="hejsan hej heawkjd awidjp apwdj apwodj"
+        android:text="statement"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_toStartOf="@+id/activeUserLayout" />
+        android:layout_toStartOf="@+id/activeUserLayout"
+        android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>
 
