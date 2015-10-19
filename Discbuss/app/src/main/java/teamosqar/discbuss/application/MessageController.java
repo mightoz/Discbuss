@@ -1,5 +1,7 @@
 package teamosqar.discbuss.application;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
@@ -27,7 +31,7 @@ import teamosqar.discbuss.util.MessageInbox;
 /**
  * Created by joakim on 2015-10-11.
  */
-public class MessageController extends BaseAdapter {
+public class MessageController extends BaseAdapter implements Observer {
 
     private Firebase messagesFirebaseRef;
     private List<MessageInbox> messageInboxes;
@@ -35,11 +39,13 @@ public class MessageController extends BaseAdapter {
     private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model, keys does not controll the ordering in this case
     private Map<String, ChildEventListener> childEventListenerMap;
     private LayoutInflater inflater;
+    private Context context;
 
-    public MessageController(LayoutInflater inflater){
+    public MessageController(Context context){
         messagesFirebaseRef = Model.getInstance().getMRef().child("duoChats");
 
-        this.inflater = inflater;
+        inflater = LayoutInflater.from(context);
+        this.context = context;
 
         messageInboxes = new ArrayList<MessageInbox>();
         mostRecentMsg = new ArrayList<Message>();
@@ -295,5 +301,27 @@ public class MessageController extends BaseAdapter {
         }else{
             messageReadView.setText("");
         }
+    }
+
+    public void updateNextBusStop() {
+        if (Model.getInstance().getNextBusStop()!=null&& !Model.getInstance().getNextBusStop().isEmpty()) {
+            Activity activity = (Activity) context;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                    textView.setText("Nästa hållplats: " + Model.getInstance().getNextBusStop());
+                }
+            });
+        }
+    }
+
+    public void addAsObserver(){
+        Model.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void update(Observable observable, final Object nextBusStop) {
+        updateNextBusStop();
     }
 }
