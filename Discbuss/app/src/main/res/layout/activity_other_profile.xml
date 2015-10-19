@@ -7,21 +7,35 @@
     android:launchMode="singleInstance"
     tools:context="teamosqar.discbuss.activities.OtherProfileActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textViewUserKarma"
         android:layout_below="@+id/textViewDisplayName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:id="@+id/userKarmaLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignLeft="@+id/textViewUserKarma"
+            android:src="@drawable/karma" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:id="@+id/textViewUserKarma"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
         android:id="@+id/textViewDisplayName"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -29,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Send Message"
+        android:text="Skicka meddelande"
         android:onClick="launchDuoChat"
         android:layout_above="@+id/topComments"
         android:layout_marginBottom="20dp"
@@ -39,7 +53,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Top Comments"
+        android:text="Toppkommentarer"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/topComments"
         android:layout_above="@+id/topCommentsPlaceholder"
@@ -55,7 +69,7 @@
         android:layout_alignParentBottom="true">
         <RelativeLayout
             android:id="@+id/topCommentsView"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent">
             <FrameLayout
                 android:id="@+id/topComment1"
@@ -65,7 +79,7 @@
                     android:id="@+id/topComment1Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topComment2"
@@ -76,7 +90,7 @@
                     android:id="@+id/topComment2Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topComment3"
@@ -87,7 +101,7 @@
                     android:id="@+id/topComment3Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
             </FrameLayout>
 
         </RelativeLayout>
@@ -97,38 +111,65 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_alignRight="@+id/topCommentsView">
-            <FrameLayout
-                android:id="@+id/topKarma1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:id="@+id/topKarma1">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/karmaImage1"
+                    android:layout_alignLeft="@+id/topCommentsKarma"
+                    android:src="@drawable/karma" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/topKarma1Value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/topKarma2"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/topKarma1">
+                android:layout_below="@+id/topKarma1"
+                android:id="@+id/topKarma2">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/karmaImage2"
+                    android:layout_alignLeft="@+id/topCommentsKarma"
+                    android:src="@drawable/karma" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/topKarma2Value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/topKarma3"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/topKarma2">
+                android:layout_below="@+id/topKarma2"
+                android:id="@+id/topKarma3">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/karmaImage3"
+                    android:layout_alignLeft="@+id/topCommentsKarma"
+                    android:src="@drawable/karma" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/topKarma3Value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-            </FrameLayout>
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 

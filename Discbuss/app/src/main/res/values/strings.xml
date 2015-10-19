@@ -4,10 +4,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string-array name="genders">
-        <item>Select Gender</item>
-        <item>Male</item>
-        <item>Female</item>
-        <item>Unspecified</item>
+        <item>Välj kön</item>
+        <item>Man</item>
+        <item>Kvinna</item>
+        <item>Ospecificerad</item>
     </string-array>
 
     <string-array name="yearOfBirth">
@@ -25,16 +25,16 @@
     </string-array>
 
     <string-array name="months">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Mars</item>
         <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
+        <item>Maj</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>Augusti</item>
         <item>September</item>
-        <item>October</item>
+        <item>Oktober</item>
         <item>November</item>
         <item>December</item>
     </string-array>
