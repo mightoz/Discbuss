@@ -1,11 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actionBarLayout"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     tools:context="teamosqar.discbuss.activities.ActionBar_Activity"
-    android:enabled="false"
+    android:theme="@style/Theme.AppCompat.Light"
     android:orientation="horizontal"
-    android:paddingEnd="8dip">
+    android:enabled="false">
+
+
 
     <TextView
         android:layout_width="match_parent"
