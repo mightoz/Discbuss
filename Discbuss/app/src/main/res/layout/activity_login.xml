@@ -31,26 +31,28 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Logga in"
         android:id="@+id/buttonLogin"
         android:onClick="loginPressed"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_shape" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="Registrera"
         android:id="@+id/buttonNotRegistered"
         android:onClick="notRegisteredPressed"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/buttonLogin"
-        android:layout_alignStart="@+id/buttonLogin" />
+        android:layout_alignStart="@+id/buttonLogin"
+        android:background="@drawable/button_shape" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login automatically"
+        android:text="Automatisk inloggning"
         android:id="@+id/autoLoginCheckBox"
         android:layout_below="@+id/buttonLogin"
         android:layout_centerHorizontal="true" />

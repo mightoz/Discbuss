@@ -19,53 +19,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Namn: "
-        android:id="@+id/textViewNameTag"
-        android:layout_marginTop="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/textViewEmailTag"
-        android:layout_alignRight="@+id/textViewEmailTag" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email: "
-        android:id="@+id/textViewEmailTag"
-        android:layout_below="@+id/textViewNameTag"
-        android:layout_alignEnd="@+id/textViewKarmaTag"
-        android:layout_alignRight="@+id/textViewKarmaTag"
-        android:layout_marginTop="35dp"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Karma: "
-        android:id="@+id/textViewKarmaTag"
-        android:layout_below="@+id/textViewEmailTag"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="25dp"
         android:id="@+id/textViewDisplayName"
         android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewUserEmail"
-        android:layout_alignTop="@+id/textViewEmailTag"
-        android:layout_alignLeft="@+id/textViewDisplayName"
-        android:layout_alignStart="@+id/textViewDisplayName" />
+        android:layout_below="@+id/textViewDisplayName"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
 
     <TextView
@@ -73,46 +41,133 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewUserKarma"
-        android:layout_alignTop="@+id/textViewKarmaTag"
-        android:layout_alignLeft="@+id/textViewDisplayName"
-        android:layout_alignStart="@+id/textViewDisplayName" />
+        android:layout_below="@+id/textViewUserEmail"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Change password"
+        android:text="Byt lösenord"
         android:id="@+id/changePwButton"
         android:onClick="changePassword"
         android:layout_marginBottom="25dp"
-        android:layout_above="@+id/topStatementButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/topComments"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_shape" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="View top statements"
-        android:onClick="presentTopStatements"
-        android:id="@+id/topStatementButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change display name"
+        android:text="Byt visningsnamn"
         android:onClick="changeUserName"
         android:id="@+id/displaynameButton"
-        android:layout_above="@+id/changePwButton"
+        android:layout_above="@+id/topComments"
         android:layout_marginBottom="25dp"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/button_shape" />
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/topComments">
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Comments"
+        android:id="@+id/topComments"
+        android:layout_above="@+id/topCommentsPlaceholder"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginBottom="20dp"/>
+
+    <RelativeLayout
+        android:id="@+id/topCommentsPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:id="@+id/topCommentsView"
+            android:layout_width="300dp"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/topComment1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/topComment1Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topComment2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/topComment1">
+                <TextView
+                    android:id="@+id/topComment2Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topComment3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/topComment2">
+                <TextView
+                    android:id="@+id/topComment3Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/topCommentsKarma"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/topCommentsView">
+            <FrameLayout
+                android:id="@+id/topKarma1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/topKarma1Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topKarma2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/topKarma1">
+                <TextView
+                    android:id="@+id/topKarma2Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/topKarma3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/topKarma2">
+                <TextView
+                    android:id="@+id/topKarma3Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+            </FrameLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

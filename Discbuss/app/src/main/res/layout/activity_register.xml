@@ -13,7 +13,7 @@
         android:id="@+id/editTextName"
         android:layout_alignParentTop="true"
         android:layout_marginTop="34dp"
-        android:hint="Name"
+        android:hint="Namn"
         android:layout_alignLeft="@+id/editTextEmail"
         android:layout_alignStart="@+id/editTextEmail"
         android:layout_alignRight="@+id/editTextEmail"
@@ -39,7 +39,7 @@
         android:layout_below="@+id/editTextEmail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
-        android:hint="Password"/>
+        android:hint="Lösenord"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:layout_below="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
-        android:hint="Confirm Password"/>
+        android:hint="Konfirmera lösenord"/>
 
     <Spinner
         android:layout_width="200dp"
@@ -64,12 +64,13 @@
     <TextView
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:text="Date of birth"
+        android:text="Födelsedatum"
         android:textSize="20dp"
         android:id="@+id/birthText"
         android:layout_marginTop="40dp"
         android:layout_below="@+id/genderSpinner"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:hint="Födelsedatum" />
 
 
     <Spinner
@@ -108,11 +109,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="Registrera"
         android:id="@+id/buttonRegister"
-        android:layout_marginTop="200dp"
         android:onClick="registerPressed"
-        android:layout_below="@+id/editTextConfPass"
+        android:background="@drawable/button_shape"
+        android:layout_below="@+id/monthSpinner"
         android:layout_centerHorizontal="true" />
 
 

@@ -1,9 +1,13 @@
 package teamosqar.discbuss.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
+
+import java.util.List;
 
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
@@ -37,12 +41,15 @@ public class BusChatActivity extends ChatActivity {
     public void upVote(View view){
         ListView lv = getListView();
         int pos = lv.getPositionForView((View)view.getParent().getParent());
+        view.setBackgroundResource(R.drawable.arrows_05);
         chatController.upVote(pos);
     }
 
     public void downVote(View view){
         ListView lv = getListView();
         int pos = lv.getPositionForView((View)view.getParent().getParent());
+        Log.d("parent", view.getParent().toString());
+        view.setBackgroundResource(R.drawable.arrows_06);
         chatController.downVote(pos);
     }
 

@@ -1,5 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
     android:layout_height="match_parent"
     tools:context="teamosqar.discbuss.fragments.SuggestFragment">
 
@@ -9,13 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@color/gray">
+        android:backgroundTint="@color/gray"
+        android:backgroundTintMode="multiply">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Statement"
+            android:text="Diskussionsämne"
             android:id="@+id/textViewStatement"
             android:layout_gravity="center_horizontal" />
 
@@ -30,9 +31,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="submit"
+            android:text="Föreslå"
             android:id="@+id/buttonSubmit"
             android:layout_gravity="center_horizontal"
-            android:onClick="submitStatement"/>
+            android:onClick="submitStatement"
+            android:background="@drawable/button_shape" />
     </LinearLayout>
 </FrameLayout>

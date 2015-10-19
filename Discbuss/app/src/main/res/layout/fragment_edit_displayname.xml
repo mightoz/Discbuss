@@ -4,37 +4,34 @@
     tools:context="teamosqar.discbuss.fragments.EditDisplayname">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="120dp"
         android:layout_gravity="center_horizontal|bottom">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Name to display in the chatrooms"
-            android:id="@+id/textViewDisplayName"
-            android:layout_gravity="center_horizontal" />
-
         <EditText
-            android:layout_width="151dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Name"
             android:ems="10"
             android:id="@+id/editTextNewName"
-            android:layout_gravity="center_horizontal" />
+            android:layout_centerHorizontal="true"
+
+            android:layout_below="@+id/textViewDisplayName"
+            android:hint="Nytt visningsnamn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="change"
+            android:text="Ändra"
+            android:layout_centerHorizontal="true"
             android:id="@+id/buttonSubmit"
-            android:layout_gravity="center_horizontal"
-            android:onClick="changeDisplayname"/>
 
-    </LinearLayout>
+            android:layout_below="@+id/editTextNewName"
+            android:onClick="changeDisplayname"
+            android:background="@drawable/button_shape" />
+
+    </RelativeLayout>
 
 </FrameLayout>

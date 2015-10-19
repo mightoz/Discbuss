@@ -10,43 +10,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewUserKarma"
+        android:layout_below="@+id/textViewDisplayName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="125dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:id="@+id/textViewDisplayName"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/sendMessageButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Send Message"
         android:layout_above="@+id/topComments"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_shape" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Top Comments"
-        android:textSize="25sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/topComments"
         android:layout_above="@+id/topCommentsPlaceholder"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp" />
+        android:layout_marginBottom="20dp" />
 
     <RelativeLayout
         android:id="@+id/topCommentsPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="201dp"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true">
@@ -57,34 +59,34 @@
             <FrameLayout
                 android:id="@+id/topComment1"
                 android:layout_width="match_parent"
-                android:layout_height="67dp">
+                android:layout_height="50dp">
                 <TextView
                     android:id="@+id/topComment1Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topComment2"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/topComment1">
                 <TextView
                     android:id="@+id/topComment2Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topComment3"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/topComment2">
                 <TextView
                     android:id="@+id/topComment3Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
 
         </RelativeLayout>
@@ -97,34 +99,34 @@
             <FrameLayout
                 android:id="@+id/topKarma1"
                 android:layout_width="match_parent"
-                android:layout_height="67dp">
+                android:layout_height="50dp">
                 <TextView
                     android:id="@+id/topKarma1Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topKarma2"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/topKarma1">
                 <TextView
                     android:id="@+id/topKarma2Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/topKarma3"
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/topKarma2">
                 <TextView
                     android:id="@+id/topKarma3Value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="25sp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </FrameLayout>
         </RelativeLayout>
     </RelativeLayout>
