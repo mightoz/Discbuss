@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
 
-        /*=======================================================================*/
     }
 
     @Override
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
+            findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
             fragmentOpen = false;
         } else {
             Log.d("not quitting", "not quitting");
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void suggestStatement(View view){
+        findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
         ft.add(R.id.fragmentPlaceholder, fragment);
@@ -145,12 +146,13 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
+            findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
             Toaster.displayToast("Statement submitted!", getApplicationContext(), Toast.LENGTH_SHORT);
+            fragmentOpen = false;
         } else {
             //TODO: Update with new toaster
             Toaster.displayToast("Write a statement", getApplicationContext(), Toast.LENGTH_SHORT);
         }
-        fragmentOpen = false;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
