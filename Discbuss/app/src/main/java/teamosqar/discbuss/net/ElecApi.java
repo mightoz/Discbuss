@@ -27,6 +27,7 @@ public class ElecApi {
         this.bssid = bssid;
         baseUrl = "https://ece01.ericsson.net:4443/ecity";
         key = "Z3JwNTg6c3VHLXBVWC1iNA==";
+        nextStop = "";
 
     }
 
