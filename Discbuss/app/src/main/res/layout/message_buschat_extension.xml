@@ -23,7 +23,7 @@
         android:layout_height="35dp"
         android:textSize="10dp"
         android:layout_marginRight="5dp"
-        android:text="View Profile"
+        android:text="Visa profil"
         android:background="@drawable/button_shape"
         android:textColor="#7e7e7e"
         android:onClick="viewPersonalProfileClicked"
@@ -35,7 +35,7 @@
         android:layout_height="35dp"
         android:textSize="10dp"
         android:layout_marginLeft="5dp"
-        android:text="Send Message"
+        android:text="skicka meddelande"
         android:background="@drawable/button_shape"
         android:textColor="#7e7e7e"
         android:onClick="sendPersonalMessageClicked"/>

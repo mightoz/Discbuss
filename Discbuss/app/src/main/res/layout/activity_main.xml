@@ -9,12 +9,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join a discussion"
+        android:text="Börja Chatta"
         android:id="@+id/buttonDiscussion"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="85dp"
-        android:onClick="enterDiscussion"/>
+        android:layout_marginTop="40dp"
+        android:onClick="enterDiscussion"
+        android:background="@drawable/button_shape" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,12 +32,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:text="Min Profil"
         android:id="@+id/buttonProfile"
-        android:layout_below="@+id/buttonDiscussion"
+        android:layout_below="@+id/messagesButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:onClick="goToProfile"/>
+        android:onClick="goToProfile"
+        android:background="@drawable/button_shape" />
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
@@ -49,9 +51,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Messages"
+        android:text="Meddelanden"
         android:id="@+id/messagesButton"
-        android:layout_below="@+id/buttonProfile"
+        android:layout_below="@+id/buttonDiscussion"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
-        android:onClick="goToMessages"/>
+        android:onClick="goToMessages"
+        android:background="@drawable/button_shape" />
 </RelativeLayout>

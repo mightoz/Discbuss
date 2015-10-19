@@ -187,6 +187,5 @@ public class ProfileController extends Observable implements Observer {
 
     public void resetModel(){
         Model.getInstance().resetModel();
-
     }
 }
