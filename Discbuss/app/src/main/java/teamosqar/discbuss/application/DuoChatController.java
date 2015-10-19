@@ -53,7 +53,7 @@ public class DuoChatController extends ChatController{
     }
 
     @Override
-    protected void populateView(View view, Message message) {
+    protected void populateView(View view, Message message, int position) {
         String author = message.getAuthor();
         String msg = message.getMessage();
 
