@@ -27,8 +27,9 @@ public class BusChatActivity extends ChatActivity {
         View actionBarLayout = getLayoutInflater().inflate(
                 R.layout.action_bar_layout,
                 null);
-        layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        findViewById(R.id.statementText).setSelected(true);
     }
     
     protected ChatController getChatController() {

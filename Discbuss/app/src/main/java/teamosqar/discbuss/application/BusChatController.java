@@ -87,7 +87,7 @@ public class BusChatController extends ChatController implements Observer{
             }
         });
 
-        ValueEventListener statementListener = getFirebaseChatRef(chatRoom).child("currentStatement").addValueEventListener(new ValueEventListener() {
+        ValueEventListener statementListener = Model.getInstance().getMRef().child("chatRooms").child("currentStatement").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 updateStatement(dataSnapshot.getValue(String.class));

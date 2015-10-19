@@ -124,7 +124,7 @@ public class MainController implements Observer {
                 @Override
                 public void run() {
                     TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                    textView.setText("Nästa: " + model.getNextBusStop());
+                    textView.setText("Nästa hållplats: " + model.getNextBusStop());
                 }
             });
         }
