@@ -2,6 +2,7 @@ package teamosqar.discbuss.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import teamosqar.discbuss.application.DuoChatController;
 import teamosqar.discbuss.application.Model;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
@@ -29,12 +31,13 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
     private TextView userInfo, karma, topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
     private ProfileController profileController;
     private List<TextView> topCommentValues, topCommentKarmas;
-
+    private String chatUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
+        chatUID = uid;
         profileController = new ProfileController(uid);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_profile);
@@ -74,8 +77,10 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
             topCommentKarmas.get(i).setText(profileController.getTopKarma().get(i));
 
         }
+    }
 
-
+    public void launchDuoChat(View view){
+        DuoChatController.launchDuoChat(this, chatUID);
     }
 }
 
