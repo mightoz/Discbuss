@@ -71,9 +71,9 @@ public class BusChatController extends ChatController implements Observer{
                 Iterator iterator = dataSnapshot.getChildren().iterator();
                 while (iterator.hasNext()) {
                     int tmp;
-                    DataSnapshot ds = (DataSnapshot)iterator.next();
-                    if(ds.child("usersVoted").hasChild(model.getUid())){
-                        tmp = ((Long)ds.child("usersVoted").child(model.getUid()).getValue()).intValue();
+                    DataSnapshot ds = (DataSnapshot) iterator.next();
+                    if (ds.child("usersVoted").hasChild(model.getUid())) {
+                        tmp = ((Long) ds.child("usersVoted").child(model.getUid()).getValue()).intValue();
                     } else {
                         tmp = 0;
                     }
@@ -87,7 +87,7 @@ public class BusChatController extends ChatController implements Observer{
             }
         });
 
-        ValueEventListener statementListener = getFirebaseChatRef(chatRoom).child("currentStatement").addValueEventListener(new ValueEventListener() {
+        ValueEventListener statementListener = Model.getInstance().getMRef().child("chatRooms").child("currentStatement").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 updateStatement(dataSnapshot.getValue(String.class));
