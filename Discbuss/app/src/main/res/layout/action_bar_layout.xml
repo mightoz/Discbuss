@@ -5,23 +5,34 @@
     android:layout_height="match_parent"
     tools:context="teamosqar.discbuss.activities.ActionBar_Activity"
     android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-    android:background="#123456"
+    android:background="#505050"
     >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/actionBarTextView"
-        android:text="hejsan hej heawkjd awidjp apwdj apwodj aowpdj apowdjapwodjapowdjapwodj apowdj aopwjd apwodj "
-        android:layout_alignRight="@+id/textViewActiveUsers"/>
+        android:id="@+id/statementText"
+        android:text="hejsan hej heawkjd awidjp apwdj apwodj"
+        android:layout_below="@+id/textViewActiveUsers"
+        android:layout_alignParentLeft="true"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignLeft="@+id/textViewActiveUsers"
+        android:src="@drawable/group" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
         android:id="@+id/textViewActiveUsers"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:paddingRight="20dp"/>
+
 
 
 </RelativeLayout>
