@@ -30,8 +30,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:text="0"
+            android:textColor="#CCCCCC"
             android:id="@+id/textViewActiveUsers"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 

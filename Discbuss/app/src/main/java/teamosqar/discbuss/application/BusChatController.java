@@ -106,11 +106,19 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     public void onEnteredChat(){
-            Model.getInstance().addUserToChat(chatRoom);
+        model.addUserToChat(chatRoom);
     }
 
     public void onLeftChat(){
-        Model.getInstance().removeUserFromChat(chatRoom);
+        model.removeUserFromChat(chatRoom);
+    }
+
+    public void addAsObserver(){
+        model.addObserver(this);
+    }
+
+    public void removeAsObserver(){
+        model.deleteObserver(this);
     }
 
     private void updateUserCount(int users){

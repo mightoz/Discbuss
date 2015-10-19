@@ -31,13 +31,7 @@ public class BusChatActivity extends ChatActivity {
 
         findViewById(R.id.statementText).setSelected(true);
     }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
-
-    @Override
+    
     protected ChatController getChatController() {
         return chatController;
     }

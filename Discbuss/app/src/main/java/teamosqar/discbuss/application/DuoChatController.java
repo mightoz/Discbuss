@@ -12,10 +12,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+
 import java.util.Calendar;
 import java.util.Iterator;
 
 import teamosqar.discbuss.activities.DuoChatActivity;
+
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
@@ -27,11 +29,14 @@ public class DuoChatController extends ChatController{
     private Context context;
     private Firebase chatRoomRef;
     private Firebase seenByMeRef, seenByOtherRef;
+    private Model model;
 
     public DuoChatController(Context context, String chatRoom) {
         super(context, chatRoom);
         this.context = context;
         this.chatRoomRef = Model.getInstance().getMRef().child("duoChats").child(chatRoom).child("content");
+        model = Model.getInstance();
+
 
         String chatterUIds[] = chatRoom.split("!");
 
@@ -84,6 +89,13 @@ public class DuoChatController extends ChatController{
     @Override
     public void onLeftChat() {}
 
+    public void addAsObserver(){
+        model.addObserver(this);
+    }
+
+    public void removeAsObserver(){
+        model.deleteObserver(this);
+    }
 
     @Override
     public void notifyDataSetChanged(){

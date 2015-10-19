@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import teamosqar.discbuss.activities.MainActivity;
 import teamosqar.discbuss.activities.R;
 
 
@@ -79,7 +77,7 @@ public class MainController implements Observer {
     }
 
     public void resetModel(){
-        Model.getInstance().resetModel();
+        model.resetModel();
     }
 
     /**
@@ -107,19 +105,28 @@ public class MainController implements Observer {
     }
 
     public void addAsObserver(){
-        model.addObserverToList(this);
+        model.addObserver(this);
+    }
+
+    public void removeAsObserver(){
+        model.deleteObserver(this);
     }
 
     @Override
     public void update(Observable observable, final Object nextBusStop) {
+       updateNextBusStop();
+    }
 
-        Activity activity = (Activity)context;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                textView.setText("Nästa: " + nextBusStop.toString());
-            }
-        });
+    public void updateNextBusStop() {
+        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+            Activity activity = (Activity) context;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                    textView.setText("Nästa hållplats: " + model.getNextBusStop());
+                }
+            });
+        }
     }
 }
