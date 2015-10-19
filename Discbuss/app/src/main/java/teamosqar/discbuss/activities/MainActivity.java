@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Firebase mref;
     private boolean doubleBackAgain = false;
     private boolean fragmentOpen = false;
-    //TODO: Remove, model should not be saved in here. Use controller instead.
-//    private Model model = Model.getInstance();
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
@@ -72,9 +70,14 @@ public class MainActivity extends AppCompatActivity {
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
         mainController.addAsObserver();
+        mainController.updateNextBusStop();
     }
 
-    @Override
+    public void onStop(){
+        mainController.removeAsObserver();
+        super.onStop();
+    }
+
     public void onBackPressed(){
         if(doubleBackAgain && !fragmentOpen){
             Log.d("quitting", "quitting");

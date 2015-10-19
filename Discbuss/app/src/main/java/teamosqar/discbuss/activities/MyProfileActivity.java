@@ -3,7 +3,6 @@ package teamosqar.discbuss.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
@@ -19,11 +18,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import teamosqar.discbuss.application.Model;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
 import teamosqar.discbuss.fragments.EditDisplayname;
-import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.Toaster;
 
 public class MyProfileActivity extends ProfileActivity implements Observer {
@@ -69,12 +66,27 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         /*=============================================================== */
     }
 
+
     public void update(Observable observable, Object data) {
         name.setText(profileController.getName() + ", " + profileController.getGender() + " " + profileController.getAge() + " år");
         email.setText("Email: " + profileController.getEmail());
         karma.setText("Karma: " + profileController.getKarma());
         displayTopComments();
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        profileController.addAsObserver();
+        profileController.updateNextBusStop();
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        profileController.removeAsObserver();
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

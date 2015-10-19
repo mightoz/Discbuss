@@ -30,13 +30,7 @@ public class BusChatActivity extends ChatActivity {
         layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
     }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
-
-    @Override
+    
     protected ChatController getChatController() {
         return chatController;
     }

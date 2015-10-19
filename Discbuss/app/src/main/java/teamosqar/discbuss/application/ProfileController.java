@@ -35,21 +35,19 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
-    private ArrayList<String> topMessages, topKarma;
+    protected ArrayList<String> topMessages, topKarma;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
-    private String nextStop;
     Context context;
-    private TextView actionBarText, nameText, emailText, pwText;
     private Model model = Model.getInstance();
-
 
     public ProfileController(Context context){
         this.context = context;
-        fireRef = Model.getInstance().getMRef();
-        userRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid());
         topMessages = new ArrayList<>();
         topKarma = new ArrayList<>();
+        fireRef = model.getMRef();
+        userRef = model.getMRef().child("users").child(model.getUid());
+
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,11 +71,11 @@ public class ProfileController extends Observable implements Observer {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        nextStop = "";
     }
 
-    public ProfileController(String uid){
-        fireRef = Model.getInstance().getMRef();
+    public ProfileController(Context context, String uid){
+        this.context = context;
+        fireRef = model.getMRef();
         userRef = fireRef.child("users").child(uid);
         topMessages = new ArrayList<>();
         topKarma = new ArrayList<>();
@@ -106,11 +104,6 @@ public class ProfileController extends Observable implements Observer {
             }
         });
     }
-
-    public String getNextStop() {
-        return nextStop;
-    }
-
 
     public ArrayList<String> getTopMessages(){
         return topMessages;
@@ -189,7 +182,7 @@ public class ProfileController extends Observable implements Observer {
      */
     public void setNewDisplayName(String newName){
         userRef.child("name").setValue(newName);
-        Model.getInstance().setUsername(newName);
+        model.setUsername(newName);
         System.out.println(fireRef.getAuth().getProviderData().get("email").toString());
     }
 
@@ -209,21 +202,34 @@ public class ProfileController extends Observable implements Observer {
 
     }
 
+    public void addAsObserver(){
+        model.addObserver(this);
+    }
+
+    public void removeAsObserver(){
+        model.deleteObserver(this);
+    }
+
 
     @Override
-    public void update(Observable observable, Object nextBusStop) {
-        nextStop = (String) nextBusStop;
-        Activity activity = (Activity) context;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                textView.setText("Nästa: " + nextStop);
-            }
-        });
+    public void update(Observable observable, Object obj) {
+        updateNextBusStop();
+    }
+
+    public void updateNextBusStop(){
+        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+            Activity activity = (Activity) context;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                    textView.setText("Nästa: " + model.getNextBusStop());
+                }
+            });
+        }
     }
 
     public void resetModel(){
-        Model.getInstance().resetModel();
+        model.resetModel();
     }
 }

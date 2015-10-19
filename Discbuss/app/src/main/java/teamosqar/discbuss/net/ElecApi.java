@@ -60,11 +60,12 @@ public class ElecApi {
             response.append(inputLine);
         }
         in.close();
-        
+        System.out.println(response.toString());
         if(!response.toString().isEmpty()) {
             JSONArray arr = new JSONArray(response.toString());
             nextStop = arr.getJSONObject(arr.length() - 1).getString("value");
         }
+        System.out.println(nextStop);
         return nextStop;
     }
 }

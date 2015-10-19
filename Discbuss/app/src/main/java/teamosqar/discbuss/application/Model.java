@@ -4,6 +4,7 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.net.StopUpdater;
@@ -11,7 +12,7 @@ import teamosqar.discbuss.net.StopUpdater;
 /**
  * Created by Oscar on 2015-09-30.
  */
-public class Model {
+public class Model extends Observable implements Observer{
     private static Model model = new Model();
     private Firebase mref;
     private String username;
@@ -20,6 +21,7 @@ public class Model {
     private StopUpdater stopUpdater;
     private String currentBSSID;
     private ArrayList<String> busBSSIDs;
+    private String nextBusStop;
 
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
@@ -85,8 +87,7 @@ public class Model {
     }
 
     protected List<String> getBusBSSIDs(){
-        List<String> buses = busBSSIDs;
-        return buses;
+        return busBSSIDs;
     }
 
     protected void setCurrentBSSID(String bssid){
@@ -95,15 +96,6 @@ public class Model {
 
     protected int getIndexOfBSSID(){
         return busBSSIDs.indexOf(currentBSSID);
-    }
-
-    protected void startRetrievingStopInfo(){
-        stopUpdater = new StopUpdater(currentBSSID);
-        stopUpdater.start();
-    }
-
-    protected void addObserverToList(Observer o){
-        stopUpdater.addObserver(o);
     }
 
     protected static Model getInstance(){
@@ -148,9 +140,26 @@ public class Model {
         return username;
     }
 
-    public void resetModel(){
+    protected void resetModel(){
         username = "";
         uid = "";
         email = "";
+    }
+
+    protected void startRetrievingStopInfo(){
+        stopUpdater = new StopUpdater(currentBSSID);
+        stopUpdater.addObserver(this);
+        stopUpdater.start();
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        nextBusStop = stopUpdater.getNextBusStop();
+        setChanged();
+        notifyObservers();
+    }
+
+    protected String getNextBusStop(){
+        return nextBusStop;
     }
 }
