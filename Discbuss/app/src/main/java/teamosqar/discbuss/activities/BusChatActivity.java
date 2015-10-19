@@ -34,7 +34,6 @@ public class BusChatActivity extends ChatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        chatController.addAsObserver();
     }
 
     @Override
