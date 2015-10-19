@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainController = new MainController(this);
         mainController.checkWifiState();
-
-
-
-        /*=======================================================================*/
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
 
         actionBarText.setTextColor(Color.GRAY);
-        /*=======================================================================*/
 
     }
 

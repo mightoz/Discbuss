@@ -3,11 +3,14 @@ package teamosqar.discbuss.application;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -15,8 +18,10 @@ import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -33,16 +38,17 @@ public class BusChatController extends ChatController implements Observer{
     private Context context;
     private String chatRoom;
     private Model model;
+    private List<Integer> messageValues;
 
     public BusChatController(Context context, String chatRoom) {
         super(context, chatRoom);
         this.context = context;
         this.chatRoom = chatRoom;
         model = Model.getInstance();
-
         Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
         System.out.println(chatRoom.toString());
         chatFirebaseRef = getFirebaseChatRef(chatRoom);
+        messageValues = new ArrayList<>();
 
         ValueEventListener activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
             int connectedUsers;
@@ -51,6 +57,29 @@ public class BusChatController extends ChatController implements Observer{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 connectedUsers = (int) (dataSnapshot.getChildrenCount());
                 updateUserCount(connectedUsers);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+        chatFirebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator iterator = dataSnapshot.getChildren().iterator();
+                while (iterator.hasNext()) {
+                    int tmp;
+                    DataSnapshot ds = (DataSnapshot)iterator.next();
+                    if(ds.child("usersVoted").hasChild(model.getUid())){
+                        Log.d("value of vote", ds.child("usersVoted").child(model.getUid()).getValue().toString());
+                        tmp = (int)ds.child("usersVoted").child(model.getUid()).getValue();
+                    } else {
+                        tmp = 0;
+                    }
+                    messageValues.add(0, tmp);
+                    //TODO: Insert tmp to the ArrayList in correct position
+                }
             }
 
             @Override
