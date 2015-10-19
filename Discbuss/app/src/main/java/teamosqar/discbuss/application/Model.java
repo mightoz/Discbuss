@@ -34,6 +34,34 @@ public class Model {
     private final String testBus = "testBus";
 
 
+    //KapellplatsenE
+    //GötaplatsenA
+    //ValandC
+    //KungsportsplC
+    //Brunnsparken
+    //Lilla Bommen
+    //Frihamnsporten
+    //Pumpgatan
+    //Regnbågsgatan
+    //Lindholmen
+    //Teknikgatan
+    //Lindholmsplatsen
+
+    //LindholmsplatsenA
+    //RegnbågsgatanB
+    //PumpgatanA
+    //FrihamnsportenA
+    //Lilla Bommen
+    //Brunnsparken
+    //Kungsportsplatsen
+    //Valand
+    //Götaplatsen
+    //Ålandsgatan
+    //Chalmers tvärgata
+    //Sven Hultins plats
+    //Chalmersplatsen
+    //Kapellplatsen
+
     private Model(){
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
         username="";
