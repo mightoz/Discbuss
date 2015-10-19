@@ -1,6 +1,7 @@
 package teamosqar.discbuss.application;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -21,6 +23,7 @@ import java.util.Observer;
 
 import teamosqar.discbuss.activities.MyProfileActivity;
 import teamosqar.discbuss.activities.OtherProfileActivity;
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
 
@@ -243,9 +246,15 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         updateNextBusStop();
     }
     public void updateNextBusStop(){
-        //TODO: Draw next bus stop here.
         if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
-            System.out.println(model.getNextBusStop());
+            Activity activity = (Activity)context;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                    textView.setText("Nästa hållplats: " + model.getNextBusStop().toString());
+                }
+            });
         }
     }
 }

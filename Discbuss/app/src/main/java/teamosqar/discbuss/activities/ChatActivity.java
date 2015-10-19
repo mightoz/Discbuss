@@ -3,7 +3,10 @@ package teamosqar.discbuss.activities;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -23,10 +26,11 @@ import teamosqar.discbuss.application.ChatController;
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatActivity extends ListActivity {
+public abstract class ChatActivity extends AppCompatActivity {
 
     private EditText msgToSend;
     private ListView listView;
+    private TextView actionBarText;
 
 
 
@@ -35,8 +39,23 @@ public abstract class ChatActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
-
         msgToSend = (EditText) findViewById(R.id.msgToSend);
+
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.activity_action_bar,
+                null);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarLayout);
+        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+
+        actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
+
+
+
 
         setAdapter();
 
@@ -44,7 +63,7 @@ public abstract class ChatActivity extends ListActivity {
 
     private void setAdapter(){
         //Chatadapter needs to be set before calling oncreate from subclasses extending this class
-        listView = getListView();
+        listView = (ListView)findViewById(R.id.myList);
         listView.setAdapter(getChatController());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

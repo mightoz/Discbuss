@@ -4,9 +4,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MainController mainController;
     private Firebase mref;
-    //TODO: Remove, model should not be saved in here. Use controller instead.
-//    private Model model = Model.getInstance();
+    private boolean doubleBackAgain = false;
+    private boolean fragmentOpen = false;
     private TextView suggestView;
     //BELOW ONLY FOR TESTING...
     private final String bssidMightos = "bc:ee:7b:55:47:16";
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
 
-        /*=======================================================================*/
     }
 
     @Override
@@ -72,11 +73,38 @@ public class MainActivity extends AppCompatActivity {
         mainController.updateNextBusStop();
     }
 
-    @Override
     public void onStop(){
         mainController.removeAsObserver();
         super.onStop();
     }
+
+    public void onBackPressed(){
+        if(doubleBackAgain && !fragmentOpen){
+            Log.d("quitting", "quitting");
+            super.onBackPressed();
+            return;
+        } else if(fragmentOpen) {
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(fragment);
+            newFt.commit();
+            findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
+            //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
+            fragmentOpen = false;
+        } else {
+            Log.d("not quitting", "not quitting");
+            doubleBackAgain = true;
+            Toaster.displayToast("Please click BACK again to exit", this, Toast.LENGTH_SHORT);
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackAgain=false;
+                }
+            }, 2000);
+        }
+    }
+
     /**
      * If connected to a bus wifi, enter it's chat room. Otherwise displays error toast.
      * @param view
@@ -108,20 +136,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void suggestStatement(View view){
+        findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
+        //findViewById(R.id.buttonProfile).setVisibility(View.INVISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
         ft.add(R.id.fragmentPlaceholder, fragment);
         ft.commit();
+        fragmentOpen = true;
     }
     public void submitStatement(View view){
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
-            //TODO: Add toast saying it was successful! Remove Fragment.
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
+            findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
+            //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
             Toaster.displayToast("Statement submitted!", getApplicationContext(), Toast.LENGTH_SHORT);
+            fragmentOpen = false;
         } else {
             //TODO: Update with new toaster
             Toaster.displayToast("Write a statement", getApplicationContext(), Toast.LENGTH_SHORT);

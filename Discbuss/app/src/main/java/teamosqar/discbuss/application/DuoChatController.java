@@ -1,14 +1,22 @@
 package teamosqar.discbuss.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
-import java.util.Observable;
+
+import java.util.Calendar;
+import java.util.Iterator;
+
+import teamosqar.discbuss.activities.DuoChatActivity;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
@@ -108,4 +116,48 @@ public class DuoChatController extends ChatController{
         setNewMessageToSee();
     }
 
+    public static void launchDuoChat(final Context context, final String otherUid){
+        if(!otherUid.equals(Model.getInstance().getUid())){
+            Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterator children = dataSnapshot.getChildren().iterator();
+                    boolean foundChat = false;
+                    String finalChatRef = "";
+                    while (children.hasNext()) {
+                        DataSnapshot snap = (DataSnapshot) children.next();
+                        String currentChatRef = snap.getValue(String.class);
+                        if (currentChatRef.contains(otherUid)) {
+                            foundChat = true;
+                            finalChatRef = currentChatRef;
+                        }
+                    }
+                    if (!foundChat) {
+                        Firebase userRef = Model.getInstance().getMRef().child("users");
+
+                        finalChatRef = otherUid + "!" + Model.getInstance().getUid();
+                        userRef.child(Model.getInstance().getUid()).child("activeChats").push().setValue(finalChatRef);
+                        userRef.child(otherUid).child("activeChats").push().setValue(finalChatRef);
+
+                        Firebase chatRef = Model.getInstance().getMRef().child("duoChats").child(finalChatRef).child("content");
+                        chatRef.child("inboxInfo").child(otherUid).setValue(true);
+                        chatRef.child("inboxInfo").child(Model.getInstance().getUid()).setValue(false);
+                        Calendar calendar = Calendar.getInstance();
+                        chatRef.child("inboxInfo").child("latestActivity").setValue(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.DAY_OF_YEAR) + "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE));
+
+                    }
+                    if (!finalChatRef.equals("")) {
+                        Intent intent = new Intent(context, DuoChatActivity.class);
+                        intent.putExtra("EXTRA_ROOM", finalChatRef);
+                        context.startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+    }
 }
