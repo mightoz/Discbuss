@@ -3,12 +3,7 @@ package teamosqar.discbuss.activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
-
-
-import java.util.List;
-
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
 

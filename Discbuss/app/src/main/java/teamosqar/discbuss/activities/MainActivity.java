@@ -4,9 +4,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainController mainController;
     private Firebase mref;
+    private boolean doubleBackAgain = false;
     //TODO: Remove, model should not be saved in here. Use controller instead.
 //    private Model model = Model.getInstance();
     private TextView suggestView;
@@ -70,6 +73,27 @@ public class MainActivity extends AppCompatActivity {
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
         mainController.addAsObserver();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(doubleBackAgain){
+            Log.d("quitting", "quitting");
+            super.onBackPressed();
+            return;
+        } else {
+            Log.d("not quitting", "not quitting");
+            doubleBackAgain = true;
+            Toaster.displayToast("Please click BACK again to exit", this, Toast.LENGTH_SHORT);
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackAgain=false;
+                }
+            }, 2000);
+        }
     }
 
     /**
