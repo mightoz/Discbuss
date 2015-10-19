@@ -25,7 +25,8 @@
         android:layout_marginTop="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/textViewEmailTag"
-        android:layout_alignRight="@+id/textViewEmailTag" />
+        android:layout_alignRight="@+id/textViewEmailTag"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
         android:layout_below="@+id/textViewNameTag"
         android:layout_alignEnd="@+id/textViewKarmaTag"
         android:layout_alignRight="@+id/textViewKarmaTag"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="35dp"
+        android:textColor="#000000" />
 
 
     <TextView
@@ -48,7 +50,8 @@
         android:layout_below="@+id/textViewEmailTag"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="35dp"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,7 +59,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewDisplayName"
         android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,7 +69,8 @@
         android:id="@+id/textViewUserEmail"
         android:layout_alignTop="@+id/textViewEmailTag"
         android:layout_alignLeft="@+id/textViewDisplayName"
-        android:layout_alignStart="@+id/textViewDisplayName" />
+        android:layout_alignStart="@+id/textViewDisplayName"
+        android:textColor="#000000" />
 
 
     <TextView
@@ -75,37 +80,41 @@
         android:id="@+id/textViewUserKarma"
         android:layout_alignTop="@+id/textViewKarmaTag"
         android:layout_alignLeft="@+id/textViewDisplayName"
-        android:layout_alignStart="@+id/textViewDisplayName" />
+        android:layout_alignStart="@+id/textViewDisplayName"
+        android:textColor="#000000" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change password"
+        android:text="Byt lösenord"
         android:id="@+id/changePwButton"
         android:onClick="changePassword"
         android:layout_marginBottom="25dp"
         android:layout_above="@+id/topStatementButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_shape" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View top statements"
+        android:text="toppkommentarer"
         android:onClick="presentTopStatements"
         android:id="@+id/topStatementButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp" />
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/button_shape" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change display name"
+        android:text="Byt visningsnamn"
         android:onClick="changeUserName"
         android:id="@+id/displaynameButton"
         android:layout_above="@+id/changePwButton"
         android:layout_marginBottom="25dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_shape" />
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
@@ -113,6 +122,6 @@
         android:layout_height="240dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

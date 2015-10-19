@@ -8,6 +8,8 @@
         <item name="android:colorControlActivated"
             tools:targetApi="lollipop">
             @color/standard_gray</item>
+
+
         <!-- Makes buttons flash a color when clicked. -->
         <!--
         <item name="android:colorControlHighlight"
