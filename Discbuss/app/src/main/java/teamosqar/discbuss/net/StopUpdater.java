@@ -24,16 +24,16 @@ public class StopUpdater extends Observable{
     private List<Observer> observerList;
 
     public StopUpdater(String bssid) {
-        System.out.println("timer skapades");
         connector = new BusConnector(bssid);
         timer = new Timer();
+        nextBusStop = "";
         observerList = new ArrayList<>();
 
     }
 
     public void start(){
         if(!isRunning){
-            timer.schedule(new Updater(),0,10000);
+            timer.schedule(new Updater(),0,15000);
             isRunning = true;
         }
     }
@@ -47,15 +47,12 @@ public class StopUpdater extends Observable{
 
         public void run(){
             try {
-                String next = "";
-                if(nextBusStop!= null){
-                    next = nextBusStop;
-                }
+                String next;
+                next = nextBusStop;
                 nextBusStop = connector.getNextStop();
-
-                if(!nextBusStop.equals(next)){
+                if (!nextBusStop.equals(next))
                     notifyObservers();
-                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }catch(JSONException e){

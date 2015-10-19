@@ -33,7 +33,7 @@ public class ElecApi {
     public String getNextBusStop()throws IOException, JSONException {
 
         long t2 = System.currentTimeMillis();
-        long t1 = t2 - (1000 * 5);
+        long t1 = t2 - (1000 * 15);
         String dgwVin = BusFactory.getDgwVin(bssid);
 
         StringBuffer response = new StringBuffer();
@@ -60,11 +60,10 @@ public class ElecApi {
         }
         in.close();
         
-        JSONArray arr = new JSONArray(response.toString());
-        for(int i = 0; i < arr.length(); i++){
-            nextStop = arr.getJSONObject(i).getString("value");
+        if(!response.toString().isEmpty()) {
+            JSONArray arr = new JSONArray(response.toString());
+            nextStop = arr.getJSONObject(arr.length() - 1).getString("value");
         }
-
         return nextStop;
     }
 }
