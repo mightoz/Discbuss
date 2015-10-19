@@ -13,7 +13,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,8 +34,7 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
-    private Firebase messagesRef = new Firebase("https://boiling-heat-3778.firebaseio.com/chatRooms");
-    private List<Message> allMessages;
+    private ArrayList<Message> topMessages;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     private String nextStop;
@@ -56,7 +58,14 @@ public class ProfileController extends Observable implements Observer {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-
+                topMessages = new ArrayList<>();
+                Message tempMsg;
+                Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
+                while(iterator.hasNext()){
+                    snapshot = (DataSnapshot)iterator.next();
+                    tempMsg = snapshot.getValue(Message.class);
+                    topMessages.add(tempMsg);
+                }
                 setChanged();
                 notifyObservers();
             }
@@ -75,6 +84,14 @@ public class ProfileController extends Observable implements Observer {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
+                topMessages = new ArrayList<>();
+                Message tempMsg;
+                Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
+                while(iterator.hasNext()){
+                    snapshot = (DataSnapshot)iterator.next();
+                    tempMsg = snapshot.getValue(Message.class);
+                    topMessages.add(tempMsg);
+                }
                 setChanged();
                 notifyObservers();
             }
@@ -90,7 +107,9 @@ public class ProfileController extends Observable implements Observer {
         return nextStop;
     }
 
-
+    public ArrayList<Message> getTopMessages(){
+        return topMessages;
+    }
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
