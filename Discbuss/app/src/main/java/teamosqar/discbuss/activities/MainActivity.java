@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MainController mainController;
     private Firebase mref;
     private boolean doubleBackAgain = false;
+    private boolean fragmentOpen = false;
     //TODO: Remove, model should not be saved in here. Use controller instead.
 //    private Model model = Model.getInstance();
     private TextView suggestView;
@@ -77,10 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        if(doubleBackAgain){
+        if(doubleBackAgain && !fragmentOpen){
             Log.d("quitting", "quitting");
             super.onBackPressed();
             return;
+        } else if(fragmentOpen) {
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(fragment);
+            newFt.commit();
+            fragmentOpen = false;
         } else {
             Log.d("not quitting", "not quitting");
             doubleBackAgain = true;
@@ -131,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
         ft = fm.beginTransaction();
         ft.add(R.id.fragmentPlaceholder, fragment);
         ft.commit();
+        fragmentOpen = true;
     }
     public void submitStatement(View view){
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
-            //TODO: Add toast saying it was successful! Remove Fragment.
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             //TODO: Update with new toaster
             Toaster.displayToast("Write a statement", getApplicationContext(), Toast.LENGTH_SHORT);
         }
+        fragmentOpen = false;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
