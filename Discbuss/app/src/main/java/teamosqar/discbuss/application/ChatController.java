@@ -16,6 +16,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import teamosqar.discbuss.activities.MyProfileActivity;
 import teamosqar.discbuss.activities.OtherProfileActivity;
@@ -25,10 +27,11 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatController extends BaseAdapter{
+public abstract class ChatController extends BaseAdapter implements Observer {
 
     private final Context context;
     private LayoutInflater inflater;
+    private Model model;
     private Firebase chatFireBaseRef;
     private ChildEventListener chatListener;
     private List<Message> messageModels;
@@ -36,9 +39,11 @@ public abstract class ChatController extends BaseAdapter{
     private int clickedMessage;
     private View clickedView;
 
+
     public ChatController(Context context, String chatRoom){
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        model = Model.getInstance();
         clickedMessage = -1;
         clickedView = null;
 
@@ -143,7 +148,7 @@ public abstract class ChatController extends BaseAdapter{
 
     public void sendMessage(String msg){
         if(!msg.equals("")) {
-            Message message = new Message(Model.getInstance().getUid(), msg, Model.getInstance().getUsername());
+            Message message = new Message(model.getUid(), msg, model.getUsername());
             onSentMessage();
             chatFireBaseRef.push().child("message").setValue(message);
         }
@@ -215,7 +220,7 @@ public abstract class ChatController extends BaseAdapter{
 
     public void personalProfileClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
-        if(!otherUid.equals(Model.getInstance().getUid())){
+        if(!otherUid.equals(model.getUid())){
             Intent intent = new Intent(context, OtherProfileActivity.class);
             intent.putExtra("uid", otherUid);
             context.startActivity(intent);
@@ -229,4 +234,18 @@ public abstract class ChatController extends BaseAdapter{
 
     public abstract void onLeftChat();
 
+    public abstract void addAsObserver();
+
+    public abstract void removeAsObserver();
+
+    @Override
+    public void update(Observable observable, Object data) {
+        updateNextBusStop();
+    }
+    public void updateNextBusStop(){
+        //TODO: Draw next bus stop here.
+        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+            System.out.println(model.getNextBusStop());
+        }
+    }
 }

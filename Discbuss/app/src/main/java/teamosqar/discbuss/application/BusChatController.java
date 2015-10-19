@@ -70,9 +70,9 @@ public class BusChatController extends ChatController implements Observer{
                 Iterator iterator = dataSnapshot.getChildren().iterator();
                 while (iterator.hasNext()) {
                     int tmp;
-                    DataSnapshot ds = (DataSnapshot)iterator.next();
-                    if(ds.child("usersVoted").hasChild(model.getUid())){
-                        tmp = ((Long)ds.child("usersVoted").child(model.getUid()).getValue()).intValue();
+                    DataSnapshot ds = (DataSnapshot) iterator.next();
+                    if (ds.child("usersVoted").hasChild(model.getUid())) {
+                        tmp = ((Long) ds.child("usersVoted").child(model.getUid()).getValue()).intValue();
                     } else {
                         tmp = 0;
                     }
@@ -93,11 +93,19 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     public void onEnteredChat(){
-            Model.getInstance().addUserToChat(chatRoom);
+        model.addUserToChat(chatRoom);
     }
 
     public void onLeftChat(){
-        Model.getInstance().removeUserFromChat(chatRoom);
+        model.removeUserFromChat(chatRoom);
+    }
+
+    public void addAsObserver(){
+        model.addObserver(this);
+    }
+
+    public void removeAsObserver(){
+        model.deleteObserver(this);
     }
 
     private void updateUserCount(int users){
@@ -346,16 +354,6 @@ public class BusChatController extends ChatController implements Observer{
     @Override
     protected View getMessageViewExtension(){
         return LayoutInflater.from(context).inflate(R.layout.message_buschat_extension, null);
-    }
-
-    public void addAsObserver(){
-        model.addObserverToList(this);
-    }
-
-    @Override
-    public void update(Observable observable, Object nextBusStop) {
-        //TODO: Draw next bus stop here.
-        System.out.println(nextBusStop);
     }
 
     @Override

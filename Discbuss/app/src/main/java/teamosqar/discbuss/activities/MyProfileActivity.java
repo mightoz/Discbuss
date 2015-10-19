@@ -66,6 +66,18 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         /*=============================================================== */
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        profileController.addAsObserver();
+        profileController.updateNextBusStop();
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        profileController.removeAsObserver();
+    }
+
     public void update(Observable observable, Object data){
         name.setText(profileController.getName());
         email.setText(profileController.getEmail());

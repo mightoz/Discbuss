@@ -38,6 +38,18 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         karma = (TextView) findViewById(R.id.textViewUserKarma);
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        profileController.addAsObserver();
+        profileController.updateNextBusStop();
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        profileController.removeAsObserver();
+    }
+
     public void update(Observable observable, Object data){
         userInfo.setText(profileController.getName() + " ," + profileController.getGender() + " " + profileController.getAge());
         karma.setText("Karma: " + profileController.getKarma());

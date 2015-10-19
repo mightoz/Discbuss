@@ -69,8 +69,14 @@ public class MainActivity extends AppCompatActivity {
         suggestView = (TextView) findViewById(R.id.textViewStatement);
         fragment = new SuggestFragment();
         mainController.addAsObserver();
+        mainController.updateNextBusStop();
     }
 
+    @Override
+    public void onStop(){
+        mainController.removeAsObserver();
+        super.onStop();
+    }
     /**
      * If connected to a bus wifi, enter it's chat room. Otherwise displays error toast.
      * @param view
