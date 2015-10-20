@@ -171,8 +171,10 @@ public class MessageController extends BaseAdapter implements Observer {
     }
 
     private void stopListeningAt(String key){
-        messagesFirebaseRef.child(key).removeEventListener(childEventListenerMap.get(key));
-        childEventListenerMap.remove(key);
+        ChildEventListener listener = childEventListenerMap.remove(key);
+        if(listener != null) {
+            messagesFirebaseRef.child(key).removeEventListener(listener);
+        }
 
         int index = keys.indexOf(key);
         if(index != -1) {
@@ -355,5 +357,7 @@ public class MessageController extends BaseAdapter implements Observer {
         }
 
         messagesFirebaseRef.child(key).removeValue();
+
+        notifyDataSetChanged();
     }
 }

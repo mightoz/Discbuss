@@ -99,7 +99,7 @@ public class DuoChatController extends ChatController{
 
     @Override
     public void notifyDataSetChanged(){
-        setSeenLatestMessage();
+        //setSeenLatestMessage(); //TODO: This had to be removed to allow deleting private chat, why was this called when we remove a chat from messageActivity? anyhow, we need a new solution for
         super.notifyDataSetChanged();
     }
 
