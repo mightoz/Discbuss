@@ -49,6 +49,11 @@ public class DuoChatController extends ChatController{
         }
     }
 
+    @Override
+    protected void onMessageRecieved() {
+        setSeenLatestMessage();
+    }
+
 
     @Override
     protected Firebase getFirebaseChatRef(String chatRoom) {

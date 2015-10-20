@@ -84,6 +84,7 @@ public abstract class ChatController extends BaseAdapter implements Observer {
                         messageKeys.add(key);
                     }
                 }
+                onMessageRecieved();
                 notifyDataSetChanged();
             }
 
@@ -139,6 +140,8 @@ public abstract class ChatController extends BaseAdapter implements Observer {
             }
         });
     }
+
+    protected abstract void onMessageRecieved();
 
     protected abstract Firebase getFirebaseChatRef(String chatRoom);
 
