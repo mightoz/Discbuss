@@ -279,7 +279,7 @@ public class MessageController extends BaseAdapter {
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
         TextView messageReadView = (TextView) view.findViewById(R.id.messageInboxRead);
 
-        authorView.setText("Chat with: " + chattingWith);
+        authorView.setText(chattingWith+ ": ");
         if(msg != null) {
             messageView.setText(msg.getMessage());
         }

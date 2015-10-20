@@ -2,21 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:minHeight="40dp">
 
     <TextView
         android:id="@+id/messageInboxNick"
+        android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_marginTop="8dp"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/messageInboxMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/messageInboxNick" />
 
     <TextView
         android:id="@+id/messageInboxRead"
@@ -25,16 +27,17 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
     <Button
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:id="@+id/buttonClose"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/cross2"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="leaveDuoChat"/>
 
 </RelativeLayout>
