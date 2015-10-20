@@ -52,12 +52,23 @@ public class BusChatController extends ChatController implements Observer{
 
 
         ValueEventListener activeUserListener = activeUserRef.addValueEventListener(new ValueEventListener() {
-            int connectedUsers;
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                connectedUsers = (int) (dataSnapshot.getChildrenCount());
+                int connectedUsers = (int) (dataSnapshot.getChildrenCount());
                 updateUserCount(connectedUsers);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+        ValueEventListener UserKarmaListener = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("karma").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int currentKarma = ((Long) dataSnapshot.getValue()).intValue();
+                updateCurrentKarma(currentKarma);
             }
 
             @Override
@@ -124,6 +135,11 @@ public class BusChatController extends ChatController implements Observer{
     private void updateUserCount(int users){
         TextView numUsers = (TextView) ((Activity) context).findViewById(R.id.textViewActiveUsers);
         numUsers.setText(Integer.toString(users));
+    }
+
+    private void updateCurrentKarma(int karma){
+        TextView karmaText = (TextView)((Activity)context).findViewById(R.id.statementKarmaText);
+        karmaText.setText(Integer.toString(karma));
     }
 
     private void updateStatement(String statement){
