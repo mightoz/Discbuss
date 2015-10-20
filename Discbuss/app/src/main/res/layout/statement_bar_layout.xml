@@ -11,12 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical"
+            android:id="@+id/userIconLayout"
+            android:weightSum="2">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:id="@+id/activeUserLayout">
+        android:layout_weight="1">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -33,12 +41,38 @@
             android:textColor="#CCCCCC"
             android:id="@+id/textViewActiveUsers"
             android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:id="@+id/currentKarmaLayout"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/statementKarmaImage"
+                android:layout_alignLeft="@+id/textViewActiveUsers"
+                android:src="@drawable/karma" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:text="0"
+                android:textColor="#CCCCCC"
+                android:id="@+id/statementKarmaText"
+                android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+        </LinearLayout>
 
 
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statementText"
@@ -48,7 +82,7 @@
         android:singleLine="true"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_toStartOf="@+id/activeUserLayout"
+        android:layout_toStartOf="@+id/userIconLayout"
         android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>

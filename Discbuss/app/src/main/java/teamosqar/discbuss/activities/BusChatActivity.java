@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
@@ -25,7 +24,7 @@ public class BusChatActivity extends ChatActivity {
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.actionBarPlaceholder);
         View actionBarLayout = getLayoutInflater().inflate(
-                R.layout.action_bar_layout,
+                R.layout.statement_bar_layout,
                 null);
         layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
