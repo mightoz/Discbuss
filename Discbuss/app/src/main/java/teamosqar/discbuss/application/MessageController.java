@@ -175,9 +175,11 @@ public class MessageController extends BaseAdapter implements Observer {
         childEventListenerMap.remove(key);
 
         int index = keys.indexOf(key);
-        messageInboxes.remove(index);
-        mostRecentMsg.remove(index);
-        keys.remove(index);
+        if(index != -1) {
+            messageInboxes.remove(index);
+            mostRecentMsg.remove(index);
+            keys.remove(index);
+        }
     }
 
     private Message getLastIteratorMessage(Iterator iterator){
@@ -323,5 +325,35 @@ public class MessageController extends BaseAdapter implements Observer {
     @Override
     public void update(Observable observable, final Object nextBusStop) {
         updateNextBusStop();
+    }
+
+    public void leaveChat(int position){
+        final String key = keys.get(position);
+        stopListeningAt(key);
+
+        String ids[] = key.split("!");
+
+        for(int i = 0; i < ids.length; i++){
+            final String uId = ids[i];
+            Model.getInstance().getMRef().child("users").child(uId).child("activeChats").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                    while (iterator.hasNext()) {
+                        DataSnapshot tempDs = iterator.next();
+                        if (tempDs.getValue(String.class).equals(key)) {
+                            Model.getInstance().getMRef().child("users").child(uId).child("activeChats").child(tempDs.getKey()).removeValue();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+
+        messagesFirebaseRef.child(key).removeValue();
     }
 }

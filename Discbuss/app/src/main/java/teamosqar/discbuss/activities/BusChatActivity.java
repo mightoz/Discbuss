@@ -45,7 +45,6 @@ public class BusChatActivity extends ChatActivity {
     public void downVote(View view){
         ListView lv = (ListView)findViewById(R.id.myList);
         int pos = lv.getPositionForView((View)view.getParent().getParent());
-        Log.d("parent", view.getParent().toString());
         view.setBackgroundResource(R.drawable.arrows_06);
         chatController.downVote(pos);
     }
