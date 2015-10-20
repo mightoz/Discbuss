@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentTransaction ft;
     private SuggestFragment fragment;
-    TextView actionBarText;
+    private TextView actionBarText;
 
 
     @Override

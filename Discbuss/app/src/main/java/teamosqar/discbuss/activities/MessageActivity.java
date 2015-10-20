@@ -3,37 +3,45 @@ package teamosqar.discbuss.activities;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import teamosqar.discbuss.application.MessageController;
 
-public class MessageActivity extends ListActivity {
+public class MessageActivity extends AppCompatActivity {
 
     private MessageController messageController;
     private ListView listView;
-    private TextView noContentText;
+    private TextView actionBarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        messageController = new MessageController(getLayoutInflater());
+        messageController = new MessageController(this);
         setContentView(R.layout.activity_message);
-        noContentText = (TextView) findViewById(R.id.noContentMessage);
 
-
-        listView = getListView();
+        listView = (ListView)findViewById(R.id.messageList);
         listView.setAdapter(messageController);
 
-        if(messageController.getCount() == 0){
-            noContentText.setText("You do not participate in any duo chats");
-        } else {
-            noContentText.setText("");
-        }
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.activity_action_bar,
+                null);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarLayout);
+        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+
+        actionBarText.setText("Nästa: ");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -52,15 +60,10 @@ public class MessageActivity extends ListActivity {
     }
 
     @Override
-    public void onContentChanged(){
-        if(noContentText != null){
-            if(messageController.getCount() == 0){
-                noContentText.setText("You do not participate in any duo chats");
-            } else {
-                noContentText.setText("");
-            }
-        }
-        super.onContentChanged();
+    public void onStart(){
+        super.onStart();
+        messageController.addAsObserver();
+        messageController.updateNextBusStop();
     }
 
     @Override

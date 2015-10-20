@@ -4,6 +4,7 @@ package teamosqar.discbuss.application;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -195,7 +196,11 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         }
 
         populateView(convertView, msg, position);
-
+        if(msg.getUid().equals(model.getUid())) {
+            ((TextView) convertView.findViewById(R.id.author)).setTextColor(ContextCompat.getColor(context, R.color.standard_green));
+        }else{
+            ((TextView) convertView.findViewById(R.id.author)).setTextColor(ContextCompat.getColor(context, R.color.standard_gray));
+        }
 
         return convertView;
     }
