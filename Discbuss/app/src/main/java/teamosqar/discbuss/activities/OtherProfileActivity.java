@@ -70,7 +70,7 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
     }
 
     public void update(Observable observable, Object data){
-        userInfo.setText(profileController.getName() + " ," + profileController.getGender() + " " + profileController.getAge());
+        userInfo.setText(profileController.getName() + ", " + profileController.getGender() + "(" + profileController.getAge()+")");
         karma.setText(profileController.getKarma());
         displayTopComments();
     }

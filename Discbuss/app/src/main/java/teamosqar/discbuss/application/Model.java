@@ -61,7 +61,7 @@ public class Model extends Observable implements Observer{
     //ÅlandsgatanB
     //Chalmers tvärgata
     //Sven Hultins plats
-    //Chalmersplatsen
+    //ChalmersplatsenA
     //Kapellplatsen
 
     private Model(){
