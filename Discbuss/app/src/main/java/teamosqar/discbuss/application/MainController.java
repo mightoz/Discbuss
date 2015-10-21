@@ -42,7 +42,7 @@ public class MainController implements Observer {
         try {
             WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             wifiInfo=mWifiManager.getConnectionInfo();
-            if (!mWifiManager.isWifiEnabled() || wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
+            if (mWifiManager.isWifiEnabled() || wifiInfo.getSSID() != null || wifiInfo.getBSSID() != null) {
                 if(model.getBusBSSIDs().contains(wifiInfo.getBSSID())){
                     model.setCurrentBSSID(wifiInfo.getBSSID());
                     idIndex = model.getIndexOfBSSID();
