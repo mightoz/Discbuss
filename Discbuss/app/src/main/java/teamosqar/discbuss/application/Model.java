@@ -154,7 +154,21 @@ public class Model extends Observable implements Observer{
 
     @Override
     public void update(Observable observable, Object data) {
-        nextBusStop = stopUpdater.getNextBusStop();
+        String busStopTmp = stopUpdater.getNextBusStop();
+        switch (busStopTmp){
+            case "G�taplatsen":
+                nextBusStop = "Götaplatsen";
+                break;
+            case "Kungsportsplatsn":
+                nextBusStop = "Kungsportsplatsen";
+                break;
+            case "NisseTerminalen":
+                nextBusStop = "Nils Ericson Terminalen";
+                break;
+            default:
+                nextBusStop = busStopTmp;
+                break;
+        }
         setChanged();
         notifyObservers();
     }

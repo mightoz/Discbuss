@@ -61,7 +61,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView) findViewById(R.id.actionBarTextView);
-        actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
+        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
 
         /*=============================================================== */
     }
@@ -172,7 +172,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             nameTag.setVisibility(View.VISIBLE);
 
         } else {
-            Toaster.displayToast("Wrong confirmation password", this, Toast.LENGTH_LONG);
+            Toaster.displayToast("Fel konfirmationslösen", this, Toast.LENGTH_LONG);
         }
 
     }

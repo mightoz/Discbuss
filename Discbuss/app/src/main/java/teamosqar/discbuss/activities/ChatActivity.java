@@ -52,7 +52,7 @@ public abstract class ChatActivity extends AppCompatActivity {
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
 
-        actionBarText.setText("CustomMessage"); // <-- as always this is how its done. easy to do.
+        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
 
 
 

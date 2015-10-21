@@ -41,7 +41,7 @@ public class MessageActivity extends AppCompatActivity {
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
 
-        actionBarText.setText("Nästa: ");
+        actionBarText.setText("Discbuss");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
