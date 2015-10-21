@@ -165,10 +165,7 @@ public class Model extends Observable implements Observer{
             case "NisseTerminalen":
                 nextBusStop = "Nils Ericson Terminalen";
                 break;
-            case "Frihamnen":
-                nextBusStop = busStopTmp;
-                break;
-            case "Lindholmen":
+            default:
                 nextBusStop = busStopTmp;
                 break;
         }
