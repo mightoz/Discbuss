@@ -26,7 +26,7 @@ import teamosqar.discbuss.util.Toaster;
 public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
     private String name, mail, password, confPassword, genderSelection,
-            birthYear, birthMonth, birthDay, age;
+            birthYear, birthMonth, birthDay;
     private RegisterController rc;
 
     @Override
