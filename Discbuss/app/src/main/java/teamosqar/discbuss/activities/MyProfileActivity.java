@@ -77,6 +77,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             name.setVisibility(View.VISIBLE);
             email.setVisibility(View.VISIBLE);
             karma.setVisibility(View.VISIBLE);
+            changePass = false;
         } else if(changeName){
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(displaynameFragment);
@@ -84,8 +85,12 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
+
+            changeName=false;
         } else {
+            System.out.println("Runs supermethod.");
             super.onBackPressed();
+            return;
         }
     }
 
