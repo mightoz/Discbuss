@@ -35,7 +35,7 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
-    protected ArrayList<String> topMessages, topKarma;
+    protected ArrayList<String> topMessages, topKarma, keys;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     Context context;
@@ -45,6 +45,7 @@ public class ProfileController extends Observable implements Observer {
         this.context = context;
         topMessages = new ArrayList<>();
         topKarma = new ArrayList<>();
+        keys = new ArrayList<>();
         fireRef = model.getMRef();
         userRef = model.getMRef().child("users").child(model.getUid());
 
@@ -58,10 +59,13 @@ public class ProfileController extends Observable implements Observer {
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
                     sstemp = (DataSnapshot)iterator.next();
-                    tempMsg = sstemp.getValue(Message.class).getMessage();
-                    tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
-                    topMessages.add(tempMsg);
-                    topKarma.add(tempKarma);
+                    if(!keys.contains(sstemp.getKey())){
+                        tempMsg = sstemp.getValue(Message.class).getMessage();
+                        tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
+                        topMessages.add(tempMsg);
+                        topKarma.add(tempKarma);
+                        keys.add(sstemp.getKey());
+                    }
                 }
                 setChanged();
                 notifyObservers();
