@@ -26,7 +26,7 @@ public class StopUpdater extends Observable{
 
     public void start(){
         if(!isRunning){
-            timer.schedule(new Updater(),0,15000);
+            timer.schedule(new Updater(),0,10000);
             isRunning = true;
         }
     }

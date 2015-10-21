@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +28,14 @@ import teamosqar.discbuss.util.Toaster;
 
 public class MyProfileActivity extends ProfileActivity implements Observer {
 
-    private TextView email, emailTag, name, nameTag, karma, karmaTag, actionBarText, topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
+    private TextView email, name, karma, actionBarText, topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
     private Button pwButton, displayNameButton;
     private EditDisplayname displaynameFragment;
+    private boolean changePass, changeName;
     private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private FrameLayout fragmentPlaceholder;
     private ProfileController profileController;
     private ActionBar actionBar;
     private List<TextView> topCommentValues, topCommentKarmas;
@@ -50,8 +55,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         pwFragment = new ChangePasswordFragment();
         topCommentValues = new ArrayList<>();
         topCommentKarmas = new ArrayList<>();
-
-        /*=============================================================== */
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
@@ -61,24 +64,47 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView) findViewById(R.id.actionBarTextView);
-        actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
-
-        /*=============================================================== */
+        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
     }
 
+    public void onBackPressed(){
+        if(changePass){
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(pwFragment);
+            newFt.commit();
+            pwButton.setVisibility(View.VISIBLE);
+            displayNameButton.setVisibility(View.VISIBLE);
+            name.setVisibility(View.VISIBLE);
+            email.setVisibility(View.VISIBLE);
+            karma.setVisibility(View.VISIBLE);
+        } else if(changeName){
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(displaynameFragment);
+            fragmentPlaceholder.setVisibility(View.INVISIBLE);
+            newFt.commit();
+            pwButton.setVisibility(View.VISIBLE);
+            displayNameButton.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     public void update(Observable observable, Object data) {
         name.setText(profileController.getName() + ", " + profileController.getGender() + " " + profileController.getAge() + " år");
-        email.setText("Email: " + profileController.getEmail());
-        karma.setText(profileController.getKarma());
-        displayTopComments();
+            email.setText("Email: " + profileController.getEmail());
+            karma.setText(profileController.getKarma());
+            displayTopComments();
     }
 
     @Override
     public void onStart(){
         super.onStart();
+        changePass = false;
+        changeName = false;
+        Firebase.setAndroidContext(this);
         profileController.addAsObserver();
         profileController.updateNextBusStop();
+        fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragmentPlaceholder);
     }
     @Override
     public void onStop(){
@@ -111,11 +137,12 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     public void changeUserName(View view) {
         pwButton.setVisibility(View.GONE);
         displayNameButton.setVisibility(View.GONE);
-
+        fragmentPlaceholder.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
         ft.add(R.id.fragmentPlaceholder, displaynameFragment);
         ft.commit();
+        changeName = true;
     }
 
     public void changeDisplayname(View view) {
@@ -128,6 +155,9 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
+            changeName = false;
+        } else {
+            Toaster.displayToast("Enter a name", this, Toast.LENGTH_SHORT);
         }
     }
 
@@ -138,14 +168,12 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         name.setVisibility(View.GONE);
         email.setVisibility(View.GONE);
         karma.setVisibility(View.GONE);
-        karmaTag.setVisibility(View.GONE);
-        emailTag.setVisibility(View.GONE);
-        nameTag.setVisibility(View.GONE);
 
         fm = getFragmentManager();
         FragmentTransaction newFt = fm.beginTransaction();
         newFt.add(R.id.changePasswordPlaceholder, pwFragment);
         newFt.commit();
+        changePass = true;
 
     }
 
@@ -155,7 +183,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         EditText confirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
         EditText oldPassword = (EditText) findViewById(R.id.editTextOldPassword);
 
-        if (newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+        if (newPassword.getText().toString().equals(confirmPassword.getText().toString()) && !newPassword.getText().toString().isEmpty()) {
 
             profileController.changePassword(oldPassword.getText().toString(), newPassword.getText().toString(), this);
 
@@ -167,12 +195,10 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             name.setVisibility(View.VISIBLE);
             email.setVisibility(View.VISIBLE);
             karma.setVisibility(View.VISIBLE);
-            karmaTag.setVisibility(View.VISIBLE);
-            emailTag.setVisibility(View.VISIBLE);
-            nameTag.setVisibility(View.VISIBLE);
+            changePass = false;
 
         } else {
-            Toaster.displayToast("Wrong confirmation password", this, Toast.LENGTH_LONG);
+            Toaster.displayToast("Fel konfirmationslösen", this, Toast.LENGTH_LONG);
         }
 
     }

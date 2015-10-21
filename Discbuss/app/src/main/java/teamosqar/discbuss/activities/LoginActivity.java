@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                 startActivity(intent);
                 finish();
             } else {
-                Toaster.displayToast("Login failed", getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Inloggning misslyckades", getApplicationContext(), Toast.LENGTH_SHORT);
                 cancelLogin();
             }
         }

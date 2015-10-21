@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
 
-        actionBarText.setText("Nästa: "); // <-- as always this is how its done. easy to do.
+        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
 
     }
 
@@ -91,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
             //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
             fragmentOpen = false;
         } else {
-            Log.d("not quitting", "not quitting");
             doubleBackAgain = true;
-            Toaster.displayToast("Please click BACK again to exit", this, Toast.LENGTH_SHORT);
 
             new Handler().postDelayed(new Runnable() {
 
@@ -120,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);
         }else {
-            Toaster.displayToast("Connect to buss WiFi", getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Anslut till ett bussWiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }
 
     }
@@ -153,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
             newFt.commit();
             findViewById(R.id.textViewStatement).setVisibility(View.VISIBLE);
             //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
-            Toaster.displayToast("Statement submitted!", getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Topic skickad!", getApplicationContext(), Toast.LENGTH_SHORT);
             fragmentOpen = false;
         } else {
             //TODO: Update with new toaster
-            Toaster.displayToast("Write a statement", getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Skriv ner en topic", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }
     @Override

@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Föreslå topic"
+        android:textColor="@color/standard_green"
         android:id="@+id/textViewStatement"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
