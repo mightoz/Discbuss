@@ -55,8 +55,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         pwFragment = new ChangePasswordFragment();
         topCommentValues = new ArrayList<>();
         topCommentKarmas = new ArrayList<>();
-
-        /*=============================================================== */
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
@@ -67,8 +65,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         actionBar.setCustomView(actionBarLayout);
         actionBarText = (TextView) findViewById(R.id.actionBarTextView);
         actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
-        /*=============================================================== */
     }
 
     public void onBackPressed(){
@@ -202,7 +198,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             changePass = false;
 
         } else {
-            Toaster.displayToast("Wrong confirmation password", this, Toast.LENGTH_SHORT);
+            Toaster.displayToast("Fel konfirmationslösen", this, Toast.LENGTH_LONG);
         }
 
     }

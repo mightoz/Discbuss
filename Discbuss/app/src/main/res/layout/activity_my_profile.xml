@@ -114,6 +114,7 @@
                 android:layout_height="50dp">
                 <TextView
                     android:id="@+id/topComment1Value"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"/>
@@ -125,6 +126,7 @@
                 android:layout_below="@+id/topComment1">
                 <TextView
                     android:id="@+id/topComment2Value"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"/>
@@ -137,6 +139,7 @@
                 <TextView
                     android:id="@+id/topComment3Value"
                     android:layout_width="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"/>
             </FrameLayout>
@@ -153,16 +156,17 @@
                 android:layout_height="50dp"
                 android:id="@+id/topKarma1">
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/karmaImage1"
+                    android:layout_marginLeft="5dp"
                     android:layout_alignLeft="@+id/topCommentsKarma"
                     android:src="@drawable/karma" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/topKarma1Value"
                     android:layout_gravity="center_vertical" />
 
@@ -173,16 +177,17 @@
                 android:layout_below="@+id/topKarma1"
                 android:id="@+id/topKarma2">
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/karmaImage2"
+                    android:layout_marginLeft="5dp"
                     android:layout_alignLeft="@+id/topCommentsKarma"
                     android:src="@drawable/karma" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/topKarma2Value"
                     android:layout_gravity="center_vertical" />
 
@@ -193,16 +198,17 @@
                 android:layout_below="@+id/topKarma2"
                 android:id="@+id/topKarma3">
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/karmaImage3"
+                    android:layout_marginLeft="5dp"
                     android:layout_alignLeft="@+id/topCommentsKarma"
                     android:src="@drawable/karma" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/topKarma3Value"
                     android:layout_gravity="center_vertical" />
 
