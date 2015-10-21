@@ -86,14 +86,15 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         //Taking leap years into consideration.
-        else if((Integer.parseInt(birthYear) % 4 == 0) &&
+        if((Integer.parseInt(birthYear) % 4 == 0) &&
                 (Integer.parseInt(birthYear) % 100 != 0) ||
                 (Integer.parseInt(birthYear) % 400 == 0)) {
             if (birthMonth.equals("2") && Integer.parseInt(birthDay) > 29) {
                 Toaster.displayToast("Date does not exist", this.getApplicationContext(), Toast.LENGTH_SHORT);
                 return false;
             }
-        } else if(birthMonth.equals("2")&&Integer.parseInt(birthDay)>28){
+        }
+        else if(birthMonth.equals("2")&&Integer.parseInt(birthDay)>28){
             Toaster.displayToast("Date does not exist", this.getApplicationContext(),Toast.LENGTH_SHORT);
             return false;
         }
