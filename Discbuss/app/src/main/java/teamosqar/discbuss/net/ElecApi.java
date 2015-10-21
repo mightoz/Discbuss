@@ -34,7 +34,7 @@ public class ElecApi {
     public String getNextBusStop()throws IOException, JSONException {
 
         long t2 = System.currentTimeMillis();
-        long t1 = t2 - (1000 * 15);
+        long t1 = t2 - (10000 * 15);
         String dgwVin = BusFactory.getDgwVin(bssid);
 
         StringBuffer response = new StringBuffer();
