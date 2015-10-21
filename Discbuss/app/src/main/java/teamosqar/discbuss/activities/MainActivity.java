@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             //findViewById(R.id.buttonProfile).setVisibility(View.VISIBLE);
             fragmentOpen = false;
         } else {
-            Log.d("not quitting", "not quitting");
             doubleBackAgain = true;
             Toaster.displayToast("Please click BACK again to exit", this, Toast.LENGTH_SHORT);
 
