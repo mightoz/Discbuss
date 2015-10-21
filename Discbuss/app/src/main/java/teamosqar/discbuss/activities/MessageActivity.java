@@ -87,4 +87,9 @@ public class MessageActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void leaveDuoChat(View view){
+        int pos = listView.getPositionForView((View)view.getParent());
+        messageController.leaveChat(pos);
+    }
 }

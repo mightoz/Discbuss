@@ -112,6 +112,9 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
+    protected void onMessageRecieved() {}
+
+    @Override
     protected Firebase getFirebaseChatRef(String chatRoom) {
         return Model.getInstance().getMRef().child(chatRoom);
     }
