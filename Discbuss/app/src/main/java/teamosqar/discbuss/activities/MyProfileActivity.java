@@ -172,7 +172,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             nameTag.setVisibility(View.VISIBLE);
 
         } else {
-            Toaster.displayToast("Wrong confirmation password", this, Toast.LENGTH_LONG);
+            Toaster.displayToast("Fel konfirmationslösen", this, Toast.LENGTH_LONG);
         }
 
     }
