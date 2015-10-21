@@ -17,7 +17,6 @@ public class DuoChatActivity extends ChatActivity{
         String roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new DuoChatController(this, roomName);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

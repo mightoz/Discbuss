@@ -249,6 +249,8 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     public abstract void removeAsObserver();
 
+
+
     @Override
     public void update(Observable observable, Object data) {
         updateNextBusStop();
@@ -264,5 +266,13 @@ public abstract class ChatController extends BaseAdapter implements Observer {
                 }
             });
         }
+    }
+
+    public void shutDownListener(){
+        chatFireBaseRef.removeEventListener(chatListener);
+    }
+
+    public void startListener(){
+        chatFireBaseRef.addChildEventListener(chatListener);
     }
 }
