@@ -40,13 +40,13 @@ public class Model extends Observable implements Observer{
     //GötaplatsenA
     //ValandC
     //KungsportsplC
-    //Brunnsparken
-    //Lilla Bommen
-    //Frihamnsporten
+    //BrunnsparkenB
+    //Lilla BommenB
+    //FrihamnsportenB
     //Pumpgatan
-    //Regnbågsgatan
-    //Lindholmen
-    //Teknikgatan
+    //RegnbågsgatanD
+    //LindholmenD
+    //TeknikgatanA
     //Lindholmsplatsen
 
     //LindholmsplatsenA
@@ -54,14 +54,14 @@ public class Model extends Observable implements Observer{
     //PumpgatanA
     //FrihamnsportenA
     //Lilla Bommen
-    //Brunnsparken
-    //Kungsportsplatsen
+    //BrunnsparkenA
+    //KungsportsplD
     //Valand
     //Götaplatsen
-    //Ålandsgatan
+    //ÅlandsgatanB
     //Chalmers tvärgata
     //Sven Hultins plats
-    //Chalmersplatsen
+    //ChalmersplatsenA
     //Kapellplatsen
 
     private Model(){
