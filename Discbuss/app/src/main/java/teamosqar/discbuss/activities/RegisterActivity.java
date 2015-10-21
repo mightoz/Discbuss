@@ -55,28 +55,28 @@ public class RegisterActivity extends AppCompatActivity {
     private void goToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        Toaster.displayToast("Registration successful!", this.getApplicationContext(), Toast.LENGTH_SHORT);
+        Toaster.displayToast("Registrering lyckades!", this.getApplicationContext(), Toast.LENGTH_SHORT);
         finish();
     }
 
     private boolean checkData(){
         if(name.isEmpty()){
-            Toaster.displayToast("Enter a name", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Ange visningsnamn", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(mail.isEmpty()|| !validateEmail()){
-            Toaster.displayToast("Enter an email", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Ange email", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(password.isEmpty()){
-            Toaster.displayToast("Enter a password", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Ange lösenord", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(confPassword.isEmpty()){
-            Toaster.displayToast("Confirm your password", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Bekräfta lösenord", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(!password.equals(confPassword)){
-            Toaster.displayToast("Passwords don't match", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Lösenord matchar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         } else if(genderSelection.isEmpty()){
-            Toaster.displayToast("No gender selected", this.getApplicationContext(), Toast.LENGTH_SHORT);
+            Toaster.displayToast("Inget kön valt", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         }
         if(birthMonth.equals("4")||birthMonth.equals("6")||birthMonth.equals("9")||birthMonth.equals("11")) {
@@ -90,11 +90,11 @@ public class RegisterActivity extends AppCompatActivity {
                 (Integer.parseInt(birthYear) % 100 != 0) ||
                 (Integer.parseInt(birthYear) % 400 == 0)) {
             if (birthMonth.equals("2") && Integer.parseInt(birthDay) > 29) {
-                Toaster.displayToast("Date does not exist", this.getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
                 return false;
             }
         } else if(birthMonth.equals("2")&&Integer.parseInt(birthDay)>28){
-            Toaster.displayToast("Date does not exist", this.getApplicationContext(),Toast.LENGTH_SHORT);
+            Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(),Toast.LENGTH_SHORT);
             return false;
         }
 
@@ -125,12 +125,12 @@ public class RegisterActivity extends AppCompatActivity {
                     genderSelection = (String) parent.getItemAtPosition(position);
 
                 } else {
-                    Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                    Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -168,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -187,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toaster.displayToast("Please select an option.", getApplicationContext(), Toast.LENGTH_SHORT);
+                Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
             }
         });
     }
