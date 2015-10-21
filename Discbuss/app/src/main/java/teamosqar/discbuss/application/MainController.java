@@ -49,7 +49,7 @@ public class MainController implements Observer {
                     connectedToBusWifi = true;
                     model.startRetrievingStopInfo();
                 }else{
-                    model.setCurrentBSSID("04:f0:21:10:09:e8");
+                    model.setCurrentBSSID("testBus");
                     idIndex = model.getIndexOfBSSID();
                     connectedToBusWifi = true;
                     model.startRetrievingStopInfo();
@@ -63,7 +63,7 @@ public class MainController implements Observer {
                     connectedToBusWifi = false;
                 }*/
             }else{
-                model.setCurrentBSSID("04:f0:21:10:09:e8");
+                model.setCurrentBSSID("testBus");
                 idIndex = model.getIndexOfBSSID();
                 connectedToBusWifi = true;
                 model.startRetrievingStopInfo();
