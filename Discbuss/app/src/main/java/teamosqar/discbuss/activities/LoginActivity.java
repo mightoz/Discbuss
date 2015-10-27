@@ -25,6 +25,9 @@ import teamosqar.discbuss.application.LoginController;
 import teamosqar.discbuss.fragments.LoadingFragment;
 import teamosqar.discbuss.util.Toaster;
 
+/**
+ * Activity class for the login view
+ */
 public class LoginActivity extends AppCompatActivity implements Observer {
 
     //Used for retrieving and saving to SharedPreferences
@@ -84,6 +87,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    /**
+     *
+     * @param view
+     */
     public void loginPressed(View view){
         initiateLogin();
     }

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import teamosqar.discbuss.activities.R;
 
-
+/**
+ * Fragment class used to change username
+ */
 public class EditDisplayname extends DialogFragment {
 
     @Override

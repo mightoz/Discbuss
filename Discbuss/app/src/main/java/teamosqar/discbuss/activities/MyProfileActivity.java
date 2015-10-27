@@ -66,6 +66,9 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
     }
 
+    /**
+     * Makes sure the back button works as intended when fragments are active
+     */
     public void onBackPressed(){
         if(changePass){
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
@@ -111,6 +114,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragmentPlaceholder);
     }
 
+    /**
+     * Called when the change user name button is pressed.
+     * Hides specific profile elements and displays the change user name fragment.
+     * @param view
+     */
     public void changeUserName(View view) {
         pwButton.setVisibility(View.GONE);
         displayNameButton.setVisibility(View.GONE);
@@ -122,6 +130,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         changeName = true;
     }
 
+    /**
+     * Called when the save name button is pressed when changing user name.
+     * Calls the change user name method in controller and then reverts the profile new to normal.
+     * @param view
+     */
     public void changeDisplayname(View view) {
         EditText newName = (EditText) findViewById(R.id.editTextNewName);
 
@@ -138,6 +151,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         }
     }
 
+    /**
+     * Called when the change password button is pressed.
+     * Hides specific profile elements and displays the change password fragment
+     * @param view
+     */
     public void changePassword(View view) {
         //TODO create this, what will happen when this button is pressed?
         pwButton.setVisibility(View.GONE);
@@ -154,6 +172,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
     }
 
+    /**
+     * Called when the save password button is pressed
+     * Calls the change password method in controller and reverts profile view to normal
+     * @param view
+     */
     public void setNewPassword(View view) {
 
         EditText newPassword = (EditText) findViewById(R.id.editTextNewPassword);

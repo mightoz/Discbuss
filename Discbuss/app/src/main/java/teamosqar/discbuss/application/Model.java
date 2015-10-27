@@ -143,6 +143,10 @@ public class Model extends Observable implements Observer{
     protected String getUsername(){
         return username;
     }
+
+    /**
+     * resets the values of username, userID and email
+     */
     protected void resetModel(){
         username = "";
         uid = "";
@@ -150,7 +154,7 @@ public class Model extends Observable implements Observer{
     }
 
     /**
-     * Starts the timer that retrieves data from buses on a regular basis.
+     * Starts timer that retrieves bus data for currently connected bus.
      */
     protected void startRetrievingStopInfo(){
         stopUpdater = new StopUpdater(currentBSSID);

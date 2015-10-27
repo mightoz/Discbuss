@@ -124,16 +124,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Views the currently logged in user's personal profile.
+     * @param view
+     */
     public void goToProfile(View view){
         Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Views the currently logged in user's active private chats
+     * @param view
+     */
     public void goToMessages(View view){
         Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Launches the suggest statement fragment
+     * @param view
+     */
     public void suggestStatement(View view){
         findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
         //findViewById(R.id.buttonProfile).setVisibility(View.INVISIBLE);
@@ -143,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
         fragmentOpen = true;
     }
+
+    /**
+     * Calls the submit statement method in controller and reverts the view to normal
+     * @param view
+     */
     public void submitStatement(View view){
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
         if(!fragmentData.getText().toString().isEmpty()) {
