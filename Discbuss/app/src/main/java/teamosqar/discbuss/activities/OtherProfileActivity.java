@@ -21,11 +21,9 @@ import teamosqar.discbuss.application.ProfileController;
  */
 public class OtherProfileActivity extends ProfileActivity implements Observer {
 
-    private TextView userInfo, karma, topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3, actionBarText;
-    private ProfileController profileController;
-    private List<TextView> topCommentValues, topCommentKarmas;
+    private TextView userInfo, karma;
     private String chatUID;
-    private ActionBar actionBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +36,11 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         profileController.addObserver(this);
         userInfo = (TextView) findViewById(R.id.textViewDisplayName);
         karma = (TextView) findViewById(R.id.textViewUserKarma);
-        topCommentValues = new ArrayList<>();
-        topCommentKarmas = new ArrayList<>();
+
 
         /*=============================================================== */
+        TextView actionBarText;
+        ActionBar actionBar;
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
@@ -63,40 +62,12 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         profileController.addAsObserver();
         profileController.updateNextBusStop();
     }
-    @Override
-    public void onStop(){
-        super.onStop();
-        profileController.removeAsObserver();
-    }
+
 
     public void update(Observable observable, Object data){
         userInfo.setText(profileController.getName() + ", " + profileController.getGender() + "(" + profileController.getAge()+")");
         karma.setText(profileController.getKarma());
         displayTopComments();
-    }
-
-    public void displayTopComments(){
-        ArrayList<String> topComments;
-        topComments = profileController.getTopMessages();
-
-        topComment1 = (TextView) findViewById(R.id.topComment1Value);
-        topComment2 = (TextView) findViewById(R.id.topComment2Value);
-        topComment3 = (TextView) findViewById(R.id.topComment3Value);
-        topKarma1 = (TextView) findViewById(R.id.topKarma1Value);
-        topKarma2 = (TextView) findViewById(R.id.topKarma2Value);
-        topKarma3 = (TextView) findViewById(R.id.topKarma3Value);
-        topCommentValues.add(topComment1);
-        topCommentValues.add(topComment2);
-        topCommentValues.add(topComment3);
-        topCommentKarmas.add(topKarma1);
-        topCommentKarmas.add(topKarma2);
-        topCommentKarmas.add(topKarma3);
-        for(int i = 0; i < topComments.size(); i++){
-
-            topCommentValues.get(i).setText(profileController.getTopMessages().get(i));
-            topCommentKarmas.get(i).setText(profileController.getTopKarma().get(i));
-
-        }
     }
 
     public void launchDuoChat(View view){
