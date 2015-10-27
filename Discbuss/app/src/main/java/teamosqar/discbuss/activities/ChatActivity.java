@@ -120,4 +120,5 @@ public abstract class ChatActivity extends AppCompatActivity {
         getChatController().removeAsObserver();
         super.onStop();
     }
+
 }
