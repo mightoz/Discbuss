@@ -18,6 +18,8 @@ import teamosqar.discbuss.application.ProfileController;
 
 /**
  * Created by oskar on 16/10/2015.
+ *
+ * Activity class for viewing other users profiles
  */
 public class OtherProfileActivity extends ProfileActivity implements Observer {
 
@@ -70,6 +72,10 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         displayTopComments();
     }
 
+    /**
+     * launches a private chat with the user whose profile is being viewed
+     * @param view
+     */
     public void launchDuoChat(View view){
         DuoChatController.launchDuoChat(this, chatUID);
     }

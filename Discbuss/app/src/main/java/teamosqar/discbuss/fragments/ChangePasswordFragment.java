@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import teamosqar.discbuss.activities.R;
 
-
+/**
+ * Fragment class used to change password
+ */
 public class ChangePasswordFragment extends DialogFragment {
 
     @Override

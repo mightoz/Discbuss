@@ -15,8 +15,10 @@ import java.util.List;
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.util.Message;
 
+/**
+ * abstract class which contains the code used in both profile views
+ */
 public abstract class ProfileActivity extends AppCompatActivity {
-
 
     private List<TextView> topCommentValues, topCommentKarmas;
     protected ProfileController profileController;
@@ -61,6 +63,9 @@ public abstract class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Method which takes the users top comments and displays them in the profile.
+     */
     public void displayTopComments() {
         TextView topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
         ArrayList<String> topComments = profileController.getTopMessages();

@@ -142,18 +142,30 @@ public class Model extends Observable implements Observer{
         return username;
     }
 
+    /**
+     * resets the values of username, userID and email
+     */
     protected void resetModel(){
         username = "";
         uid = "";
         email = "";
     }
 
+    /**
+     * starts retrieving bus stop info based on the active buss ID
+     */
     protected void startRetrievingStopInfo(){
         stopUpdater = new StopUpdater(currentBSSID);
         stopUpdater.addObserver(this);
         stopUpdater.start();
     }
 
+    /**
+     * updates the next bus stop. Sometimes updates it to hard coded strings because of
+     * some badly formatted strings from the provided API
+     * @param observable
+     * @param data
+     */
     @Override
     public void update(Observable observable, Object data) {
         String busStopTmp = stopUpdater.getNextBusStop();

@@ -29,7 +29,7 @@ import teamosqar.discbuss.util.Toaster;
 /**
  * Created by rutanjr on 2015-10-05.
  *
- * A controller class for the ProfileActivity class. Uses a firebase login to find the data it needs
+ * A controller class for the ProfileActivity classes. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
 public class ProfileController extends Observable implements Observer {
@@ -126,6 +126,10 @@ public class ProfileController extends Observable implements Observer {
         return name;
     }
 
+    /**
+     * Gets the gender from the snapshot data and returns it as a string.
+     * @return the gender for the user that is currently logged in.
+     */
     public String getGender(){
         String gender = "";
         if(snapshot != null) {
@@ -134,6 +138,10 @@ public class ProfileController extends Observable implements Observer {
         return gender;
     }
 
+    /**
+     * Gets the birth date from the snapshot data and calculates the user age.
+     * @return the age for the user that is currently logged in.
+     */
     public String getAge(){
         String age = "";
         if(snapshot != null) {
@@ -190,6 +198,12 @@ public class ProfileController extends Observable implements Observer {
         System.out.println(fireRef.getAuth().getProviderData().get("email").toString());
     }
 
+    /**
+     * Changes the password for the user.
+     * @param oldPw the users previous password
+     * @param newPw the users preferred new password
+     * @param context the active context
+     */
 
     public void changePassword(String oldPw, String newPw, final Context context) {
         fireRef.changePassword(fireRef.getAuth().getProviderData().get("email").toString(), oldPw, newPw, new Firebase.ResultHandler() {
