@@ -30,17 +30,28 @@ public class BusChatActivity extends ChatActivity {
 
         findViewById(R.id.statementText).setSelected(true);
     }
+
+    /**
+     * Method to return the correct instance of the activity's ChatController
+     * @return the chatActivitys specific chatController.
+     */
     
     protected ChatController getChatController() {
         return chatController;
     }
 
+    /**
+     * Method to upvote a message, called by the clicked button and providing a view to ensure the correct comment is upvoted.
+     */
     public void upVote(View view){
         ListView lv = (ListView)findViewById(R.id.myList);
         int pos = lv.getPositionForView((View)view.getParent().getParent());
         view.setBackgroundResource(R.drawable.arrows_05);
         chatController.upVote(pos);
     }
+    /**
+     * Method to downvote a message, called by the clicked button and providing a view to ensure the correct message is downvoted.
+     */
 
     public void downVote(View view){
         ListView lv = (ListView)findViewById(R.id.myList);
@@ -49,6 +60,9 @@ public class BusChatActivity extends ChatActivity {
         chatController.downVote(pos);
     }
 
+    /**
+     * Method to start a private chat with the author of the message, provides a view to ensure the correct message author.
+     */
     public void sendPersonalMessageClicked(View view){
         chatController.personalMessageClicked(((ListView)findViewById(R.id.myList)).getPositionForView((View) view.getParent().getParent().getParent()));
     }
