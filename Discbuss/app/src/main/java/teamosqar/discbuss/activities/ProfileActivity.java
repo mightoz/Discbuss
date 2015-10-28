@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public abstract class ProfileActivity extends AppCompatActivity {
      */
     public void displayTopComments() {
         TextView topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
-        ArrayList<String> topComments = profileController.getTopMessages();
+        ArrayList<Message> topComments = profileController.getTopMessages();
 
 
         topComment1 = (TextView) findViewById(R.id.topComment1Value);
@@ -85,8 +84,8 @@ public abstract class ProfileActivity extends AppCompatActivity {
         topCommentKarmas.add(topKarma3);
         for (int i = 0; i < topComments.size(); i++) {
 
-            topCommentValues.get(i).setText(profileController.getTopMessages().get(i));
-            topCommentKarmas.get(i).setText(profileController.getTopKarma().get(i));
+            topCommentValues.get(i).setText(topComments.get(i).getMessage());
+            topCommentKarmas.get(i).setText(Integer.toString(topComments.get(i).getKarma()));
 
         }
     }

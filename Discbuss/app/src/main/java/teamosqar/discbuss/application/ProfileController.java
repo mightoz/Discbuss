@@ -2,8 +2,6 @@ package teamosqar.discbuss.application;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,11 +12,10 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,7 +32,8 @@ import teamosqar.discbuss.util.Toaster;
 public class ProfileController extends Observable implements Observer {
 
     private Firebase fireRef;
-    protected ArrayList<String> topMessages, topKarma, keys;
+    protected ArrayList<String> topMessageValues, topKarma, keys;
+    protected ArrayList<Message> topMessages;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     Context context;
@@ -43,8 +41,9 @@ public class ProfileController extends Observable implements Observer {
 
     public ProfileController(Context context){
         this.context = context;
-        topMessages = new ArrayList<>();
+        topMessageValues = new ArrayList<>();
         topKarma = new ArrayList<>();
+        topMessages = new ArrayList<>();
         keys = new ArrayList<>();
         fireRef = model.getMRef();
         userRef = model.getMRef().child("users").child(model.getUid());
@@ -53,20 +52,27 @@ public class ProfileController extends Observable implements Observer {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                String tempMsg;
+                Message tempMsg;
+                String tempString;
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
                     sstemp = (DataSnapshot)iterator.next();
                     if(!keys.contains(sstemp.getKey())){
-                        tempMsg = sstemp.getValue(Message.class).getMessage();
+                        tempString = sstemp.getValue(Message.class).getMessage();
                         tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
-                        topMessages.add(tempMsg);
+                        topMessageValues.add(tempString);
                         topKarma.add(tempKarma);
                         keys.add(sstemp.getKey());
                     }
                 }
+                for(int i = 0; i < topMessageValues.size(); i++){
+                    tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
+                    topMessages.add(tempMsg);
+                }
+                Collections.sort(topMessages);
+                Collections.reverse(topMessages);
                 setChanged();
                 notifyObservers();
             }
@@ -81,23 +87,35 @@ public class ProfileController extends Observable implements Observer {
         this.context = context;
         fireRef = model.getMRef();
         userRef = fireRef.child("users").child(uid);
-        topMessages = new ArrayList<>();
+        topMessageValues = new ArrayList<>();
         topKarma = new ArrayList<>();
+        topMessages = new ArrayList<>();
+        keys = new ArrayList<>();
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                String tempMsg;
+                Message tempMsg;
+                String tempString;
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
                     sstemp = (DataSnapshot)iterator.next();
-                    tempMsg = sstemp.getValue(Message.class).getMessage();
-                    tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
-                    topMessages.add(tempMsg);
-                    topKarma.add(tempKarma);
+                    if(!keys.contains(sstemp.getKey())){
+                        tempString = sstemp.getValue(Message.class).getMessage();
+                        tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
+                        topMessageValues.add(tempString);
+                        topKarma.add(tempKarma);
+                        keys.add(sstemp.getKey());
+                    }
                 }
+                for(int i = 0; i < topMessageValues.size(); i++){
+                    tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
+                    topMessages.add(tempMsg);
+                }
+                Collections.sort(topMessages);
+                Collections.reverse(topMessages);
                 setChanged();
                 notifyObservers();
             }
@@ -109,10 +127,14 @@ public class ProfileController extends Observable implements Observer {
         });
     }
 
-    public ArrayList<String> getTopMessages(){
-        return topMessages;
+    public ArrayList<String> getTopMessageValues(){
+        return topMessageValues;
     }
     public ArrayList<String> getTopKarma() { return topKarma; }
+
+    public ArrayList<Message> getTopMessages(){
+        return topMessages;
+    }
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
