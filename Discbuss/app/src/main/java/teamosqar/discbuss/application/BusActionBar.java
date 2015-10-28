@@ -24,11 +24,17 @@ public class BusActionBar extends Toolbar{
 
     public BusActionBar(Context context) {
         super(context);
+        this.inflate(context,R.layout.toolbar,null);
+        setTitleTextColor(getResources().getColor(R.color.standard_green));
+        setTitle("Discbuss");
+        setVisibility(VISIBLE);
     }
 
 
 
-    public void initializeActionBar(final Context context){
+
+
+   /* public void initializeActionBar(final Context context){
         final ViewGroup actionBarLayout = (ViewGroup) ((Activity)context).getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
                 null);
@@ -61,5 +67,5 @@ public class BusActionBar extends Toolbar{
                 updateNextBusStop();
             }
         });
-    }
+    }*/
 }

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import teamosqar.discbuss.application.ActionBarHandler;
+//import teamosqar.discbuss.application.ActionBarHandler;
 import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.util.Toaster;
@@ -48,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
         mainController = new MainController(this);
+        mainController.setToolBar();
         mainController.checkWifiState();
+
 
 
 //        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_action_bar,null);
 
-        ActionBarHandler.getInstance().initializeActionBar(getApplicationContext());
+//        ActionBarHandler.getInstance().initializeActionBar(getApplicationContext());
 
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayShowHomeEnabled(false);

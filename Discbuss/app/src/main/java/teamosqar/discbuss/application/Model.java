@@ -1,6 +1,8 @@
 package teamosqar.discbuss.application;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.firebase.client.Firebase;
 
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.net.StopUpdater;
 
 /**
@@ -24,6 +27,7 @@ public class Model extends Observable implements Observer{
     private String currentBSSID;
     private ArrayList<String> busBSSIDs;
     private String nextBusStop;
+    private Toolbar toolbar;
 
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
@@ -177,5 +181,10 @@ public class Model extends Observable implements Observer{
 
     protected String getNextBusStop(){
         return nextBusStop;
+    }
+
+    protected void setToolBar(Context context){
+        toolbar = new BusActionBar(context);
+        ((AppCompatActivity)context).setSupportActionBar(toolbar);
     }
 }

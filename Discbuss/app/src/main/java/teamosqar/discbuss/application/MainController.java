@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.Observable;
@@ -118,7 +119,7 @@ public class MainController implements Observer {
     }
 
     public void updateNextBusStop() {
-        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+       /* if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -127,6 +128,10 @@ public class MainController implements Observer {
                     textView.setText("Nästa hållplats: " + model.getNextBusStop());
                 }
             });
-        }
+        }*/
+    }
+
+    public void setToolBar(){
+        model.setToolBar(context);
     }
 }
