@@ -38,9 +38,6 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         profileController.addObserver(this);
         userInfo = (TextView) findViewById(R.id.textViewDisplayName);
         karma = (TextView) findViewById(R.id.textViewUserKarma);
-
-
-        /*=============================================================== */
         TextView actionBarText;
         ActionBar actionBar;
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -54,8 +51,6 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         actionBarText = (TextView) findViewById(R.id.actionBarTextView);
         actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
 
-        /*=============================================================== */
-
     }
 
     @Override
@@ -65,7 +60,11 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         profileController.updateNextBusStop();
     }
 
-
+    /**
+     * Updates the profile of the user being viewed when method is called by the observed object
+     * @param observable
+     * @param data
+     */
     public void update(Observable observable, Object data){
         userInfo.setText(profileController.getName() + ", " + profileController.getGender() + "(" + profileController.getAge()+")");
         karma.setText(profileController.getKarma());
