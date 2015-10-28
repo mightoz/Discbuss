@@ -9,10 +9,10 @@ import java.util.Map;
  * Created by Jakob on 02/10/15.
  */
 public class RegisterController {
-    private Firebase mref;
+    private Firebase mRef;
     private String fName, fGender, fYear, fMonth, fDay;
     public RegisterController() {
-        mref = Model.getInstance().getMRef().child("users");
+        mRef = Model.getInstance().getMRef().child("users");
     }
 
     /**
@@ -31,15 +31,15 @@ public class RegisterController {
         fYear = year;
         fMonth = month;
         fDay = day;
-        mref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+        mRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                mref.child((String)result.get("uid")).child("name").setValue(fName);
-                mref.child((String)result.get("uid")).child("karma").setValue(0);
-                mref.child((String)result.get("uid")).child("gender").setValue(fGender);
-                mref.child((String)result.get("uid")).child("year").setValue(fYear);
-                mref.child((String)result.get("uid")).child("month").setValue(fMonth);
-                mref.child((String)result.get("uid")).child("day").setValue(fDay);
+                mRef.child((String) result.get("uid")).child("name").setValue(fName);
+                mRef.child((String) result.get("uid")).child("karma").setValue(0);
+                mRef.child((String) result.get("uid")).child("gender").setValue(fGender);
+                mRef.child((String) result.get("uid")).child("year").setValue(fYear);
+                mRef.child((String) result.get("uid")).child("month").setValue(fMonth);
+                mRef.child((String) result.get("uid")).child("day").setValue(fDay);
             }
 
             @Override

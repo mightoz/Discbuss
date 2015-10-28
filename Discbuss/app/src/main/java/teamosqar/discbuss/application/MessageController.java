@@ -47,10 +47,10 @@ public class MessageController extends BaseAdapter implements Observer {
         inflater = LayoutInflater.from(context);
         this.context = context;
 
-        messageInboxes = new ArrayList<MessageInbox>();
-        mostRecentMsg = new ArrayList<Message>();
-        keys = new ArrayList<String>();
-        childEventListenerMap = new HashMap<String, ChildEventListener>();
+        messageInboxes = new ArrayList<>();
+        mostRecentMsg = new ArrayList<>();
+        keys = new ArrayList<>();
+        childEventListenerMap = new HashMap<>();
 
         Firebase activeChatsRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats");
 

@@ -2,15 +2,11 @@ package teamosqar.discbuss.application;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -19,13 +15,10 @@ import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
 import java.util.Observer;
 
-import teamosqar.discbuss.activities.DuoChatActivity;
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
@@ -46,7 +39,6 @@ public class BusChatController extends ChatController implements Observer{
         this.chatRoom = chatRoom;
         model = Model.getInstance();
         Firebase activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom);
-        System.out.println(chatRoom.toString());
         chatFirebaseRef = getFirebaseChatRef(chatRoom);
         messageValues = new ArrayList<>();
 
@@ -112,7 +104,7 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected void onMessageRecieved() {}
+    protected void onMessageReceived() {}
 
     @Override
     protected Firebase getFirebaseChatRef(String chatRoom) {

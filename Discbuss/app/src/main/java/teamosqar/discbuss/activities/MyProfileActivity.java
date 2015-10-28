@@ -2,10 +2,8 @@ package teamosqar.discbuss.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,25 +14,22 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
-import teamosqar.discbuss.fragments.EditDisplayname;
+import teamosqar.discbuss.fragments.EditUserName;
 import teamosqar.discbuss.util.Toaster;
 
 public class MyProfileActivity extends ProfileActivity implements Observer {
 
     private TextView email, name, karma;
     private Button pwButton, displayNameButton;
-    private EditDisplayname displaynameFragment;
+    private EditUserName userNameFragment;
     private boolean changePass, changeName;
     private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
-    private FragmentTransaction ft;
     private FrameLayout fragmentPlaceholder;
 
 
@@ -49,7 +44,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         email = (TextView) findViewById(R.id.textViewUserEmail);
         pwButton = (Button) findViewById(R.id.changePwButton);
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
-        displaynameFragment = new EditDisplayname();
+        userNameFragment = new EditUserName();
         pwFragment = new ChangePasswordFragment();
 
         TextView actionBarText;
@@ -82,7 +77,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             changePass = false;
         } else if(changeName){
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
-            newFt.remove(displaynameFragment);
+            newFt.remove(userNameFragment);
             fragmentPlaceholder.setVisibility(View.INVISIBLE);
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
@@ -124,8 +119,8 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         displayNameButton.setVisibility(View.GONE);
         fragmentPlaceholder.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
-        ft = fm.beginTransaction();
-        ft.add(R.id.fragmentPlaceholder, displaynameFragment);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragmentPlaceholder, userNameFragment);
         ft.commit();
         changeName = true;
     }
@@ -135,13 +130,13 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
      * Calls the change user name method in controller and then reverts the profile new to normal.
      * @param view
      */
-    public void changeDisplayname(View view) {
+    public void confirmUserName(View view) {
         EditText newName = (EditText) findViewById(R.id.editTextNewName);
 
         if (!newName.getText().toString().isEmpty()) {
             profileController.setNewDisplayName(newName.getText().toString());
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
-            newFt.remove(displaynameFragment);
+            newFt.remove(userNameFragment);
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
@@ -177,7 +172,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
      * Calls the change password method in controller and reverts profile view to normal
      * @param view
      */
-    public void setNewPassword(View view) {
+    public void confirmNewPassword(View view) {
 
         EditText newPassword = (EditText) findViewById(R.id.editTextNewPassword);
         EditText confirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);

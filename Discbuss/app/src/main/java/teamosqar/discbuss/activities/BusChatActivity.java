@@ -1,10 +1,10 @@
 package teamosqar.discbuss.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import teamosqar.discbuss.application.BusChatController;
 import teamosqar.discbuss.application.ChatController;
 
@@ -13,12 +13,11 @@ import teamosqar.discbuss.application.ChatController;
  */
 public class BusChatActivity extends ChatActivity {
 
-    private String roomName;
     private BusChatController chatController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        roomName = getIntent().getExtras().getString("EXTRA_ROOM");
+        String roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
         super.onCreate(savedInstanceState);
 

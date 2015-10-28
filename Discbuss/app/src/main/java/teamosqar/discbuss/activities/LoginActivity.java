@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         if(autoLogin){
             editEmail.setText(sharedPref.getString(EMAIL, "email"));
             editPassword.setText(sharedPref.getString(PASSWORD, "pass"));
-            autoLoginCheckbox.setChecked(autoLogin);
+            autoLoginCheckbox.setChecked(true);
             initiateLogin();
         }
     }
@@ -116,8 +116,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         ft.add(R.id.loadingFragmentPlaceholder, loadingFragment);
         ft.commit();
         loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
-        //setContentView(R.layout.fragment_loading);
-        //progressDialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Logging in", true, false);
     }
 
     public void cancelLogin(){
@@ -130,7 +128,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         FragmentTransaction newFt = getFragmentManager().beginTransaction();
         newFt.remove(loadingFragment);
         newFt.commit();
-        //setContentView(R.layout.activity_login);
     }
 
     @Override
@@ -158,7 +155,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     public void update(Observable observable, Object data) {
 
         Log.d("notifications", "recieved notification");
-        //progressDialog.dismiss();
         if(tryingLogin) {
             if (loginController.getLoginStatus()) {
                 SharedPreferences.Editor editor = sharedPref.edit();

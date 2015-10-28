@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="teamosqar.discbuss.fragments.EditDisplayname">
+    tools:context="teamosqar.discbuss.fragments.EditUserName">
 
 
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:id="@+id/buttonSubmit"
 
             android:layout_below="@+id/editTextNewName"
-            android:onClick="changeDisplayname"
+            android:onClick="confirmUserName"
             android:background="@drawable/button_shape" />
 
     </RelativeLayout>

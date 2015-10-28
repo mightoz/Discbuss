@@ -19,15 +19,15 @@ import teamosqar.discbuss.util.Message;
  */
 public abstract class ProfileActivity extends AppCompatActivity {
 
-    private List<TextView> topCommentValues, topCommentKarmas;
+    private List<TextView> topCommentMessages, topCommentKarmaValues;
     protected ProfileController profileController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        topCommentValues = new ArrayList<>();
-        topCommentKarmas = new ArrayList<>();
+        topCommentMessages = new ArrayList<>();
+        topCommentKarmaValues = new ArrayList<>();
     }
 
     @Override
@@ -68,24 +68,22 @@ public abstract class ProfileActivity extends AppCompatActivity {
     public void displayTopComments() {
         TextView topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
         ArrayList<Message> topComments = profileController.getTopMessages();
-
-
         topComment1 = (TextView) findViewById(R.id.topComment1Value);
         topComment2 = (TextView) findViewById(R.id.topComment2Value);
         topComment3 = (TextView) findViewById(R.id.topComment3Value);
         topKarma1 = (TextView) findViewById(R.id.topKarma1Value);
         topKarma2 = (TextView) findViewById(R.id.topKarma2Value);
         topKarma3 = (TextView) findViewById(R.id.topKarma3Value);
-        topCommentValues.add(topComment1);
-        topCommentValues.add(topComment2);
-        topCommentValues.add(topComment3);
-        topCommentKarmas.add(topKarma1);
-        topCommentKarmas.add(topKarma2);
-        topCommentKarmas.add(topKarma3);
+        topCommentMessages.add(topComment1);
+        topCommentMessages.add(topComment2);
+        topCommentMessages.add(topComment3);
+        topCommentKarmaValues.add(topKarma1);
+        topCommentKarmaValues.add(topKarma2);
+        topCommentKarmaValues.add(topKarma3);
         for (int i = 0; i < topComments.size(); i++) {
 
-            topCommentValues.get(i).setText(topComments.get(i).getMessage());
-            topCommentKarmas.get(i).setText(Integer.toString(topComments.get(i).getKarma()));
+            topCommentMessages.get(i).setText(topComments.get(i).getMessage());
+            topCommentKarmaValues.get(i).setText(Integer.toString(topComments.get(i).getKarma()));
 
         }
     }
