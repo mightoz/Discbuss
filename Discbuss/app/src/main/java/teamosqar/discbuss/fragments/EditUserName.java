@@ -12,7 +12,7 @@ import teamosqar.discbuss.activities.R;
 /**
  * Fragment class used to change username
  */
-public class EditDisplayname extends DialogFragment {
+public class EditUserName extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

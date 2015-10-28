@@ -11,7 +11,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -126,11 +125,6 @@ public class ProfileController extends Observable implements Observer {
             }
         });
     }
-
-    public ArrayList<String> getTopMessageValues(){
-        return topMessageValues;
-    }
-    public ArrayList<String> getTopKarma() { return topKarma; }
 
     public ArrayList<Message> getTopMessages(){
         return topMessages;

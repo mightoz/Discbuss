@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import teamosqar.discbuss.activities.R;
 
@@ -15,7 +14,6 @@ import teamosqar.discbuss.activities.R;
  * A simple {@link Fragment} subclass.
  */
 public class SuggestFragment extends DialogFragment {
-    private EditText statement;
     public SuggestFragment() {
         // Required empty public constructor
     }

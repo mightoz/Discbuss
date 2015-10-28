@@ -58,8 +58,8 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
         chatFireBaseRef = getFirebaseChatRef(chatRoom);
 
-        messageModels = new ArrayList<Message>();
-        messageKeys = new ArrayList<String>();
+        messageModels = new ArrayList<>();
+        messageKeys = new ArrayList<>();
 
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
 
@@ -84,7 +84,7 @@ public abstract class ChatController extends BaseAdapter implements Observer {
                         messageKeys.add(key);
                     }
                 }
-                onMessageRecieved();
+                onMessageReceived();
                 notifyDataSetChanged();
             }
 
@@ -141,7 +141,7 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         });
     }
 
-    protected abstract void onMessageRecieved();
+    protected abstract void onMessageReceived();
 
     protected abstract Firebase getFirebaseChatRef(String chatRoom);
 

@@ -11,11 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.firebase.client.Firebase;
 
-import java.sql.Array;
-import java.util.Calendar;
-import java.util.Date;
+import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.application.RegisterController;
 import teamosqar.discbuss.util.Toaster;

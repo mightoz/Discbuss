@@ -1,10 +1,7 @@
 package teamosqar.discbuss.net;
 
-import android.util.JsonReader;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
