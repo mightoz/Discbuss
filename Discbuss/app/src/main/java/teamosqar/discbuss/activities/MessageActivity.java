@@ -88,6 +88,10 @@ public class MessageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Represents the intention of the X-button for each active chat, calls the messageController to permanently close the chat.
+     * @param view
+     */
     public void leaveDuoChat(View view){
         int pos = listView.getPositionForView((View)view.getParent());
         messageController.leaveChat(pos);
