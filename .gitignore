@@ -61,3 +61,6 @@ proguard/
 
 # IntelliJ
 /out/
+
+# Serverscript
+node_modules/
