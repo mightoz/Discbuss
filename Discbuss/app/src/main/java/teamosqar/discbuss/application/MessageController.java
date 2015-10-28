@@ -87,7 +87,10 @@ public class MessageController extends BaseAdapter implements Observer {
         });
     }
 
-
+    /**
+     * Adds listeners for each chat the user participates in
+     * @param key
+     */
     private void startListeningAt(final String key){
         ChildEventListener messageListener = messagesFirebaseRef.child(key).addChildEventListener(new ChildEventListener() {
             @Override
@@ -170,6 +173,10 @@ public class MessageController extends BaseAdapter implements Observer {
         childEventListenerMap.put(key, messageListener);
     }
 
+    /**
+     * Removes listeners for the chat the user no longer participates in
+     * @param key
+     */
     private void stopListeningAt(String key){
         ChildEventListener listener = childEventListenerMap.remove(key);
         if(listener != null) {
@@ -184,6 +191,10 @@ public class MessageController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * @param iterator which iterates through the chat to find the last message
+     * @return the last message found when iterating
+     */
     private Message getLastIteratorMessage(Iterator iterator){
         Message lastElement = null;
         while(iterator.hasNext()){
@@ -192,6 +203,11 @@ public class MessageController extends BaseAdapter implements Observer {
         return lastElement;
     }
 
+    /**
+     * Creates a new MessageInbox according to the new information provided in the dataSnapshot
+     * @param dataSnapshot
+     * @return
+     */
     private MessageInbox createMessageInbox(DataSnapshot dataSnapshot){
         Iterator iterator = dataSnapshot.getChildren().iterator();
         String latestActivity = "";
@@ -228,7 +244,13 @@ public class MessageController extends BaseAdapter implements Observer {
         return messageInbox;
     }
 
-
+    /**
+     * Adds the new message to the proper inbox and updates it with the status of the message
+     * @param position
+     * @param inbox
+     * @param mostRecentMessage
+     * @param key
+     */
     private void insertIntoLists(int position, MessageInbox inbox, Message mostRecentMessage, String key){
         if(position == messageInboxes.size()){
             messageInboxes.add(inbox);
@@ -241,6 +263,10 @@ public class MessageController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * @param inbox
+     * @return an int representing the MessageInbox's position in the list
+     */
     private int getCorrectListSpot(MessageInbox inbox){
 
         for(int i = 0; i < messageInboxes.size(); i++){
@@ -251,17 +277,27 @@ public class MessageController extends BaseAdapter implements Observer {
         return messageInboxes.size();
     }
 
-
+    /**
+     * @return the number of MessageInboxes
+     */
     @Override
     public int getCount() {
         return messageInboxes.size();
     }
 
+    /**
+     * @param position
+     * @return the inbox on the position provided as param
+     */
     @Override
     public Object getItem(int position) {
         return messageInboxes.get(position);
     }
 
+    /**
+     * @param position
+     * @return the key for the chat on the position provided as param
+     */
     public String getChatRefKey(int position){
         return keys.get(position);
     }
@@ -271,6 +307,12 @@ public class MessageController extends BaseAdapter implements Observer {
         return 0;
     }
 
+    /**
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return the view item on the position provided as param
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
@@ -281,6 +323,11 @@ public class MessageController extends BaseAdapter implements Observer {
         return convertView;
     }
 
+    /**
+     * Updates the view sent in as param with potential new data, such as wether the most recent message has been read
+     * @param view
+     * @param position
+     */
     private void populateView(View view, int position){
         Message msg = mostRecentMsg.get(position);
         String chattingWith = messageInboxes.get(position).getOtherParticipant();
@@ -307,6 +354,9 @@ public class MessageController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * Updates the action bar with the upcoming bus stop
+     */
     public void updateNextBusStop() {
         if (Model.getInstance().getNextBusStop()!=null&& !Model.getInstance().getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
@@ -320,14 +370,27 @@ public class MessageController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * Adds self as an observer in the model
+     */
     public void addAsObserver(){
         Model.getInstance().addObserver(this);
     }
 
+    /**
+     * Called by the observed object when an update has been made
+     * @param observable
+     * @param nextBusStop
+     */
     @Override
     public void update(Observable observable, final Object nextBusStop) {
         updateNextBusStop();
     }
+
+    /**
+     * Closes the chat at the position provided as param
+     * @param position
+     */
 
     public void leaveChat(int position){
         final String key = keys.get(position);
