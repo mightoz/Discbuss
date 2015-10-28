@@ -34,7 +34,6 @@ import teamosqar.discbuss.util.Message;
 public abstract class ChatController extends BaseAdapter implements Observer {
 
     private final Context context;
-    private LayoutInflater inflater;
     private Model model;
     private Firebase chatFireBaseRef;
     private ChildEventListener chatListener;
@@ -46,7 +45,6 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     public ChatController(Context context, String chatRoom){
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
         model = Model.getInstance();
         clickedMessage = -1;
         clickedView = null;
