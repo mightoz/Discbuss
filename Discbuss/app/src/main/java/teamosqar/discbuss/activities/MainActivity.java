@@ -40,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private SuggestFragment fragment;
     private TextView actionBarText;
 
-
+    /**
+     * Sets instance variables which are represented by graphical elements.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Makes sure the backbutton works as intended, closing fragment if it's open and leaving the app if it's double-pressed
+     */
     public void onBackPressed(){
         if(doubleBackAgain && !fragmentOpen){
             Log.d("quitting", "quitting");
