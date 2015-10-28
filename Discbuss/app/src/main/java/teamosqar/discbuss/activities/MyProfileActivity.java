@@ -96,6 +96,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         }
     }
 
+    /**
+     * Updates the users data based on new input, called as an Observer when the Observed object identifies an update is required
+     * @param observable
+     * @param data
+     */
     public void update(Observable observable, Object data) {
         name.setText(profileController.getName() + ", " + profileController.getGender() + " " + profileController.getAge() + " år");
         email.setText("Email: " + profileController.getEmail());
