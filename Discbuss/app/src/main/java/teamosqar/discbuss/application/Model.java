@@ -184,7 +184,7 @@ public class Model extends Observable implements Observer{
     }
 
     protected void setToolBar(Context context){
-        toolbar = new BusActionBar(context);
-        ((AppCompatActivity)context).setSupportActionBar(toolbar);
+        Toolbar tb = (Toolbar)((AppCompatActivity)context).findViewById(R.id.toolbar);
+        ((AppCompatActivity)context).setSupportActionBar(tb);
     }
 }

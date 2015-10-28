@@ -24,10 +24,10 @@ public class BusActionBar extends Toolbar{
 
     public BusActionBar(Context context) {
         super(context);
-        this.inflate(context,R.layout.toolbar,null);
-        setTitleTextColor(getResources().getColor(R.color.standard_green));
-        setTitle("Discbuss");
-        setVisibility(VISIBLE);
+       // this.inflate(context,R.layout.toolbar,null);
+        //setTitleTextColor(getResources().getColor(R.color.standard_green));
+        //setTitle("Discbuss");
+        //setVisibility(VISIBLE);
     }
 
 

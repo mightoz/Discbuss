@@ -6,6 +6,8 @@
 
     android:launchMode="singleInstance">
 
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
         android:id="@+id/actionBarPlaceholder"
         android:layout_width="fill_parent"
