@@ -140,6 +140,7 @@ public class BusChatController extends ChatController implements Observer{
         numUsers.setText(Integer.toString(users));
     }
 
+    
     private void updateCurrentKarma(int karma){
         TextView karmaText = (TextView)((Activity)context).findViewById(R.id.statementKarmaText);
         karmaText.setText(Integer.toString(karma));

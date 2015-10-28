@@ -145,14 +145,28 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     protected abstract Firebase getFirebaseChatRef(String chatRoom);
 
+    /**
+     * get message model at specified location
+     * @param location
+     * @return message model
+     */
     protected Message getMessageModel(int location){
         return messageModels.get(location);
     }
 
+    /**
+     * get database message key at specified location
+     * @param location
+     * @return message key
+     */
     protected String getMessageKey(int location){
         return messageKeys.get(location);
     }
 
+    /**
+     * Pushes a chat message to database
+     * @param msg
+     */
     public void sendMessage(String msg){
         if(!msg.equals("")) {
             Message message = new Message(model.getUid(), msg, model.getUsername());
@@ -208,6 +222,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         return convertView;
     }
 
+    /**
+     * Get the list of database keys for the messages
+     * @return the list of keys
+     */
     public List getMessageKeys(){
         return messageKeys;
     }
@@ -220,6 +238,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     protected abstract void populateViewOnExtension(View view, Message message);
 
+    /**
+     * declare that a message from the list has been clicked
+     * @param position
+     */
     public void messageClicked(int position) {
         if(clickedMessage != position) {
             clickedMessage = position;
@@ -229,6 +251,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         notifyDataSetChanged();
     }
 
+    /**
+     * declare that a personal profile button has been clicked
+     * @param position
+     */
     public void personalProfileClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
         if(!otherUid.equals(model.getUid())){
@@ -268,10 +294,16 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * Stops the database chat listener
+     */
     public void shutDownListener(){
         chatFireBaseRef.removeEventListener(chatListener);
     }
 
+    /**
+     * Starts the database chat listener
+     */
     public void startListener(){
         chatFireBaseRef.addChildEventListener(chatListener);
     }

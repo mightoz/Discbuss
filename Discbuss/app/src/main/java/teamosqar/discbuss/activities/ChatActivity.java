@@ -75,6 +75,7 @@ public abstract class ChatActivity extends AppCompatActivity {
         });
     }
 
+
     protected abstract ChatController getChatController();
 
     @Override
