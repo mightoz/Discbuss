@@ -63,6 +63,10 @@ public class LoginController extends Observable{
         });
     }
 
+    /**
+     * Gets the loginStatus of the user
+     * @return the users loginStatus as a boolean
+     */
     public boolean getLoginStatus(){
         return loginStatus;
     }

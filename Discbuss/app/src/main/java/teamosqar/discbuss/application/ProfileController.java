@@ -236,20 +236,34 @@ public class ProfileController extends Observable implements Observer {
 
     }
 
+    /**
+     * Adds self as observer in the model
+     */
     public void addAsObserver(){
         model.addObserver(this);
     }
 
+    /**
+     * Removes self as observer in the model
+     */
     public void removeAsObserver(){
         model.deleteObserver(this);
     }
 
 
+    /**
+     * Called when the observed object wants the observer to update
+     * @param observable
+     * @param obj
+     */
     @Override
     public void update(Observable observable, Object obj) {
         updateNextBusStop();
     }
 
+    /**
+     * Update the actionbar to display the upcoming bus stop
+     */
     public void updateNextBusStop(){
         if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
@@ -263,6 +277,9 @@ public class ProfileController extends Observable implements Observer {
         }
     }
 
+    /**
+     * Resets the userdata in the model
+     */
     public void resetModel(){
         model.resetModel();
     }

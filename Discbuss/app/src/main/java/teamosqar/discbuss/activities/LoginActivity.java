@@ -49,6 +49,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         super.onStart();
     }
 
+    /**
+     * Sets all instance variables which are graphical elements, also checks if autologin is checked and autologins in that case
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +79,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean(AUTO_LOGIN, false);
                 editor.apply();
-                Log.d("AUTOLOGIN", "set to false");
                 autoLogin = false;
             }
         }
@@ -88,22 +91,33 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     *
+     * Represents the login-buttons functionality
      * @param view
      */
     public void loginPressed(View view){
         initiateLogin();
     }
 
+    /**
+     * Takes you to the RegisterActivity
+     * @param view
+     */
     public void notRegisteredPressed(View view){
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Represents the cancel-button during authentication process
+     * @param view
+     */
     public void cancelLoadingPressed(View view){
         cancelLogin();
     }
 
+    /**
+     * Tries logging in and puts the loading fragment on the screen
+     */
     public void initiateLogin(){
         tryingLogin = true;
         editEmail.setVisibility(View.GONE);
@@ -118,6 +132,9 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
     }
 
+    /**
+     * Cancels the login and removes the loading screen fragment
+     */
     public void cancelLogin(){
         tryingLogin = false;
         editEmail.setVisibility(View.VISIBLE);
@@ -153,8 +170,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
     @Override
     public void update(Observable observable, Object data) {
-
-        Log.d("notifications", "recieved notification");
         if(tryingLogin) {
             if (loginController.getLoginStatus()) {
                 SharedPreferences.Editor editor = sharedPref.edit();
