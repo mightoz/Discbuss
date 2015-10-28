@@ -61,6 +61,9 @@ public abstract class ChatActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the adapter to the list, providing the correct ChatController.
+     */
     private void setAdapter(){
         //Chatadapter needs to be set before calling oncreate from subclasses extending this class
         listView = (ListView)findViewById(R.id.myList);
@@ -77,6 +80,9 @@ public abstract class ChatActivity extends AppCompatActivity {
 
     protected abstract ChatController getChatController();
 
+    /**
+     * Makes sure the chat is properly closed when backing out of the activity, to make the user count correct.
+     */
     @Override
     public void onBackPressed(){
         super.onBackPressed();
@@ -102,6 +108,10 @@ public abstract class ChatActivity extends AppCompatActivity {
         }, 400);
     }
 
+    /**
+     * Gets and opens the profile the user pressed to enter.
+     * @param view
+     */
     public void viewPersonalProfileClicked(View view){
         getChatController().personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
