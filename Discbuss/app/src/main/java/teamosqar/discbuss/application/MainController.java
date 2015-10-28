@@ -25,9 +25,9 @@ public class MainController implements Observer {
     private int idIndex;
 
     public MainController(Context context){
-        //connectedToBusWifi = false;
         this.context = context;
         model = Model.getInstance();
+        connectedToBusWifi = false;
 
     }
 
@@ -37,43 +37,36 @@ public class MainController implements Observer {
      */
     public void checkWifiState(){
 
+        boolean testing = true; //TODO: Set to true if you want to test the chat room. Will then connect to a chat room for a simulated bus trip.
 
-        //TODO: If not connected to a bus, connects to a simulated bus. Replace code with comments to only enable app when connected to a real bus.
-        try {
-            WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-            wifiInfo=mWifiManager.getConnectionInfo();
-            if (mWifiManager.isWifiEnabled() || wifiInfo.getSSID() != null || wifiInfo.getBSSID() != null) {
-                if(model.getBusBSSIDs().contains(wifiInfo.getBSSID())){
+        if(testing){
+            model.setCurrentBSSID("testBus");
+            idIndex = model.getIndexOfBSSID();
+            connectedToBusWifi = true;
+            model.startRetrievingStopInfo();
+            addAsObserver();
+        }else{
+            try {
+                WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+                wifiInfo=mWifiManager.getConnectionInfo();
+                if (mWifiManager.isWifiEnabled() || wifiInfo.getSSID() != null || wifiInfo.getBSSID() != null) {
                     model.setCurrentBSSID(wifiInfo.getBSSID());
                     idIndex = model.getIndexOfBSSID();
-                    connectedToBusWifi = true;
-                    model.startRetrievingStopInfo();
+                    connectedToBusWifi = model.connectedToBusWifi();
+                    if(connectedToBusWifi)
+                        model.startRetrievingStopInfo();
                 }else{
-                    model.setCurrentBSSID("testBus");
-                    idIndex = model.getIndexOfBSSID();
-                    connectedToBusWifi = true;
-                    model.startRetrievingStopInfo();
-                }
-                /*model.setCurrentBSSID(wifiInfo.getBSSID());
-                idIndex = model.getIndexOfBSSID();
-                if(idIndex != -1){
-                    connectedToBusWifi = true;
-                    model.startRetrievingStopInfo();
-                }else{
+                    idIndex = -1;
                     connectedToBusWifi = false;
-                }*/
-            }else{
-                model.setCurrentBSSID("testBus");
-                idIndex = model.getIndexOfBSSID();
-                connectedToBusWifi = true;
-                model.startRetrievingStopInfo();
-                //connectedToBusWifi = false;
+                }
+                addAsObserver();
             }
-            addAsObserver();
-        }
-        catch (  Exception e) {
+            catch (  Exception e) {
+
+            }
 
         }
+
     }
 
     public void resetModel(){

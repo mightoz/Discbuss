@@ -88,8 +88,10 @@ public class Model extends Observable implements Observer{
 
     }
 
-    protected List<String> getBusBSSIDs(){
-        return busBSSIDs;
+    protected boolean connectedToBusWifi(){
+        if(busBSSIDs.contains(currentBSSID))
+                return true;
+        return false;
     }
 
     protected void setCurrentBSSID(String bssid){
@@ -152,7 +154,7 @@ public class Model extends Observable implements Observer{
     }
 
     /**
-     * starts retrieving bus stop info based on the active buss ID
+     * Starts timer that retrieves bus data for currently connected bus.
      */
     protected void startRetrievingStopInfo(){
         stopUpdater = new StopUpdater(currentBSSID);
@@ -160,24 +162,35 @@ public class Model extends Observable implements Observer{
         stopUpdater.start();
     }
 
+
     /**
-     * updates the next bus stop. Sometimes updates it to hard coded strings because of
-     * some badly formatted strings from the provided API
-     * @param observable
-     * @param data
+     * Retrieves the next bus stop info and formats it into a presentable string. Then updates
+     * listeners.
+     * @param observable not used
+     * @param data not used
      */
     @Override
     public void update(Observable observable, Object data) {
         String busStopTmp = stopUpdater.getNextBusStop();
+        if(busStopTmp != null && busStopTmp.length()>1){
+            busStopTmp = busStopTmp.substring(0,busStopTmp.length()-1);
+        }
+
         switch (busStopTmp){
-            case "G�taplatsen":
+            case "G�taplatse":
                 nextBusStop = "Götaplatsen";
                 break;
-            case "Kungsportsplatsn":
+            case "Kungsportsplats":
                 nextBusStop = "Kungsportsplatsen";
                 break;
-            case "NisseTerminalen":
+            case "NisseTerminale":
                 nextBusStop = "Nils Ericson Terminalen";
+                break;
+            case "Frihamne":
+                nextBusStop = "Frihamnen";
+                break;
+            case "Kungsportspl":
+                nextBusStop = "Kungsportsplatsen";
                 break;
             default:
                 nextBusStop = busStopTmp;

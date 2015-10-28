@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mainController.isConnectedToBus()){
             String roomNbr = Integer.toString(mainController.getIndexOfId()+1);
+            if(!roomNbr.equals("0"))
             chatRoom = chatRoom + roomNbr;
             Intent intent = new Intent(this, BusChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
