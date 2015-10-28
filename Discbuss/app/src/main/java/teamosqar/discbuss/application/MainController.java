@@ -69,12 +69,14 @@ public class MainController implements Observer {
 
     }
 
+    /**
+     * Resets active user-data upon logout
+     */
     public void resetModel(){
         model.resetModel();
     }
 
     /**
-     *
      * @return True if connected to a bus.
      */
     public boolean isConnectedToBus() {
@@ -97,19 +99,33 @@ public class MainController implements Observer {
         model.getMRef().child("statements").push().setValue(statement);
     }
 
+    /**
+     * Adds the MainController as an observer in the model
+     */
     public void addAsObserver(){
         model.addObserver(this);
     }
 
+    /**
+     * Removes the MainController as an observer in the model
+     */
     public void removeAsObserver(){
         model.deleteObserver(this);
     }
 
+    /**
+     * Called when the Observed object is updated, in our case when the busStop should be updated
+     * @param observable
+     * @param nextBusStop
+     */
     @Override
     public void update(Observable observable, final Object nextBusStop) {
        updateNextBusStop();
     }
 
+    /**
+     * Updates the upcoming bus stop in the actionbar.
+     */
     public void updateNextBusStop() {
         if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
