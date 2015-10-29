@@ -15,6 +15,13 @@ public class BusConnector {
         eAPI = new ElecApi(bssid);
         vAPI = new VastApi();
     }
+
+    /**
+     *
+     * @return the upcoming bus stop as a string
+     * @throws IOException
+     * @throws JSONException
+     */
     public String getNextStop() throws IOException, JSONException {
         return eAPI.getNextBusStop();
     }
