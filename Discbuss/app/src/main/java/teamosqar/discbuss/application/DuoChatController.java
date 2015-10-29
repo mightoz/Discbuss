@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 
 import teamosqar.discbuss.activities.DuoChatActivity;
-
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
