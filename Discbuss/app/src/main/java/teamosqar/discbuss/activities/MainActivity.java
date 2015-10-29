@@ -25,12 +25,8 @@ import teamosqar.discbuss.util.Toaster;
 public class MainActivity extends AppCompatActivity {
 
     private MainController mainController;
-    private Firebase mref;
     private boolean doubleBackAgain = false;
     private boolean fragmentOpen = false;
-    //BELOW ONLY FOR TESTING...
-    private final String bssidMightos = "bc:ee:7b:55:47:16";
-    //ABOVE ONLY FOR TESTING...
 
     private EditText fragmentData;
     private FragmentManager fm;
