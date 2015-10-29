@@ -68,7 +68,7 @@ public class MessageInbox {
     }
 
     /**
-     * @return the other user in the private chat as a string
+     * @return the other user in the private chat's nickname
      */
     public String getOtherParticipant(){
         return otherParticipant;
