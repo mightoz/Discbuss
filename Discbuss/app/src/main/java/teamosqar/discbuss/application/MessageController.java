@@ -35,7 +35,7 @@ public class MessageController extends BaseAdapter implements Observer {
     private Firebase messagesFirebaseRef;
     private List<MessageInbox> messageInboxes;
     private List<Message> mostRecentMsg;
-    private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model, keys does not controll the ordering in this case
+    private List<String> keys; //Remember the lists are ordered by their date/time in the messageInbox model, keys does not control the ordering in this case
     private Map<String, ChildEventListener> childEventListenerMap;
     private LayoutInflater inflater;
     private Context context;
