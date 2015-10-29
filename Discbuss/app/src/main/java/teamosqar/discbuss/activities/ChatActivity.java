@@ -93,14 +93,11 @@ public abstract class ChatActivity extends BusBarActivity {
     protected void onStart(){
         super.onStart();
         getChatController().onEnteredChat();
-        getChatController().addAsObserver();
-        getChatController().updateNextBusStop();
     }
 
     @Override
     public void onStop(){
         getChatController().onLeftChat();
-        getChatController().removeAsObserver();
         super.onStop();
     }
 

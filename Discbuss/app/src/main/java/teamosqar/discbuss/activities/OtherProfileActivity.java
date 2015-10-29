@@ -43,8 +43,6 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
     @Override
     public void onStart(){
         super.onStart();
-        profileController.addAsObserver();
-        profileController.updateNextBusStop();
     }
 
 

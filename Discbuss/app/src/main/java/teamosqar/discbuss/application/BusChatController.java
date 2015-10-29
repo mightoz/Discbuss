@@ -25,7 +25,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-10-16.
  */
-public class BusChatController extends ChatController implements Observer{
+public class BusChatController extends ChatController{
 
     private Firebase chatFirebaseRef; //TODO: This is also kept in superclass.. Should we consider other solution? variable needed for performKarmaChange
     private Context context;
@@ -117,14 +117,6 @@ public class BusChatController extends ChatController implements Observer{
 
     public void onLeftChat(){
         model.removeUserFromChat(chatRoom);
-    }
-
-    public void addAsObserver(){
-        model.addObserver(this);
-    }
-
-    public void removeAsObserver(){
-        model.deleteObserver(this);
     }
 
     private void updateUserCount(int users){

@@ -1,6 +1,7 @@
 package teamosqar.discbuss.application;
 
 import android.content.Context;
+import android.support.v7.app.ActionBar;
 
 import com.firebase.client.Firebase;
 
@@ -203,11 +204,7 @@ public class Model extends Observable implements Observer{
         return nextBusStop;
     }
 
-    public void onActivityCreated(Context context){
-
-    }
-
-    public void onActivityStarted(Context context){
+    public void setCurrentActionBar(ActionBar supportActionBar) {
 
     }
 }

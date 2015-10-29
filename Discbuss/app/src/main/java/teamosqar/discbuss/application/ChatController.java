@@ -31,7 +31,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatController extends BaseAdapter implements Observer {
+public abstract class ChatController extends BaseAdapter {
 
     private final Context context;
     private LayoutInflater inflater;
@@ -270,29 +270,6 @@ public abstract class ChatController extends BaseAdapter implements Observer {
     public abstract void onEnteredChat();
 
     public abstract void onLeftChat();
-
-    public abstract void addAsObserver();
-
-    public abstract void removeAsObserver();
-
-
-
-    @Override
-    public void update(Observable observable, Object data) {
-        updateNextBusStop();
-    }
-    public void updateNextBusStop(){
-        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
-            Activity activity = (Activity)context;
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                    textView.setText("Nästa hållplats: " + model.getNextBusStop().toString());
-                }
-            });
-        }
-    }
 
     /**
      * Stops the database chat listener

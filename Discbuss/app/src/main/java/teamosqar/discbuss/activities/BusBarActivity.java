@@ -1,5 +1,6 @@
 package teamosqar.discbuss.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,14 +15,13 @@ import teamosqar.discbuss.application.ActionBarController;
 /**
  * Created by joakim on 2015-10-29.
  */
-public class BusBarActivity extends AppCompatActivity {
+public abstract class BusBarActivity extends AppCompatActivity {
 
     private ActionBarController controller;
     private TextView actionBarText;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        controller = new ActionBarController();
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.activity_action_bar,
@@ -35,16 +35,22 @@ public class BusBarActivity extends AppCompatActivity {
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
 
         actionBarText.setText("Discbuss");
-
-        controller.onActivityCreated(getApplicationContext());
+        controller = new ActionBarController(this);
     }
 
     @Override
     protected void onStart(){
         super.onStart();
 
-        controller.onActivityStarted(getApplicationContext());
+        controller.setCurrentActionBar(getSupportActionBar());
+        controller.addAsObserver();
+        controller.updateNextBusStop();
+    }
 
+    @Override
+    protected void onStop(){
+        controller.removeAsObserver();
+        super.onStop();
     }
 
     @Override
@@ -72,4 +78,7 @@ public class BusBarActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

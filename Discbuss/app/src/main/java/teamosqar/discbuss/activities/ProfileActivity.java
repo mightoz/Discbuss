@@ -33,7 +33,6 @@ public abstract class ProfileActivity extends BusBarActivity{
     @Override
     public void onStop(){
         super.onStop();
-        profileController.removeAsObserver();
     }
 
     /**

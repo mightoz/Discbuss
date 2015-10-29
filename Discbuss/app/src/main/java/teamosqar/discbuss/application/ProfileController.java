@@ -28,7 +28,7 @@ import teamosqar.discbuss.util.Toaster;
  * A controller class for the ProfileActivity classes. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
-public class ProfileController extends Observable implements Observer {
+public class ProfileController extends Observable {
 
     private Firebase fireRef;
     protected ArrayList<String> topMessageValues, topKarma, keys;
@@ -236,34 +236,4 @@ public class ProfileController extends Observable implements Observer {
 
     }
 
-    public void addAsObserver(){
-        model.addObserver(this);
-    }
-
-    public void removeAsObserver(){
-        model.deleteObserver(this);
-    }
-
-
-    @Override
-    public void update(Observable observable, Object obj) {
-        updateNextBusStop();
-    }
-
-    public void updateNextBusStop(){
-        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
-            Activity activity = (Activity) context;
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                    textView.setText("Nästa hållplats: " + model.getNextBusStop());
-                }
-            });
-        }
-    }
-
-    public void resetModel(){
-        model.resetModel();
-    }
 }

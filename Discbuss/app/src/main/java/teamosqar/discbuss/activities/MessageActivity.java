@@ -48,8 +48,6 @@ public class MessageActivity extends BusBarActivity {
     @Override
     public void onStart(){
         super.onStart();
-        messageController.addAsObserver();
-        messageController.updateNextBusStop();
     }
 
     public void leaveDuoChat(View view){

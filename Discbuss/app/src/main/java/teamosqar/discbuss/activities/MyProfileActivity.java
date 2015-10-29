@@ -92,8 +92,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         changePass = false;
         changeName = false;
         Firebase.setAndroidContext(this);
-        profileController.addAsObserver();
-        profileController.updateNextBusStop();
         fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragmentPlaceholder);
     }
 

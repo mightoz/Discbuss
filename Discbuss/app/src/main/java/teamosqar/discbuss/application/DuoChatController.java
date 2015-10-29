@@ -96,13 +96,6 @@ public class DuoChatController extends ChatController{
         shutDownListener();
     }
 
-    public void addAsObserver(){
-        model.addObserver(this);
-    }
-
-    public void removeAsObserver(){
-        model.deleteObserver(this);
-    }
 
     @Override
     public void notifyDataSetChanged(){

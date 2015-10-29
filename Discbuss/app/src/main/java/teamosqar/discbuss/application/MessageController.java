@@ -31,7 +31,7 @@ import teamosqar.discbuss.util.MessageInbox;
 /**
  * Created by joakim on 2015-10-11.
  */
-public class MessageController extends BaseAdapter implements Observer {
+public class MessageController extends BaseAdapter {
 
     private Firebase messagesFirebaseRef;
     private List<MessageInbox> messageInboxes;
@@ -305,28 +305,6 @@ public class MessageController extends BaseAdapter implements Observer {
         }else{
             messageReadView.setText("");
         }
-    }
-
-    public void updateNextBusStop() {
-        if (Model.getInstance().getNextBusStop()!=null&& !Model.getInstance().getNextBusStop().isEmpty()) {
-            Activity activity = (Activity) context;
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
-                    textView.setText("Nästa hållplats: " + Model.getInstance().getNextBusStop());
-                }
-            });
-        }
-    }
-
-    public void addAsObserver(){
-        Model.getInstance().addObserver(this);
-    }
-
-    @Override
-    public void update(Observable observable, final Object nextBusStop) {
-        updateNextBusStop();
     }
 
     public void leaveChat(int position){

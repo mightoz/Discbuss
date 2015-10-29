@@ -53,12 +53,9 @@ public class MainActivity extends BusBarActivity {
         super.onStart();
         Firebase.setAndroidContext(this);
         fragment = new SuggestFragment();
-        mainController.addAsObserver();
-        mainController.updateNextBusStop();
     }
 
     public void onStop(){
-        mainController.removeAsObserver();
         super.onStop();
     }
 
