@@ -21,8 +21,8 @@ public class Message implements Comparable<Message> {
         return result;
     }
 
-    //required default constructor for firebase object mapping
     private Message(){
+    //required default constructor for firebase object mapping
     }
 
     public Message(String uid, String message, String author){
