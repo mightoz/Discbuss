@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 //import teamosqar.discbuss.application.ActionBarHandler;
+import teamosqar.discbuss.application.BusActionBar;
 import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.util.Toaster;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private SuggestFragment fragment;
     private TextView actionBarText;
+    private Toolbar tb;
 
 
     @Override
@@ -48,8 +51,14 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
         mainController = new MainController(this);
-        mainController.setToolBar();
+        
+        tb = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+
         mainController.checkWifiState();
+
+
+
 
 
 

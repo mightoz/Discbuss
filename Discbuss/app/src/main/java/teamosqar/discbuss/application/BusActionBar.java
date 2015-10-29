@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,11 +21,11 @@ import teamosqar.discbuss.activities.R;
 /**
  * Created by joakim on 2015-10-27.
  */
-public class BusActionBar extends Toolbar{
+public class BusActionBar extends Toolbar {
 
     public BusActionBar(Context context) {
         super(context);
-       // this.inflate(context,R.layout.toolbar,null);
+        //this.inflate(context,R.layout.toolbar,null);
         //setTitleTextColor(getResources().getColor(R.color.standard_green));
         //setTitle("Discbuss");
         //setVisibility(VISIBLE);

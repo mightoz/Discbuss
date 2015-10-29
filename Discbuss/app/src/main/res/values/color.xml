@@ -2,4 +2,6 @@
 <resources>
     <color name="standard_gray">#7e7e7e</color>
     <color name="standard_green">@android:color/holo_green_light</color>
+    <color name="standard_dark">#222222</color>
+    <color name="standard_darker">#ff000000</color>
 </resources>
