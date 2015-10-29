@@ -164,7 +164,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     @Override
     public void onBackPressed(){
         if(doubleBackAgain && !tryingLogin){
-            Log.d("quitting", "quitting");
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

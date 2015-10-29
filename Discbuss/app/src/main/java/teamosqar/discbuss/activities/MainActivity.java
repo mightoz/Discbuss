@@ -65,7 +65,6 @@ public class MainActivity extends BusBarActivity {
     @Override
     public void onBackPressed(){
         if(doubleBackAgain && !fragmentOpen){
-            Log.d("quitting", "quitting");
             super.onBackPressed();
         } else if(fragmentOpen) {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
