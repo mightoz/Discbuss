@@ -156,35 +156,5 @@ public class MainActivity extends BusBarActivity {
             Toaster.displayToast("Skriv ner en topic", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-
-
-    //TODO: Refactor this method. -> Move to controller and call from here.
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if(id == R.id.logout){
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("logout", "logout");
-            startActivity(intent);
-            mainController.resetModel();
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

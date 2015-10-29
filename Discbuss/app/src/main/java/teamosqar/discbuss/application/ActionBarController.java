@@ -18,4 +18,8 @@ public class ActionBarController {
     public void onActivityStarted(Context context){
         Model.getInstance().onActivityStarted(context);
     }
+
+    public void resetModel(){
+        Model.getInstance().resetModel();
+    }
 }
