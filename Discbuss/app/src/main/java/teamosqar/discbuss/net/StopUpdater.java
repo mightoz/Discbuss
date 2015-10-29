@@ -24,6 +24,9 @@ public class StopUpdater extends Observable{
 
     }
 
+    /**
+     * Starts the stopUpdater if it's not already running, checking for updates every 10 seconds
+     */
     public void start(){
         if(!isRunning){
             timer.schedule(new Updater(),0,10000);
@@ -31,13 +34,18 @@ public class StopUpdater extends Observable{
         }
     }
 
+    /**
+     * Stops the stopUpdater
+     */
     public void stop(){
         isRunning = false;
         timer.cancel();
     }
 
     private class Updater extends TimerTask{
-
+        /**
+         * Checks for new busStop and notifies observers if the upcoming bus stop isn't the same as the currently displayed
+         */
         public void run(){
             try {
                 String next;
@@ -57,6 +65,9 @@ public class StopUpdater extends Observable{
         }
     }
 
+    /**
+     * @return the upcoming busStop as a string
+     */
     public String getNextBusStop(){
         return nextBusStop;
     }
