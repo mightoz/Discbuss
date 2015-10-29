@@ -64,8 +64,8 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     /**
      * Makes sure the back button works as intended when fragments are active
      */
-    public void onBackPressed(){
-        if(changePass){
+    public void onBackPressed() {
+        if (changePass) {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(pwFragment);
             newFt.commit();
@@ -75,7 +75,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             email.setVisibility(View.VISIBLE);
             karma.setVisibility(View.VISIBLE);
             changePass = false;
-        } else if(changeName){
+        } else if (changeName) {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(userNameFragment);
             fragmentPlaceholder.setVisibility(View.INVISIBLE);
@@ -83,7 +83,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             pwButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
 
-            changeName=false;
+            changeName = false;
         } else {
             System.out.println("Runs supermethod.");
             super.onBackPressed();
@@ -93,6 +93,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
     /**
      * Updates the users data based on new input, called as an Observer when the Observed object identifies an update is required
+     *
      * @param observable
      * @param data
      */
@@ -104,19 +105,20 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         changePass = false;
         changeName = false;
         Firebase.setAndroidContext(this);
         profileController.addAsObserver();
         profileController.updateNextBusStop();
-        fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragmentPlaceholder);
+        fragmentPlaceholder = (FrameLayout) findViewById(R.id.fragmentPlaceholder);
     }
 
     /**
      * Called when the change user name button is pressed.
      * Hides specific profile elements and displays the change user name fragment.
+     *
      * @param view
      */
     public void changeUserName(View view) {
@@ -133,6 +135,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     /**
      * Called when the save name button is pressed when changing user name.
      * Calls the change user name method in controller and then reverts the profile new to normal.
+     *
      * @param view
      */
     public void confirmUserName(View view) {
@@ -154,6 +157,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     /**
      * Called when the change password button is pressed.
      * Hides specific profile elements and displays the change password fragment
+     *
      * @param view
      */
     public void changePassword(View view) {
@@ -174,6 +178,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
     /**
      * Called when the save password button is pressed
      * Calls the change password method in controller and reverts profile view to normal
+     *
      * @param view
      */
     public void confirmNewPassword(View view) {

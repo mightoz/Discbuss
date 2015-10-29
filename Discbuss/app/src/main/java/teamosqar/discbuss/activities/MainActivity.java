@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Sets instance variables which are represented by graphical elements.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -54,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
 
         actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
 
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Firebase.setAndroidContext(this);
         fragment = new SuggestFragment();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         mainController.updateNextBusStop();
     }
 
-    public void onStop(){
+    public void onStop() {
         mainController.removeAsObserver();
         super.onStop();
     }
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Makes sure the backbutton works as intended, closing fragment if it's open and leaving the app if it's double-pressed
      */
-    public void onBackPressed(){
-        if(doubleBackAgain && !fragmentOpen){
+    public void onBackPressed() {
+        if (doubleBackAgain && !fragmentOpen) {
             Log.d("quitting", "quitting");
             super.onBackPressed();
-        } else if(fragmentOpen) {
+        } else if (fragmentOpen) {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    doubleBackAgain=false;
+                    doubleBackAgain = false;
                 }
             }, 2000);
         }
@@ -102,20 +103,21 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * If connected to a bus wifi, enter it's chat room. Otherwise displays error toast.
+     *
      * @param view
      */
     public void enterDiscussion(View view) {
 
         String chatRoom = "chatRooms/";
 
-        if(mainController.isConnectedToBus()){
-            String roomNbr = Integer.toString(mainController.getIndexOfId()+1);
-            if(!roomNbr.equals("0"))
-            chatRoom = chatRoom + roomNbr;
+        if (mainController.isConnectedToBus()) {
+            String roomNbr = Integer.toString(mainController.getIndexOfId() + 1);
+            if (!roomNbr.equals("0"))
+                chatRoom = chatRoom + roomNbr;
             Intent intent = new Intent(this, BusChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);
-        }else {
+        } else {
             Toaster.displayToast("Anslut till ett bussWiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }
 
@@ -123,27 +125,30 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Views the currently logged in user's personal profile.
+     *
      * @param view
      */
-    public void goToProfile(View view){
+    public void goToProfile(View view) {
         Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
 
     /**
      * Views the currently logged in user's active private chats
+     *
      * @param view
      */
-    public void goToMessages(View view){
+    public void goToMessages(View view) {
         Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
     }
 
     /**
      * Launches the suggest statement fragment
+     *
      * @param view
      */
-    public void suggestStatement(View view){
+    public void suggestStatement(View view) {
         findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
@@ -154,11 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Calls the submit statement method in controller and reverts the view to normal
+     *
      * @param view
      */
-    public void submitStatement(View view){
+    public void submitStatement(View view) {
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
-        if(!fragmentData.getText().toString().isEmpty()) {
+        if (!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
@@ -170,13 +176,13 @@ public class MainActivity extends AppCompatActivity {
             Toaster.displayToast("Skriv ner en topic", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
 
     //TODO: Refactor this method. -> Move to controller and call from here.
@@ -190,8 +196,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.logout){
+        } else if (id == R.id.logout) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("logout", "logout");
             startActivity(intent);

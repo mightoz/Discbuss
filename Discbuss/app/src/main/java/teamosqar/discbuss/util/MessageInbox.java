@@ -12,9 +12,10 @@ public class MessageInbox {
     private String otherParticipant;
 
 
-    private MessageInbox(){}
+    private MessageInbox() {
+    }
 
-    public MessageInbox(String latestActivity, boolean seenByMe, boolean seenByOther){
+    public MessageInbox(String latestActivity, boolean seenByMe, boolean seenByOther) {
         this.latestActivity = latestActivity;
         this.seenByMe = seenByMe;
         this.seenByOther = seenByOther;
@@ -23,15 +24,16 @@ public class MessageInbox {
 
     /**
      * Compares two dates
+     *
      * @param otherDate
      * @return true if the date of the latest message in the inbox calling the method is before the date of the latest message in the inbox provided as param
      */
-    public boolean isBefore(String otherDate){
+    public boolean isBefore(String otherDate) {
         String latestActivity_split[] = latestActivity.split("-");
         String otherDate_split[] = otherDate.split("-");
 
-        for(int i = 0; i < latestActivity_split.length; i++){
-            if(Integer.parseInt(latestActivity_split[i]) < Integer.parseInt(otherDate_split[i])){
+        for (int i = 0; i < latestActivity_split.length; i++) {
+            if (Integer.parseInt(latestActivity_split[i]) < Integer.parseInt(otherDate_split[i])) {
                 return true;
             }
         }
@@ -41,36 +43,37 @@ public class MessageInbox {
     /**
      * @return true if the latest message recieved was seen by me
      */
-    public boolean isSeenByMe(){
+    public boolean isSeenByMe() {
         return seenByMe;
     }
 
     /**
      * @return true if the latest message sent was seen by the other person in the private chat
      */
-    public boolean isSeenByOther(){
+    public boolean isSeenByOther() {
         return seenByOther;
     }
 
     /**
      * @return a string containing date/time for latest activity in chat
      */
-    public String getLatestActivity(){
+    public String getLatestActivity() {
         return latestActivity;
     }
 
     /**
      * Adds the other user, provided as param, to the private chat
+     *
      * @param otherParticipant
      */
-    public void setOtherParticipant(String otherParticipant){
+    public void setOtherParticipant(String otherParticipant) {
         this.otherParticipant = otherParticipant;
     }
 
     /**
      * @return the other user in the private chat's nickname
      */
-    public String getOtherParticipant(){
+    public String getOtherParticipant() {
         return otherParticipant;
     }
 }

@@ -24,7 +24,7 @@ public class MainController implements Observer {
     private boolean connectedToBusWifi;
     private int idIndex;
 
-    public MainController(Context context){
+    public MainController(Context context) {
         this.context = context;
         model = Model.getInstance();
         connectedToBusWifi = false;
@@ -35,33 +35,32 @@ public class MainController implements Observer {
      * Checks if unit is connected to a bus wifi. Sets idIndex to -1 if not, otherwise the index of
      * the bus.
      */
-    public void checkWifiState(){
+    public void checkWifiState() {
 
         boolean testing = true; //TODO: Set to true if you want to test the chat room. Will then connect to a chat room for a simulated bus trip.
 
-        if(testing){
+        if (testing) {
             model.setCurrentBSSID("testBus");
             idIndex = model.getIndexOfBSSID();
             connectedToBusWifi = true;
             model.startRetrievingStopInfo();
             addAsObserver();
-        }else{
+        } else {
             try {
-                WifiManager mWifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-                wifiInfo=mWifiManager.getConnectionInfo();
+                WifiManager mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                wifiInfo = mWifiManager.getConnectionInfo();
                 if (mWifiManager.isWifiEnabled() || wifiInfo.getSSID() != null || wifiInfo.getBSSID() != null) {
                     model.setCurrentBSSID(wifiInfo.getBSSID());
                     idIndex = model.getIndexOfBSSID();
                     connectedToBusWifi = model.connectedToBusWifi();
-                    if(connectedToBusWifi)
+                    if (connectedToBusWifi)
                         model.startRetrievingStopInfo();
-                }else{
+                } else {
                     idIndex = -1;
                     connectedToBusWifi = false;
                 }
                 addAsObserver();
-            }
-            catch (  Exception e) {
+            } catch (Exception e) {
 
             }
 
@@ -72,7 +71,7 @@ public class MainController implements Observer {
     /**
      * Resets active user-data upon logout
      */
-    public void resetModel(){
+    public void resetModel() {
         model.resetModel();
     }
 
@@ -84,50 +83,51 @@ public class MainController implements Observer {
     }
 
     /**
-     *
      * @return Which bus currently connected to, -1 if none.
      */
-    public int getIndexOfId(){
+    public int getIndexOfId() {
         return idIndex;
     }
 
     /**
      * Submits statement to DB.
+     *
      * @param statement to be submitted.
      */
-    public void submitStatement(String statement){
+    public void submitStatement(String statement) {
         model.getMRef().child("statements").push().setValue(statement);
     }
 
     /**
      * Adds the MainController as an observer in the model
      */
-    public void addAsObserver(){
+    public void addAsObserver() {
         model.addObserver(this);
     }
 
     /**
      * Removes the MainController as an observer in the model
      */
-    public void removeAsObserver(){
+    public void removeAsObserver() {
         model.deleteObserver(this);
     }
 
     /**
      * Called when the Observed object is updated, in our case when the busStop should be updated
+     *
      * @param observable
      * @param nextBusStop
      */
     @Override
     public void update(Observable observable, final Object nextBusStop) {
-       updateNextBusStop();
+        updateNextBusStop();
     }
 
     /**
      * Updates the upcoming bus stop in the actionbar.
      */
     public void updateNextBusStop() {
-        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+        if (model.getNextBusStop() != null && !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
             activity.runOnUiThread(new Runnable() {
                 @Override

@@ -19,8 +19,8 @@ import teamosqar.discbuss.util.Toaster;
 
 /**
  * @author Holmus
- *
- * Activity class for the register view
+ *         <p/>
+ *         Activity class for the register view
  */
 public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RegisterController rc;
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         Firebase.setAndroidContext(this);
         rc = new RegisterController();
         super.onStart();
@@ -42,14 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * If all registration data is valid, calls the registration method in controller
+     *
      * @param view
      */
-    public void registerPressed(View view){
+    public void registerPressed(View view) {
         name = editName.getText().toString();
         mail = editMail.getText().toString();
         password = editPass.getText().toString();
         confPassword = editConfPass.getText().toString();
-        if(checkData()){
+        if (checkData()) {
             rc.registerUser(name, mail, password, genderSelection, birthYear, birthMonth, birthDay);
             goToLogin();
         }
@@ -58,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * takes the user to the login view
      */
-    private void goToLogin(){
+    private void goToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         Toaster.displayToast("Registrering lyckades!", this.getApplicationContext(), Toast.LENGTH_SHORT);
@@ -67,45 +68,46 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Checks if all the input data from the user in the registration process is valid
+     *
      * @return whether all input in the registration process is valid
      */
-    private boolean checkData(){
-        if(name.isEmpty()){
+    private boolean checkData() {
+        if (name.isEmpty()) {
             Toaster.displayToast("Ange visningsnamn", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
-        } else if(mail.isEmpty()|| !validateEmail()){
+        } else if (mail.isEmpty() || !validateEmail()) {
             Toaster.displayToast("Ange email", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
-        } else if(password.isEmpty()){
+        } else if (password.isEmpty()) {
             Toaster.displayToast("Ange lösenord", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
-        } else if(confPassword.isEmpty()){
+        } else if (confPassword.isEmpty()) {
             Toaster.displayToast("Bekräfta lösenord", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
-        } else if(!password.equals(confPassword)){
+        } else if (!password.equals(confPassword)) {
             Toaster.displayToast("Lösenord matchar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
-        } else if(genderSelection.isEmpty()){
+        } else if (genderSelection.isEmpty()) {
             Toaster.displayToast("Inget kön valt", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         }
-        if(birthMonth.equals("4")||birthMonth.equals("6")||birthMonth.equals("9")||birthMonth.equals("11")) {
+        if (birthMonth.equals("4") || birthMonth.equals("6") || birthMonth.equals("9") || birthMonth.equals("11")) {
             if (Integer.parseInt(birthDay) > 30) {
                 Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
                 return false;
             }
         }
         //Taking leap years into consideration.
-        if((Integer.parseInt(birthYear) % 4 == 0) &&
+        if ((Integer.parseInt(birthYear) % 4 == 0) &&
                 ((Integer.parseInt(birthYear) % 100 != 0) ||
-                (Integer.parseInt(birthYear) % 400 == 0))) {
+                        (Integer.parseInt(birthYear) % 400 == 0))) {
             if (birthMonth.equals("2") && Integer.parseInt(birthDay) > 29) {
                 Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
                 return false;
             }
 
-        } else if(birthMonth.equals("2")&&Integer.parseInt(birthDay)>28){
-            Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(),Toast.LENGTH_SHORT);
+        } else if (birthMonth.equals("2") && Integer.parseInt(birthDay) > 28) {
+            Toaster.displayToast("Datumet existerar ej", this.getApplicationContext(), Toast.LENGTH_SHORT);
             return false;
         }
 
@@ -114,12 +116,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * checks if the entered email address is valid
+     *
      * @return whether the email is valid or not
      */
-    private boolean validateEmail(){
+    private boolean validateEmail() {
         //TODO: Better validation of that string would be neat
-        for(int i = 0; i<mail.length(); i++){
-            if(mail.charAt(i) == '@') {
+        for (int i = 0; i < mail.length(); i++) {
+            if (mail.charAt(i) == '@') {
                 return true;
             }
         }
@@ -130,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
      * initiates the spinners for choosing gender and date of birth
      * and saves the users choices
      */
-    private void initiateAllSpinners(){
+    private void initiateAllSpinners() {
         Spinner genderSpinner;
         ArrayAdapter<CharSequence> genderAdapter;
 
@@ -148,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toaster.displayToast("Var god gör ett val", getApplicationContext(), Toast.LENGTH_SHORT);

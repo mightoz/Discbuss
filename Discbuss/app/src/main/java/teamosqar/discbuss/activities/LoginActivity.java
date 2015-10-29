@@ -44,12 +44,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     private boolean tryingLogin;
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
     }
 
     /**
      * Sets all instance variables which are graphical elements, also checks if autologin is checked and autologins in that case
+     *
      * @param savedInstanceState
      */
     @Override
@@ -58,11 +59,11 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
 
-        editEmail = (EditText)findViewById(R.id.editTextLoginEmail);
-        editPassword = (EditText)findViewById(R.id.editTextLoginPassword);
-        autoLoginCheckbox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
-        buttonLogin = (Button)findViewById(R.id.buttonLogin);
-        buttonRegister = (Button)findViewById(R.id.buttonNotRegistered);
+        editEmail = (EditText) findViewById(R.id.editTextLoginEmail);
+        editPassword = (EditText) findViewById(R.id.editTextLoginPassword);
+        autoLoginCheckbox = (CheckBox) findViewById(R.id.autoLoginCheckBox);
+        buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        buttonRegister = (Button) findViewById(R.id.buttonNotRegistered);
 
         loginController = new LoginController();
         loginController.addObserver(this);
@@ -72,16 +73,16 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         Boolean autoLogin = sharedPref.getBoolean(AUTO_LOGIN, false);
         Intent intent = getIntent();
-        if(intent.getStringExtra("logout") != null){
+        if (intent.getStringExtra("logout") != null) {
             String activity = intent.getStringExtra("logout");
-            if(activity.equals("logout")){
+            if (activity.equals("logout")) {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean(AUTO_LOGIN, false);
                 editor.apply();
                 autoLogin = false;
             }
         }
-        if(autoLogin){
+        if (autoLogin) {
             editEmail.setText(sharedPref.getString(EMAIL, "email"));
             editPassword.setText(sharedPref.getString(PASSWORD, "pass"));
             autoLoginCheckbox.setChecked(true);
@@ -91,33 +92,36 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     /**
      * Represents the login-buttons functionality
+     *
      * @param view
      */
-    public void loginPressed(View view){
+    public void loginPressed(View view) {
         initiateLogin();
     }
 
     /**
      * Takes you to the RegisterActivity
+     *
      * @param view
      */
-    public void notRegisteredPressed(View view){
+    public void notRegisteredPressed(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     /**
      * Represents the cancel-button during authentication process
+     *
      * @param view
      */
-    public void cancelLoadingPressed(View view){
+    public void cancelLoadingPressed(View view) {
         cancelLogin();
     }
 
     /**
      * Tries logging in and puts the loading fragment on the screen
      */
-    public void initiateLogin(){
+    public void initiateLogin() {
         tryingLogin = true;
         editEmail.setVisibility(View.GONE);
         editPassword.setVisibility(View.GONE);
@@ -134,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     /**
      * Cancels the login and removes the loading screen fragment
      */
-    public void cancelLogin(){
+    public void cancelLogin() {
         tryingLogin = false;
         editEmail.setVisibility(View.VISIBLE);
         editPassword.setVisibility(View.VISIBLE);
@@ -167,9 +171,10 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void update(Observable observable, Object data) {
-        if(tryingLogin) {
+        if (tryingLogin) {
             if (loginController.getLoginStatus()) {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(EMAIL, editEmail.getText().toString());
@@ -187,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         super.onStop();
     }

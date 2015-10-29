@@ -26,7 +26,7 @@ public class MessageActivity extends AppCompatActivity {
         messageController = new MessageController(this);
         setContentView(R.layout.activity_message);
 
-        listView = (ListView)findViewById(R.id.messageList);
+        listView = (ListView) findViewById(R.id.messageList);
         listView.setAdapter(messageController);
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -38,7 +38,7 @@ public class MessageActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
 
         actionBarText.setText("Discbuss");
 
@@ -59,7 +59,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         messageController.addAsObserver();
         messageController.updateNextBusStop();
@@ -89,10 +89,11 @@ public class MessageActivity extends AppCompatActivity {
 
     /**
      * Represents the intention of the X-button for each active chat, calls the messageController to permanently close the chat.
+     *
      * @param view
      */
-    public void leaveDuoChat(View view){
-        int pos = listView.getPositionForView((View)view.getParent());
+    public void leaveDuoChat(View view) {
+        int pos = listView.getPositionForView((View) view.getParent());
         messageController.leaveChat(pos);
     }
 }

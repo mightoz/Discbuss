@@ -6,7 +6,7 @@ package teamosqar.discbuss.net;
  */
 public class BusFactory {
 
-    private BusFactory(){
+    private BusFactory() {
 
     }
 
@@ -14,9 +14,9 @@ public class BusFactory {
      * @param bssid BSSID for the network
      * @return Returns the dgw and VIN as a coherent string, formatted to be insertable into an url.
      */
-    public static String getDgwVin(String bssid){
-        String dgwVin ="";
-        switch(bssid){
+    public static String getDgwVin(String bssid) {
+        String dgwVin = "";
+        switch (bssid) {
             case "04:f0:21:10:0a:07":
                 dgwVin = "?dgw=Ericsson$100020";
                 break;
@@ -50,7 +50,7 @@ public class BusFactory {
             case "testBus":
                 dgwVin = "?dgw=Ericsson$Vin_Num_001";
         }
-        if(dgwVin.equals(""))throw new IllegalArgumentException("Invalid BSSID");
+        if (dgwVin.equals("")) throw new IllegalArgumentException("Invalid BSSID");
         return dgwVin;
     }
 }

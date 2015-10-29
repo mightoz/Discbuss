@@ -20,7 +20,7 @@ public class ElecApi {
     private String key;
     private String nextStop;
 
-    public ElecApi(String bssid){
+    public ElecApi(String bssid) {
         this.bssid = bssid;
         baseUrl = "https://ece01.ericsson.net:4443/ecity";
         key = "Z3JwNTg6c3VHLXBVWC1iNA==";
@@ -30,11 +30,12 @@ public class ElecApi {
 
     /**
      * Gets the upcoming busstop from the ElectricityAPI
+     *
      * @return the upcoming busstop as a String
      * @throws IOException
      * @throws JSONException
      */
-    public String getNextBusStop()throws IOException, JSONException {
+    public String getNextBusStop() throws IOException, JSONException {
 
         long t2 = System.currentTimeMillis();
         long t1 = t2 - (10000 * 15);
@@ -42,7 +43,7 @@ public class ElecApi {
 
         StringBuffer response = new StringBuffer();
 
-        URL requestURL = new URL(baseUrl+dgwVin+"&sensorSpec=Ericsson$Next_Stop&t1="
+        URL requestURL = new URL(baseUrl + dgwVin + "&sensorSpec=Ericsson$Next_Stop&t1="
                 + t1 + "&t2=" + t2);
         System.out.println(requestURL);
         HttpsURLConnection con = (HttpsURLConnection) requestURL
@@ -64,7 +65,7 @@ public class ElecApi {
         }
         in.close();
         System.out.println(response.toString());
-        if(!response.toString().isEmpty()) {
+        if (!response.toString().isEmpty()) {
             JSONArray arr = new JSONArray(response.toString());
             nextStop = arr.getJSONObject(arr.length() - 1).getString("value");
         }

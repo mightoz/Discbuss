@@ -31,7 +31,7 @@ public abstract class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         profileController.removeAsObserver();
     }

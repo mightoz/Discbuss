@@ -6,7 +6,7 @@ package teamosqar.discbuss.net;
 public class VastApi {
     private String key;
 
-    public VastApi(){
+    public VastApi() {
         key = "28f8210a-809d-401d-b97c-4a720b4200f6";
     }
 }

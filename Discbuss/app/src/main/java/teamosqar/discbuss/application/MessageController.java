@@ -40,7 +40,7 @@ public class MessageController extends BaseAdapter implements Observer {
     private LayoutInflater inflater;
     private Context context;
 
-    public MessageController(Context context){
+    public MessageController(Context context) {
         messagesFirebaseRef = Model.getInstance().getMRef().child("duoChats");
 
         inflater = LayoutInflater.from(context);
@@ -88,9 +88,10 @@ public class MessageController extends BaseAdapter implements Observer {
 
     /**
      * Adds listeners for each chat the user participates in
+     *
      * @param key
      */
-    private void startListeningAt(final String key){
+    private void startListeningAt(final String key) {
         ChildEventListener messageListener = messagesFirebaseRef.child(key).addChildEventListener(new ChildEventListener() {
             @Override
             //Remember that seenByY and seenByX will translate directly into messageInbox seenByMe and seenByOther
@@ -173,16 +174,17 @@ public class MessageController extends BaseAdapter implements Observer {
 
     /**
      * Removes listeners for the chat the user no longer participates in
+     *
      * @param key
      */
-    private void stopListeningAt(String key){
+    private void stopListeningAt(String key) {
         ChildEventListener listener = childEventListenerMap.remove(key);
-        if(listener != null) {
+        if (listener != null) {
             messagesFirebaseRef.child(key).removeEventListener(listener);
         }
 
         int index = keys.indexOf(key);
-        if(index != -1) {
+        if (index != -1) {
             messageInboxes.remove(index);
             mostRecentMsg.remove(index);
             keys.remove(index);
@@ -193,38 +195,39 @@ public class MessageController extends BaseAdapter implements Observer {
      * @param iterator which iterates through the chat to find the last message
      * @return the last message found when iterating
      */
-    private Message getLastIteratorMessage(Iterator iterator){
+    private Message getLastIteratorMessage(Iterator iterator) {
         Message lastElement = null;
-        while(iterator.hasNext()){
-            lastElement = ((DataSnapshot)iterator.next()).child("message").getValue(Message.class);
+        while (iterator.hasNext()) {
+            lastElement = ((DataSnapshot) iterator.next()).child("message").getValue(Message.class);
         }
         return lastElement;
     }
 
     /**
      * Creates a new MessageInbox according to the new information provided in the dataSnapshot
+     *
      * @param dataSnapshot
      * @return
      */
-    private MessageInbox createMessageInbox(DataSnapshot dataSnapshot){
+    private MessageInbox createMessageInbox(DataSnapshot dataSnapshot) {
         Iterator iterator = dataSnapshot.getChildren().iterator();
         String latestActivity = "";
         boolean seenByMe = false;
         boolean seenByOther = false;
         String otherPersonUid = "";
-        while(iterator.hasNext()){
-            DataSnapshot dataSnapshotChild = (DataSnapshot)iterator.next();
-            if(dataSnapshotChild.getKey().contains(Model.getInstance().getUid())){
-                seenByMe = (boolean)dataSnapshotChild.getValue();
-            }else if(dataSnapshotChild.getKey().contains("latest")){
+        while (iterator.hasNext()) {
+            DataSnapshot dataSnapshotChild = (DataSnapshot) iterator.next();
+            if (dataSnapshotChild.getKey().contains(Model.getInstance().getUid())) {
+                seenByMe = (boolean) dataSnapshotChild.getValue();
+            } else if (dataSnapshotChild.getKey().contains("latest")) {
                 latestActivity = dataSnapshotChild.getValue(String.class);
-            }else{
-                seenByOther = (boolean)dataSnapshotChild.getValue();
+            } else {
+                seenByOther = (boolean) dataSnapshotChild.getValue();
                 otherPersonUid = dataSnapshotChild.getKey();
             }
         }
         final MessageInbox messageInbox = new MessageInbox(latestActivity, seenByMe, seenByOther);
-        if(otherPersonUid != ""){
+        if (otherPersonUid != "") {
             Model.getInstance().getMRef().child("users").child(otherPersonUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -244,17 +247,18 @@ public class MessageController extends BaseAdapter implements Observer {
 
     /**
      * Adds the new message to the proper inbox and updates it with the status of the message
+     *
      * @param position
      * @param inbox
      * @param mostRecentMessage
      * @param key
      */
-    private void insertIntoLists(int position, MessageInbox inbox, Message mostRecentMessage, String key){
-        if(position == messageInboxes.size()){
+    private void insertIntoLists(int position, MessageInbox inbox, Message mostRecentMessage, String key) {
+        if (position == messageInboxes.size()) {
             messageInboxes.add(inbox);
             mostRecentMsg.add(mostRecentMessage);
             keys.add(key);
-        }else{
+        } else {
             messageInboxes.add(position, inbox);
             mostRecentMsg.add(position, mostRecentMessage);
             keys.add(position, key);
@@ -265,10 +269,10 @@ public class MessageController extends BaseAdapter implements Observer {
      * @param inbox
      * @return an int representing the MessageInbox's position in the list
      */
-    private int getCorrectListSpot(MessageInbox inbox){
+    private int getCorrectListSpot(MessageInbox inbox) {
 
-        for(int i = 0; i < messageInboxes.size(); i++){
-            if(messageInboxes.get(i).isBefore(inbox.getLatestActivity())){
+        for (int i = 0; i < messageInboxes.size(); i++) {
+            if (messageInboxes.get(i).isBefore(inbox.getLatestActivity())) {
                 return i;
             }
         }
@@ -296,7 +300,7 @@ public class MessageController extends BaseAdapter implements Observer {
      * @param position
      * @return the key for the chat on the position provided as param
      */
-    public String getChatRefKey(int position){
+    public String getChatRefKey(int position) {
         return keys.get(position);
     }
 
@@ -313,7 +317,7 @@ public class MessageController extends BaseAdapter implements Observer {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.message_inbox, parent, false);
         }
 
@@ -323,10 +327,11 @@ public class MessageController extends BaseAdapter implements Observer {
 
     /**
      * Updates the view sent in as param with potential new data, such as wether the most recent message has been read
+     *
      * @param view
      * @param position
      */
-    private void populateView(View view, int position){
+    private void populateView(View view, int position) {
         Message msg = mostRecentMsg.get(position);
         String chattingWith = messageInboxes.get(position).getOtherParticipant();
 
@@ -334,20 +339,20 @@ public class MessageController extends BaseAdapter implements Observer {
         TextView messageView = (TextView) view.findViewById(R.id.messageInboxMessage);
         TextView messageReadView = (TextView) view.findViewById(R.id.messageInboxRead);
 
-        authorView.setText(chattingWith+ ": ");
-        if(msg != null) {
+        authorView.setText(chattingWith + ": ");
+        if (msg != null) {
             messageView.setText(msg.getMessage());
         }
-        if(!messageInboxes.get(position).isSeenByMe()){
+        if (!messageInboxes.get(position).isSeenByMe()) {
             messageView.setTypeface(null, Typeface.BOLD);
             authorView.setTypeface(null, Typeface.BOLD);
-        }else{
+        } else {
             messageView.setTypeface(null, Typeface.NORMAL);
             authorView.setTypeface(null, Typeface.NORMAL);
         }
-        if(messageInboxes.get(position).isSeenByOther()) {
+        if (messageInboxes.get(position).isSeenByOther()) {
             messageReadView.setText("Read");
-        }else{
+        } else {
             messageReadView.setText("");
         }
     }
@@ -356,7 +361,7 @@ public class MessageController extends BaseAdapter implements Observer {
      * Updates the action bar with the upcoming bus stop
      */
     public void updateNextBusStop() {
-        if (Model.getInstance().getNextBusStop()!=null&& !Model.getInstance().getNextBusStop().isEmpty()) {
+        if (Model.getInstance().getNextBusStop() != null && !Model.getInstance().getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -371,12 +376,13 @@ public class MessageController extends BaseAdapter implements Observer {
     /**
      * Adds self as an observer in the model
      */
-    public void addAsObserver(){
+    public void addAsObserver() {
         Model.getInstance().addObserver(this);
     }
 
     /**
      * Called by the observed object when an update has been made
+     *
      * @param observable
      * @param nextBusStop
      */
@@ -387,16 +393,17 @@ public class MessageController extends BaseAdapter implements Observer {
 
     /**
      * Closes the chat at the position provided as param
+     *
      * @param position
      */
 
-    public void leaveChat(int position){
+    public void leaveChat(int position) {
         final String key = keys.get(position);
         stopListeningAt(key);
 
         String ids[] = key.split("!");
 
-        for(int i = 0; i < ids.length; i++){
+        for (int i = 0; i < ids.length; i++) {
             final String uId = ids[i];
             Model.getInstance().getMRef().child("users").child(uId).child("activeChats").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

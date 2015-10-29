@@ -30,9 +30,8 @@ public abstract class ChatActivity extends AppCompatActivity {
     private TextView actionBarText;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
@@ -47,11 +46,9 @@ public abstract class ChatActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
+        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
 
         actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
-
 
 
         setAdapter();
@@ -61,9 +58,9 @@ public abstract class ChatActivity extends AppCompatActivity {
     /**
      * Sets the adapter to the list, providing the correct ChatController.
      */
-    private void setAdapter(){
+    private void setAdapter() {
         //Chatadapter needs to be set before calling oncreate from subclasses extending this class
-        listView = (ListView)findViewById(R.id.myList);
+        listView = (ListView) findViewById(R.id.myList);
         listView.setAdapter(getChatController());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,7 +79,7 @@ public abstract class ChatActivity extends AppCompatActivity {
      * Makes sure the chat is properly closed when backing out of the activity, to make the user count correct.
      */
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
@@ -90,9 +87,10 @@ public abstract class ChatActivity extends AppCompatActivity {
 
     /**
      * Sends entered message to database. Also delays minimization of keyboard.
+     *
      * @param view
      */
-    public void sendMessage(View view){
+    public void sendMessage(View view) {
 
         getChatController().sendMessage(msgToSend.getText().toString());
         msgToSend.setText("");
@@ -108,14 +106,15 @@ public abstract class ChatActivity extends AppCompatActivity {
 
     /**
      * Gets and opens the profile the user pressed to enter.
+     *
      * @param view
      */
-    public void viewPersonalProfileClicked(View view){
+    public void viewPersonalProfileClicked(View view) {
         getChatController().personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         getChatController().onEnteredChat();
         getChatController().addAsObserver();
@@ -123,7 +122,7 @@ public abstract class ChatActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         getChatController().onLeftChat();
         getChatController().removeAsObserver();
         super.onStop();

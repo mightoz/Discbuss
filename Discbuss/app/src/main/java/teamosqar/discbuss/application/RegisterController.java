@@ -11,21 +11,23 @@ import java.util.Map;
 public class RegisterController {
     private Firebase mRef;
     private String fName, fGender, fYear, fMonth, fDay;
+
     public RegisterController() {
         mRef = Model.getInstance().getMRef().child("users");
     }
 
     /**
      * Registers the user in FireBase
-     * @param name the users registered username
-     * @param email the users registered email
+     *
+     * @param name     the users registered username
+     * @param email    the users registered email
      * @param password the users registered password
-     * @param gender the users registered gender
-     * @param year the users registered birth year
-     * @param month the users registered birth month
-     * @param day the users registered birth day
+     * @param gender   the users registered gender
+     * @param year     the users registered birth year
+     * @param month    the users registered birth month
+     * @param day      the users registered birth day
      */
-    public void registerUser(String name, String email, String password, String gender, String year, String month, String day){
+    public void registerUser(String name, String email, String password, String gender, String year, String month, String day) {
         fName = name;
         fGender = gender;
         fYear = year;

@@ -24,7 +24,7 @@ import teamosqar.discbuss.util.Toaster;
 
 /**
  * Created by rutanjr on 2015-10-05.
- *
+ * <p/>
  * A controller class for the ProfileActivity classes. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
@@ -38,7 +38,7 @@ public class ProfileController extends Observable implements Observer {
     Context context;
     private Model model = Model.getInstance();
 
-    public ProfileController(Context context){
+    public ProfileController(Context context) {
         this.context = context;
         topMessageValues = new ArrayList<>();
         topKarma = new ArrayList<>();
@@ -56,9 +56,9 @@ public class ProfileController extends Observable implements Observer {
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
-                while(iterator.hasNext()){
-                    sstemp = (DataSnapshot)iterator.next();
-                    if(!keys.contains(sstemp.getKey())){
+                while (iterator.hasNext()) {
+                    sstemp = (DataSnapshot) iterator.next();
+                    if (!keys.contains(sstemp.getKey())) {
                         tempString = sstemp.getValue(Message.class).getMessage();
                         tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
                         topMessageValues.add(tempString);
@@ -66,7 +66,7 @@ public class ProfileController extends Observable implements Observer {
                         keys.add(sstemp.getKey());
                     }
                 }
-                for(int i = 0; i < topMessageValues.size(); i++){
+                for (int i = 0; i < topMessageValues.size(); i++) {
                     tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
                     topMessages.add(tempMsg);
                 }
@@ -82,7 +82,7 @@ public class ProfileController extends Observable implements Observer {
         });
     }
 
-    public ProfileController(Context context, String uid){
+    public ProfileController(Context context, String uid) {
         this.context = context;
         fireRef = model.getMRef();
         userRef = fireRef.child("users").child(uid);
@@ -99,9 +99,9 @@ public class ProfileController extends Observable implements Observer {
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
-                while(iterator.hasNext()){
-                    sstemp = (DataSnapshot)iterator.next();
-                    if(!keys.contains(sstemp.getKey())){
+                while (iterator.hasNext()) {
+                    sstemp = (DataSnapshot) iterator.next();
+                    if (!keys.contains(sstemp.getKey())) {
                         tempString = sstemp.getValue(Message.class).getMessage();
                         tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
                         topMessageValues.add(tempString);
@@ -109,7 +109,7 @@ public class ProfileController extends Observable implements Observer {
                         keys.add(sstemp.getKey());
                     }
                 }
-                for(int i = 0; i < topMessageValues.size(); i++){
+                for (int i = 0; i < topMessageValues.size(); i++) {
                     tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
                     topMessages.add(tempMsg);
                 }
@@ -126,17 +126,18 @@ public class ProfileController extends Observable implements Observer {
         });
     }
 
-    public ArrayList<Message> getTopMessages(){
+    public ArrayList<Message> getTopMessages() {
         return topMessages;
     }
 
-     /**
+    /**
      * Gets the name from the snapshot data and returns it as a string.
+     *
      * @return the displayname for the user that is currently logged in.
      */
     public String getName() {
         String name = "";
-        if(snapshot != null) {
+        if (snapshot != null) {
             name = snapshot.child("name").getValue(String.class);
         }
         return name;
@@ -144,11 +145,12 @@ public class ProfileController extends Observable implements Observer {
 
     /**
      * Gets the gender from the snapshot data and returns it as a string.
+     *
      * @return the gender for the user that is currently logged in.
      */
-    public String getGender(){
+    public String getGender() {
         String gender = "";
-        if(snapshot != null) {
+        if (snapshot != null) {
             gender = snapshot.child("gender").getValue(String.class);
         }
         return gender;
@@ -156,11 +158,12 @@ public class ProfileController extends Observable implements Observer {
 
     /**
      * Gets the birth date from the snapshot data and calculates the user age.
+     *
      * @return the age for the user that is currently logged in.
      */
-    public String getAge(){
+    public String getAge() {
         String age = "";
-        if(snapshot != null) {
+        if (snapshot != null) {
             int year = Integer.parseInt(snapshot.child("year").getValue(String.class));
             int month = Integer.parseInt(snapshot.child("month").getValue(String.class));
             int date = Integer.parseInt(snapshot.child("day").getValue(String.class));
@@ -181,23 +184,25 @@ public class ProfileController extends Observable implements Observer {
 
     /**
      * gets the emailadress from the authentication data and returns it as a string.
+     *
      * @return the authentication emailadress for the account currently logged in.
      */
     public String getEmail() {
         String email;
         AuthData authData = userRef.getAuth();
-        email = (String)authData.getProviderData().get("email");
+        email = (String) authData.getProviderData().get("email");
         return email;
     }
 
     /**
      * Gets the karma from the snapshot data and returns it as a string.
+     *
      * @return the karma for the user that is currently logged in.
      */
     public String getKarma() {
         String karma = "";
         int karmaVal;
-        if(snapshot != null) {
+        if (snapshot != null) {
             karmaVal = snapshot.child("karma").getValue(Integer.class);
             karma = Integer.toString(karmaVal);
         }
@@ -206,9 +211,10 @@ public class ProfileController extends Observable implements Observer {
 
     /**
      * Changes the "display" name for the user.
+     *
      * @param newName, the new name the user wants to use as display name
      */
-    public void setNewDisplayName(String newName){
+    public void setNewDisplayName(String newName) {
         userRef.child("name").setValue(newName);
         model.setUsername(newName);
         System.out.println(fireRef.getAuth().getProviderData().get("email").toString());
@@ -216,8 +222,9 @@ public class ProfileController extends Observable implements Observer {
 
     /**
      * Changes the password for the user.
-     * @param oldPw the users previous password
-     * @param newPw the users preferred new password
+     *
+     * @param oldPw   the users previous password
+     * @param newPw   the users preferred new password
      * @param context the active context
      */
 
@@ -239,20 +246,21 @@ public class ProfileController extends Observable implements Observer {
     /**
      * Adds self as observer in the model
      */
-    public void addAsObserver(){
+    public void addAsObserver() {
         model.addObserver(this);
     }
 
     /**
      * Removes self as observer in the model
      */
-    public void removeAsObserver(){
+    public void removeAsObserver() {
         model.deleteObserver(this);
     }
 
 
     /**
      * Called when the observed object wants the observer to update
+     *
      * @param observable
      * @param obj
      */
@@ -264,8 +272,8 @@ public class ProfileController extends Observable implements Observer {
     /**
      * Update the actionbar to display the upcoming bus stop
      */
-    public void updateNextBusStop(){
-        if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
+    public void updateNextBusStop() {
+        if (model.getNextBusStop() != null && !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity) context;
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -280,7 +288,7 @@ public class ProfileController extends Observable implements Observer {
     /**
      * Resets the userdata in the model
      */
-    public void resetModel(){
+    public void resetModel() {
         model.resetModel();
     }
 }

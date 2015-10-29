@@ -16,7 +16,7 @@ import teamosqar.discbuss.application.ProfileController;
 
 /**
  * Created by oskar on 16/10/2015.
- *
+ * <p/>
  * Activity class for viewing other users profiles
  */
 public class OtherProfileActivity extends ProfileActivity implements Observer {
@@ -52,7 +52,7 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         profileController.addAsObserver();
         profileController.updateNextBusStop();
@@ -60,20 +60,22 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
 
     /**
      * Updates the profile of the user being viewed when method is called by the observed object
+     *
      * @param observable
      * @param data
      */
-    public void update(Observable observable, Object data){
-        userInfo.setText(profileController.getName() + ", " + profileController.getGender() + "(" + profileController.getAge()+")");
+    public void update(Observable observable, Object data) {
+        userInfo.setText(profileController.getName() + ", " + profileController.getGender() + "(" + profileController.getAge() + ")");
         karma.setText(profileController.getKarma());
         displayTopComments();
     }
 
     /**
      * launches a private chat with the user whose profile is being viewed
+     *
      * @param view
      */
-    public void launchDuoChat(View view){
+    public void launchDuoChat(View view) {
         DuoChatController.launchDuoChat(this, chatUID);
     }
 }

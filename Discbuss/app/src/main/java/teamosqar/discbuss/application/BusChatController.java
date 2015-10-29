@@ -25,7 +25,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-10-16.
  */
-public class BusChatController extends ChatController implements Observer{
+public class BusChatController extends ChatController implements Observer {
 
     private Firebase chatFirebaseRef;
     private Context context;
@@ -104,55 +104,56 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected void onMessageReceived() {}
+    protected void onMessageReceived() {
+    }
 
     @Override
     protected Firebase getFirebaseChatRef(String chatRoom) {
         return Model.getInstance().getMRef().child(chatRoom);
     }
 
-    public void onEnteredChat(){
+    public void onEnteredChat() {
         model.addUserToChat(chatRoom);
     }
 
-    public void onLeftChat(){
+    public void onLeftChat() {
         model.removeUserFromChat(chatRoom);
     }
 
-    public void addAsObserver(){
+    public void addAsObserver() {
         model.addObserver(this);
     }
 
-    public void removeAsObserver(){
+    public void removeAsObserver() {
         model.deleteObserver(this);
     }
 
-    private void updateUserCount(int users){
+    private void updateUserCount(int users) {
         TextView numUsers = (TextView) ((Activity) context).findViewById(R.id.textViewActiveUsers);
         numUsers.setText(Integer.toString(users));
     }
 
-    
-    private void updateCurrentKarma(int karma){
-        TextView karmaText = (TextView)((Activity)context).findViewById(R.id.statementKarmaText);
+
+    private void updateCurrentKarma(int karma) {
+        TextView karmaText = (TextView) ((Activity) context).findViewById(R.id.statementKarmaText);
         karmaText.setText(Integer.toString(karma));
     }
 
-    private void updateStatement(String statement){
-        TextView statementView = (TextView)((Activity)context).findViewById(R.id.statementText);
+    private void updateStatement(String statement) {
+        TextView statementView = (TextView) ((Activity) context).findViewById(R.id.statementText);
         statementView.setText(statement);
     }
 
-    public void upVote(int i){
+    public void upVote(int i) {
         performKarmaChange(i, 1);
     }
 
 
-    public void downVote(int i){
+    public void downVote(int i) {
         performKarmaChange(i, -1);
     }
 
-    private void performKarmaChange(final int message, final int change){
+    private void performKarmaChange(final int message, final int change) {
         final Firebase messageRef = chatFirebaseRef.child(getMessageKey(message));
 
         messageRef.child("usersVoted").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -232,7 +233,7 @@ public class BusChatController extends ChatController implements Observer{
         });
     }
 
-    private void updateTopStatement(int message){
+    private void updateTopStatement(int message) {
         final Message messageModel = getMessageModel(message);
         final String messageKey = getMessageKey(message);
         final Firebase topStatementsRef = Model.getInstance().getMRef().child("users").child(messageModel.getUid()).child("topStatements");
@@ -267,7 +268,7 @@ public class BusChatController extends ChatController implements Observer{
         });
     }
 
-    private void setTopStatement(Firebase topStatementsRef, final Message messageModel, String messageKey){
+    private void setTopStatement(Firebase topStatementsRef, final Message messageModel, String messageKey) {
         topStatementsRef.child(messageKey).runTransaction(new Transaction.Handler() {
 
             @Override
@@ -284,7 +285,7 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected void populateView(View view, Message message, int position){
+    protected void populateView(View view, Message message, int position) {
         String author = message.getAuthor();
         String msg = message.getMessage();
         int karma = message.getKarma();
@@ -293,22 +294,20 @@ public class BusChatController extends ChatController implements Observer{
         TextView msgView = (TextView) view.findViewById(R.id.message);
         TextView commentKarma = (TextView) view.findViewById(R.id.commentKarma);
 
-        if(message.getUid().equals(Model.getInstance().getUid())){
+        if (message.getUid().equals(Model.getInstance().getUid())) {
             view.findViewById(R.id.upVoteBtn).setVisibility(View.GONE);
             view.findViewById(R.id.downVoteBtn).setVisibility(View.GONE);
-        }else{
+        } else {
             view.findViewById(R.id.upVoteBtn).setVisibility(View.VISIBLE);
             view.findViewById(R.id.downVoteBtn).setVisibility(View.VISIBLE);
         }
-        if(messageValues.get(position) == 0){
+        if (messageValues.get(position) == 0) {
             view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_02);
             view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_03);
-        }
-        else if(messageValues.get(position) == 1){
+        } else if (messageValues.get(position) == 1) {
             view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_05);
             view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_03);
-        }
-        else if(messageValues.get(position) == -1){
+        } else if (messageValues.get(position) == -1) {
             view.findViewById(R.id.upVoteBtn).setBackgroundResource(R.drawable.arrows_02);
             view.findViewById(R.id.downVoteBtn).setBackgroundResource(R.drawable.arrows_06);
         }
@@ -320,15 +319,15 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected void populateViewOnExtension(View view, Message message){
-        if(message.getUid().equals(Model.getInstance().getUid())){
+    protected void populateViewOnExtension(View view, Message message) {
+        if (message.getUid().equals(Model.getInstance().getUid())) {
             view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.GONE);
-        }else{
+        } else {
             view.findViewById(R.id.sendPersonalMessageButton).setVisibility(View.VISIBLE);
         }
     }
 
-    public void personalMessageClicked(int position){
+    public void personalMessageClicked(int position) {
         final String otherUid = getMessageModel(position).getUid();
         DuoChatController.launchDuoChat(context, otherUid);
 
@@ -340,10 +339,11 @@ public class BusChatController extends ChatController implements Observer{
     }
 
     @Override
-    protected View getMessageViewExtension(){
+    protected View getMessageViewExtension() {
         return LayoutInflater.from(context).inflate(R.layout.message_buschat_extension, null);
     }
 
     @Override
-    protected void onSentMessage() {}
+    protected void onSentMessage() {
+    }
 }
