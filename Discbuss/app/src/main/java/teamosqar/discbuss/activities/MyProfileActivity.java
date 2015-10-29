@@ -157,7 +157,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
      * @param view
      */
     public void changePassword(View view) {
-        //TODO create this, what will happen when this button is pressed?
         pwButton.setVisibility(View.GONE);
         displayNameButton.setVisibility(View.GONE);
         name.setVisibility(View.GONE);

@@ -128,7 +128,6 @@ public class Model extends Observable implements Observer{
      * @param activeChat
      */
     protected void removeUserFromChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Should this really be used?
         mref.child("activeUsers").child(activeChat).child(uid).removeValue();
     }
 

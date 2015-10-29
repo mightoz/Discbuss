@@ -27,7 +27,7 @@ import teamosqar.discbuss.util.Message;
  */
 public class BusChatController extends ChatController implements Observer{
 
-    private Firebase chatFirebaseRef; //TODO: This is also kept in superclass.. Should we consider other solution? variable needed for performKarmaChange
+    private Firebase chatFirebaseRef;
     private Context context;
     private String chatRoom;
     private Model model;
@@ -316,8 +316,6 @@ public class BusChatController extends ChatController implements Observer{
         authorView.setText(author);
         msgView.setText(msg);
         commentKarma.setText(Integer.toString(karma));
-
-        //TODO: Make good looking up/down-vote buttons. Downvote should glow red if clicked, upvote should glow green.
 
     }
 

@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
             Toaster.displayToast("Topic skickad!", getApplicationContext(), Toast.LENGTH_SHORT);
             fragmentOpen = false;
         } else {
-            //TODO: Update with new toaster
             Toaster.displayToast("Skriv ner en topic", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }

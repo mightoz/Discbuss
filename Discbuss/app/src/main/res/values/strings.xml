@@ -148,12 +148,11 @@
 
     <color name="gray"> #CCCCCC </color>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-    <string name="title_activity_message">MessageActivity</string>
-    <string name="title_activity_buschat">BusChat</string>
-    <string name="title_activity_duochat">PrivateChat</string>
+    <string name="hello_blank_fragment">DiscBuss</string>
+    <string name="title_activity_login">DiscBuss</string>
+    <string name="title_activity_main">DiscBuss</string>
+    <string name="title_activity_profile">DiscBuss</string>
+    <string name="title_activity_message">DiscBuss</string>
+    <string name="title_activity_buschat">DiscBuss</string>
+    <string name="title_activity_duochat">DiscBuss</string>
 </resources>

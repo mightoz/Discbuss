@@ -51,11 +51,6 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         clickedMessage = -1;
         clickedView = null;
 
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
-        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chat");                        //TODO: Remove when done testing
-        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");     //TODO: Remove when done testing
-
         chatFireBaseRef = getFirebaseChatRef(chatRoom);
 
         messageModels = new ArrayList<>();
