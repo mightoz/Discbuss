@@ -22,7 +22,7 @@ import teamosqar.discbuss.application.MainController;
 import teamosqar.discbuss.fragments.SuggestFragment;
 import teamosqar.discbuss.util.Toaster;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BusBarActivity {
 
     private MainController mainController;
     private Firebase mref;
@@ -46,19 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainController = new MainController(this);
         mainController.checkWifiState();
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
     }
 
     @Override

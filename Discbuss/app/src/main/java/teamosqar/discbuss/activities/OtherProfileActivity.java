@@ -38,22 +38,6 @@ public class OtherProfileActivity extends ProfileActivity implements Observer {
         karma = (TextView) findViewById(R.id.textViewUserKarma);
 
 
-        /*=============================================================== */
-        TextView actionBarText;
-        ActionBar actionBar;
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
-        /*=============================================================== */
-
     }
 
     @Override

@@ -47,18 +47,6 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         userNameFragment = new EditUserName();
         pwFragment = new ChangePasswordFragment();
 
-        TextView actionBarText;
-        ActionBar actionBar;
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
     }
 
     /**

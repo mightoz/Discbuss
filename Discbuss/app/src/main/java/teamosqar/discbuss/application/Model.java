@@ -1,5 +1,7 @@
 package teamosqar.discbuss.application;
 
+import android.content.Context;
+
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
@@ -199,5 +201,13 @@ public class Model extends Observable implements Observer{
 
     protected String getNextBusStop(){
         return nextBusStop;
+    }
+
+    public void onActivityCreated(Context context){
+
+    }
+
+    public void onActivityStarted(Context context){
+
     }
 }

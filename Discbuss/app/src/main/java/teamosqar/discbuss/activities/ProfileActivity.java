@@ -17,7 +17,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * abstract class which contains the code used in both profile views
  */
-public abstract class ProfileActivity extends AppCompatActivity {
+public abstract class ProfileActivity extends BusBarActivity{
 
     private List<TextView> topCommentMessages, topCommentKarmaValues;
     protected ProfileController profileController;

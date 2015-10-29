@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import teamosqar.discbuss.application.MessageController;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends BusBarActivity {
 
     private MessageController messageController;
     private ListView listView;
@@ -28,19 +28,6 @@ public class MessageActivity extends AppCompatActivity {
 
         listView = (ListView)findViewById(R.id.messageList);
         listView.setAdapter(messageController);
-
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-
-        actionBarText.setText("Discbuss");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -23,7 +23,7 @@ import teamosqar.discbuss.application.ChatController;
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatActivity extends AppCompatActivity {
+public abstract class ChatActivity extends BusBarActivity {
 
     private EditText msgToSend;
     private ListView listView;
@@ -37,21 +37,6 @@ public abstract class ChatActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
-
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
-
 
 
         setAdapter();
