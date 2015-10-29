@@ -28,6 +28,12 @@ public class ElecApi {
 
     }
 
+    /**
+     * Gets the upcoming busstop from the ElectricityAPI
+     * @return the upcoming busstop as a String
+     * @throws IOException
+     * @throws JSONException
+     */
     public String getNextBusStop()throws IOException, JSONException {
 
         long t2 = System.currentTimeMillis();
