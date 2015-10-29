@@ -12,7 +12,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -50,7 +49,7 @@ public class DuoChatController extends ChatController{
     }
 
     @Override
-    protected void onMessageRecieved() {
+    protected void onMessageReceived() {
         setSeenLatestMessage();
     }
 
@@ -95,14 +94,6 @@ public class DuoChatController extends ChatController{
     @Override
     public void onLeftChat() {
         shutDownListener();
-    }
-
-    public void addAsObserver(){
-        model.addObserver(this);
-    }
-
-    public void removeAsObserver(){
-        model.deleteObserver(this);
     }
 
     @Override
@@ -166,5 +157,10 @@ public class DuoChatController extends ChatController{
                 }
             });
         }
+    }
+
+    @Override
+    public void updateContext(Context context) {
+        Model.getInstance().updateContext(context);
     }
 }

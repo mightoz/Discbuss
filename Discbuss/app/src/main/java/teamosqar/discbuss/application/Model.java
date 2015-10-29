@@ -1,5 +1,6 @@
 package teamosqar.discbuss.application;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,7 +17,7 @@ import teamosqar.discbuss.net.StopUpdater;
 /**
  * Created by Oscar on 2015-09-30.
  */
-public class Model extends Observable implements Observer{
+public class Model implements Observer{
     private static Model model = new Model();
     private Firebase mref;
     private String username;
@@ -28,6 +28,7 @@ public class Model extends Observable implements Observer{
     private ArrayList<String> busBSSIDs;
     private String nextBusStop;
     private Toolbar toolbar;
+    private Context context;
 
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
@@ -92,8 +93,10 @@ public class Model extends Observable implements Observer{
 
     }
 
-    protected List<String> getBusBSSIDs(){
-        return busBSSIDs;
+    protected boolean connectedToBusWifi(){
+        if(busBSSIDs.contains(currentBSSID))
+                return true;
+        return false;
     }
 
     protected void setCurrentBSSID(String bssid){
@@ -146,45 +149,82 @@ public class Model extends Observable implements Observer{
         return username;
     }
 
+    /**
+     * resets the values of username, userID and email
+     */
     protected void resetModel(){
         username = "";
         uid = "";
         email = "";
     }
 
+    /**
+     * Starts timer that retrieves bus data for currently connected bus.
+     */
     protected void startRetrievingStopInfo(){
         stopUpdater = new StopUpdater(currentBSSID);
         stopUpdater.addObserver(this);
         stopUpdater.start();
     }
 
+
+    /**
+     * Retrieves the next bus stop info and formats it into a presentable string. Then updates
+     * listeners.
+     * @param observable not used
+     * @param data not used
+     */
     @Override
     public void update(Observable observable, Object data) {
         String busStopTmp = stopUpdater.getNextBusStop();
+        if(busStopTmp != null && busStopTmp.length()>1){
+            busStopTmp = busStopTmp.substring(0,busStopTmp.length()-1);
+        }
+
         switch (busStopTmp){
-            case "G�taplatsen":
+            case "G�taplatse":
                 nextBusStop = "Götaplatsen";
                 break;
-            case "Kungsportsplatsn":
+            case "Kungsportsplats":
                 nextBusStop = "Kungsportsplatsen";
                 break;
-            case "NisseTerminalen":
+            case "NisseTerminale":
                 nextBusStop = "Nils Ericson Terminalen";
+                break;
+            case "Frihamne":
+                nextBusStop = "Frihamnen";
+                break;
+            case "Kungsportspl":
+                nextBusStop = "Kungsportsplatsen";
                 break;
             default:
                 nextBusStop = busStopTmp;
                 break;
         }
-        setChanged();
-        notifyObservers();
+       setToolBar(nextBusStop);
+
     }
 
     protected String getNextBusStop(){
         return nextBusStop;
     }
 
-    protected void setToolBar(Context context){
-    //    Toolbar tb = (Toolbar)((AppCompatActivity)context).findViewById(R.id.toolbar);
-    //    ((AppCompatActivity)context).setSupportActionBar(tb);
+
+    protected void updateContext(Context context){
+        this.context = context;
+        toolbar = (Toolbar)((AppCompatActivity)context).findViewById(R.id.toolbar);
+        ((AppCompatActivity)context).setSupportActionBar(toolbar);
+        if(nextBusStop!=null)
+        setToolBar(nextBusStop);
+    }
+
+    private void setToolBar(final String nextBusStop) {
+        Activity activity = ((Activity)context);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setTitle("Nästa hållplats: "+nextBusStop);
+            }
+        });
     }
 }

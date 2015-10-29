@@ -19,6 +19,7 @@ public class DuoChatActivity extends ChatActivity{
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     protected ChatController getChatController() {
         return chatController;

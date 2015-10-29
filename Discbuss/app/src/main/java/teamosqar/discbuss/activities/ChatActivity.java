@@ -1,6 +1,5 @@
 package teamosqar.discbuss.activities;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
 
 import com.firebase.client.Firebase;
 
@@ -40,24 +37,8 @@ public abstract class ChatActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
-
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
-
-
-
-
         setAdapter();
+        getChatController().updateContext(this);
 
     }
 
@@ -74,6 +55,7 @@ public abstract class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
 
     protected abstract ChatController getChatController();
 
@@ -109,15 +91,14 @@ public abstract class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        getChatController().updateContext(this);
         getChatController().onEnteredChat();
-        getChatController().addAsObserver();
-        getChatController().updateNextBusStop();
+        //getChatController().updateNextBusStop();
     }
 
     @Override
     public void onStop(){
         getChatController().onLeftChat();
-        getChatController().removeAsObserver();
         super.onStop();
     }
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import teamosqar.discbuss.util.Message;
 /**
  * Created by joakim on 2015-09-29.
  */
-public abstract class ChatController extends BaseAdapter implements Observer {
+public abstract class ChatController extends BaseAdapter implements ActionBarController{
 
     private final Context context;
     private Model model;
@@ -56,8 +57,8 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
         chatFireBaseRef = getFirebaseChatRef(chatRoom);
 
-        messageModels = new ArrayList<Message>();
-        messageKeys = new ArrayList<String>();
+        messageModels = new ArrayList<>();
+        messageKeys = new ArrayList<>();
 
         chatListener = chatFireBaseRef.addChildEventListener(new ChildEventListener() {
 
@@ -82,7 +83,7 @@ public abstract class ChatController extends BaseAdapter implements Observer {
                         messageKeys.add(key);
                     }
                 }
-                onMessageRecieved();
+                onMessageReceived();
                 notifyDataSetChanged();
             }
 
@@ -139,18 +140,32 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         });
     }
 
-    protected abstract void onMessageRecieved();
+    protected abstract void onMessageReceived();
 
     protected abstract Firebase getFirebaseChatRef(String chatRoom);
 
+    /**
+     * get message model at specified location
+     * @param location
+     * @return message model
+     */
     protected Message getMessageModel(int location){
         return messageModels.get(location);
     }
 
+    /**
+     * get database message key at specified location
+     * @param location
+     * @return message key
+     */
     protected String getMessageKey(int location){
         return messageKeys.get(location);
     }
 
+    /**
+     * Pushes a chat message to database
+     * @param msg
+     */
     public void sendMessage(String msg){
         if(!msg.equals("")) {
             Message message = new Message(model.getUid(), msg, model.getUsername());
@@ -206,6 +221,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         return convertView;
     }
 
+    /**
+     * Get the list of database keys for the messages
+     * @return the list of keys
+     */
     public List getMessageKeys(){
         return messageKeys;
     }
@@ -218,6 +237,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     protected abstract void populateViewOnExtension(View view, Message message);
 
+    /**
+     * declare that a message from the list has been clicked
+     * @param position
+     */
     public void messageClicked(int position) {
         if(clickedMessage != position) {
             clickedMessage = position;
@@ -227,6 +250,10 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         notifyDataSetChanged();
     }
 
+    /**
+     * declare that a personal profile button has been clicked
+     * @param position
+     */
     public void personalProfileClicked(int position){
         final String otherUid = messageModels.get(position).getUid();
         if(!otherUid.equals(model.getUid())){
@@ -243,16 +270,6 @@ public abstract class ChatController extends BaseAdapter implements Observer {
 
     public abstract void onLeftChat();
 
-    public abstract void addAsObserver();
-
-    public abstract void removeAsObserver();
-
-
-
-    @Override
-    public void update(Observable observable, Object data) {
-        updateNextBusStop();
-    }
     public void updateNextBusStop(){
         if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
             Activity activity = (Activity)context;
@@ -266,10 +283,16 @@ public abstract class ChatController extends BaseAdapter implements Observer {
         }
     }
 
+    /**
+     * Stops the database chat listener
+     */
     public void shutDownListener(){
         chatFireBaseRef.removeEventListener(chatListener);
     }
 
+    /**
+     * Starts the database chat listener
+     */
     public void startListener(){
         chatFireBaseRef.addChildEventListener(chatListener);
     }

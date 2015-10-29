@@ -31,7 +31,7 @@ import teamosqar.discbuss.util.MessageInbox;
 /**
  * Created by joakim on 2015-10-11.
  */
-public class MessageController extends BaseAdapter implements Observer {
+public class MessageController extends BaseAdapter implements ActionBarController{
 
     private Firebase messagesFirebaseRef;
     private List<MessageInbox> messageInboxes;
@@ -47,10 +47,10 @@ public class MessageController extends BaseAdapter implements Observer {
         inflater = LayoutInflater.from(context);
         this.context = context;
 
-        messageInboxes = new ArrayList<MessageInbox>();
-        mostRecentMsg = new ArrayList<Message>();
-        keys = new ArrayList<String>();
-        childEventListenerMap = new HashMap<String, ChildEventListener>();
+        messageInboxes = new ArrayList<>();
+        mostRecentMsg = new ArrayList<>();
+        keys = new ArrayList<>();
+        childEventListenerMap = new HashMap<>();
 
         Firebase activeChatsRef = Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats");
 
@@ -320,14 +320,6 @@ public class MessageController extends BaseAdapter implements Observer {
         }
     }
 
-    public void addAsObserver(){
-        Model.getInstance().addObserver(this);
-    }
-
-    @Override
-    public void update(Observable observable, final Object nextBusStop) {
-        updateNextBusStop();
-    }
 
     public void leaveChat(int position){
         final String key = keys.get(position);
@@ -359,5 +351,10 @@ public class MessageController extends BaseAdapter implements Observer {
         messagesFirebaseRef.child(key).removeValue();
 
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateContext(Context context) {
+        Model.getInstance().updateContext(context);
     }
 }

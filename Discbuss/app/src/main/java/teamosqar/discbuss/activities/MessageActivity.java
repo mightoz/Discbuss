@@ -1,6 +1,5 @@
 package teamosqar.discbuss.activities;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 
 import teamosqar.discbuss.application.MessageController;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity{
 
     private MessageController messageController;
     private ListView listView;
@@ -26,22 +25,10 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         messageController = new MessageController(this);
         setContentView(R.layout.activity_message);
+        messageController.updateContext(this);
 
         listView = (ListView)findViewById(R.id.messageList);
         listView.setAdapter(messageController);
-
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView)findViewById(R.id.actionBarTextView);
-
-        actionBarText.setText("Discbuss");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,30 +49,8 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        messageController.addAsObserver();
-        messageController.updateNextBusStop();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_message, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        //messageController.updateNextBusStop();
+        messageController.updateContext(this);
     }
 
     public void leaveDuoChat(View view){

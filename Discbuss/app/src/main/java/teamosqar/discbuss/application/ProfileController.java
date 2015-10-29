@@ -2,8 +2,6 @@ package teamosqar.discbuss.application;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,12 +11,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,13 +25,14 @@ import teamosqar.discbuss.util.Toaster;
 /**
  * Created by rutanjr on 2015-10-05.
  *
- * A controller class for the ProfileActivity class. Uses a firebase login to find the data it needs
+ * A controller class for the ProfileActivity classes. Uses a firebase login to find the data it needs
  * and that is fetched from the model.
  */
-public class ProfileController extends Observable implements Observer {
+public class ProfileController extends Observable implements ActionBarController{
 
     private Firebase fireRef;
-    protected ArrayList<String> topMessages, topKarma, keys;
+    protected ArrayList<String> topMessageValues, topKarma, keys;
+    protected ArrayList<Message> topMessages;
     private Firebase userRef; //firebase reference to the user that is currently logged in.
     private DataSnapshot snapshot; //reference to the data contained in this user.
     Context context;
@@ -43,8 +40,9 @@ public class ProfileController extends Observable implements Observer {
 
     public ProfileController(Context context){
         this.context = context;
-        topMessages = new ArrayList<>();
+        topMessageValues = new ArrayList<>();
         topKarma = new ArrayList<>();
+        topMessages = new ArrayList<>();
         keys = new ArrayList<>();
         fireRef = model.getMRef();
         userRef = model.getMRef().child("users").child(model.getUid());
@@ -53,20 +51,27 @@ public class ProfileController extends Observable implements Observer {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                String tempMsg;
+                Message tempMsg;
+                String tempString;
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
                     sstemp = (DataSnapshot)iterator.next();
                     if(!keys.contains(sstemp.getKey())){
-                        tempMsg = sstemp.getValue(Message.class).getMessage();
+                        tempString = sstemp.getValue(Message.class).getMessage();
                         tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
-                        topMessages.add(tempMsg);
+                        topMessageValues.add(tempString);
                         topKarma.add(tempKarma);
                         keys.add(sstemp.getKey());
                     }
                 }
+                for(int i = 0; i < topMessageValues.size(); i++){
+                    tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
+                    topMessages.add(tempMsg);
+                }
+                Collections.sort(topMessages);
+                Collections.reverse(topMessages);
                 setChanged();
                 notifyObservers();
             }
@@ -81,23 +86,35 @@ public class ProfileController extends Observable implements Observer {
         this.context = context;
         fireRef = model.getMRef();
         userRef = fireRef.child("users").child(uid);
-        topMessages = new ArrayList<>();
+        topMessageValues = new ArrayList<>();
         topKarma = new ArrayList<>();
+        topMessages = new ArrayList<>();
+        keys = new ArrayList<>();
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot;
-                String tempMsg;
+                Message tempMsg;
+                String tempString;
                 String tempKarma;
                 DataSnapshot sstemp;
                 Iterator iterator = snapshot.child("topStatements").getChildren().iterator();
                 while(iterator.hasNext()){
                     sstemp = (DataSnapshot)iterator.next();
-                    tempMsg = sstemp.getValue(Message.class).getMessage();
-                    tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
-                    topMessages.add(tempMsg);
-                    topKarma.add(tempKarma);
+                    if(!keys.contains(sstemp.getKey())){
+                        tempString = sstemp.getValue(Message.class).getMessage();
+                        tempKarma = Integer.toString(sstemp.getValue(Message.class).getKarma());
+                        topMessageValues.add(tempString);
+                        topKarma.add(tempKarma);
+                        keys.add(sstemp.getKey());
+                    }
                 }
+                for(int i = 0; i < topMessageValues.size(); i++){
+                    tempMsg = new Message("temp", topMessageValues.get(i), "temp", Integer.parseInt(topKarma.get(i)));
+                    topMessages.add(tempMsg);
+                }
+                Collections.sort(topMessages);
+                Collections.reverse(topMessages);
                 setChanged();
                 notifyObservers();
             }
@@ -109,10 +126,9 @@ public class ProfileController extends Observable implements Observer {
         });
     }
 
-    public ArrayList<String> getTopMessages(){
+    public ArrayList<Message> getTopMessages(){
         return topMessages;
     }
-    public ArrayList<String> getTopKarma() { return topKarma; }
 
      /**
      * Gets the name from the snapshot data and returns it as a string.
@@ -126,6 +142,10 @@ public class ProfileController extends Observable implements Observer {
         return name;
     }
 
+    /**
+     * Gets the gender from the snapshot data and returns it as a string.
+     * @return the gender for the user that is currently logged in.
+     */
     public String getGender(){
         String gender = "";
         if(snapshot != null) {
@@ -134,6 +154,10 @@ public class ProfileController extends Observable implements Observer {
         return gender;
     }
 
+    /**
+     * Gets the birth date from the snapshot data and calculates the user age.
+     * @return the age for the user that is currently logged in.
+     */
     public String getAge(){
         String age = "";
         if(snapshot != null) {
@@ -190,6 +214,12 @@ public class ProfileController extends Observable implements Observer {
         System.out.println(fireRef.getAuth().getProviderData().get("email").toString());
     }
 
+    /**
+     * Changes the password for the user.
+     * @param oldPw the users previous password
+     * @param newPw the users preferred new password
+     * @param context the active context
+     */
 
     public void changePassword(String oldPw, String newPw, final Context context) {
         fireRef.changePassword(fireRef.getAuth().getProviderData().get("email").toString(), oldPw, newPw, new Firebase.ResultHandler() {
@@ -206,19 +236,6 @@ public class ProfileController extends Observable implements Observer {
 
     }
 
-    public void addAsObserver(){
-        model.addObserver(this);
-    }
-
-    public void removeAsObserver(){
-        model.deleteObserver(this);
-    }
-
-
-    @Override
-    public void update(Observable observable, Object obj) {
-        updateNextBusStop();
-    }
 
     public void updateNextBusStop(){
         if (model.getNextBusStop()!=null&& !model.getNextBusStop().isEmpty()) {
@@ -235,5 +252,10 @@ public class ProfileController extends Observable implements Observer {
 
     public void resetModel(){
         model.resetModel();
+    }
+
+    @Override
+    public void updateContext(Context context) {
+        Model.getInstance().updateContext(context);
     }
 }

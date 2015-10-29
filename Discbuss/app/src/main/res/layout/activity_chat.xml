@@ -10,9 +10,10 @@
 
     <LinearLayout
         android:id="@+id/actionBarPlaceholder"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolbar">
     </LinearLayout>
 
 

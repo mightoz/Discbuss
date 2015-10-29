@@ -3,12 +3,18 @@ package teamosqar.discbuss.util;
 /**
  * Created by joakim on 2015-09-29.
  */
-public class Message {
+public class Message implements Comparable<Message> {
 
     private String uid;
     private String message;
     private String author;
     private int karma;
+
+    public int compareTo(Message other){
+        int result = 0;
+        result = Integer.compare(karma, other.getKarma());
+        return result;
+    }
 
     //required default constructor for firebase object mapping
     private Message(){

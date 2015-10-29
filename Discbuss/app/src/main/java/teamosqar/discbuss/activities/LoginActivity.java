@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,9 @@ import teamosqar.discbuss.application.LoginController;
 import teamosqar.discbuss.fragments.LoadingFragment;
 import teamosqar.discbuss.util.Toaster;
 
+/**
+ * Activity class for the login view
+ */
 public class LoginActivity extends AppCompatActivity implements Observer {
 
     //Used for retrieving and saving to SharedPreferences
@@ -40,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     private LoadingFragment loadingFragment;
     private boolean tryingLogin;
+
+    private boolean doubleBackAgain = false;
 
     @Override
     protected void onStart(){
@@ -79,11 +85,15 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         if(autoLogin){
             editEmail.setText(sharedPref.getString(EMAIL, "email"));
             editPassword.setText(sharedPref.getString(PASSWORD, "pass"));
-            autoLoginCheckbox.setChecked(autoLogin);
+            autoLoginCheckbox.setChecked(true);
             initiateLogin();
         }
     }
 
+    /**
+     *
+     * @param view
+     */
     public void loginPressed(View view){
         initiateLogin();
     }
@@ -109,8 +119,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         ft.add(R.id.loadingFragmentPlaceholder, loadingFragment);
         ft.commit();
         loginController.tryLogin(editEmail.getText().toString(), editPassword.getText().toString());
-        //setContentView(R.layout.fragment_loading);
-        //progressDialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Logging in", true, false);
     }
 
     public void cancelLogin(){
@@ -123,35 +131,13 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         FragmentTransaction newFt = getFragmentManager().beginTransaction();
         newFt.remove(loadingFragment);
         newFt.commit();
-        //setContentView(R.layout.activity_login);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     public void update(Observable observable, Object data) {
 
         Log.d("notifications", "recieved notification");
-        //progressDialog.dismiss();
         if(tryingLogin) {
             if (loginController.getLoginStatus()) {
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -173,5 +159,30 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     public void onStop(){
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(doubleBackAgain && !tryingLogin){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else if(tryingLogin) {
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(loadingFragment);
+            tryingLogin = false;
+            newFt.commit();
+        } else {
+            doubleBackAgain = true;
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackAgain=false;
+                }
+            }, 2000);
+        }
     }
 }

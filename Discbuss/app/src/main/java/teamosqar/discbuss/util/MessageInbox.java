@@ -1,7 +1,5 @@
 package teamosqar.discbuss.util;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by joakim on 2015-10-12.

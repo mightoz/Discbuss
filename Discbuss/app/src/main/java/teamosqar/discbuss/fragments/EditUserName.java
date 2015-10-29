@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 
 import teamosqar.discbuss.activities.R;
 
-
-public class EditDisplayname extends DialogFragment {
+/**
+ * Fragment class used to change username
+ */
+public class EditUserName extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

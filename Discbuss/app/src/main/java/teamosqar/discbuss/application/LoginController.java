@@ -12,6 +12,8 @@ import java.util.Observable;
 
 /**
  * Created by joakim on 2015-10-02.
+ *
+ * Controller class for the login view
  */
 public class LoginController extends Observable{
 
@@ -22,6 +24,11 @@ public class LoginController extends Observable{
         loginStatus = false;
     }
 
+    /**
+     * checks if the user input checks out with any registered user in FireBase
+     * @param email the email input
+     * @param password the password input
+     */
     public void tryLogin(final String email, String password){
         Log.d(email, password);
         userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {

@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +17,24 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import teamosqar.discbuss.application.ProfileController;
 import teamosqar.discbuss.fragments.ChangePasswordFragment;
-import teamosqar.discbuss.fragments.EditDisplayname;
+import teamosqar.discbuss.fragments.EditUserName;
 import teamosqar.discbuss.util.Toaster;
 
 public class MyProfileActivity extends ProfileActivity implements Observer {
 
-    private TextView email, name, karma, actionBarText, topComment1, topComment2, topComment3, topKarma1, topKarma2, topKarma3;
+    private TextView email, name, karma;
     private Button pwButton, displayNameButton;
-    private EditDisplayname displaynameFragment;
+    private EditUserName userNameFragment;
     private boolean changePass, changeName;
     private ChangePasswordFragment pwFragment;
     private FragmentManager fm;
-    private FragmentTransaction ft;
     private FrameLayout fragmentPlaceholder;
-    private ProfileController profileController;
-    private ActionBar actionBar;
-    private List<TextView> topCommentValues, topCommentKarmas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,27 +42,20 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         profileController.addObserver(this);
+        profileController.updateContext(this);
         name = (TextView) findViewById(R.id.textViewDisplayName);
         karma = (TextView) findViewById(R.id.textViewUserKarma);
         email = (TextView) findViewById(R.id.textViewUserEmail);
         pwButton = (Button) findViewById(R.id.changePwButton);
         displayNameButton = (Button) findViewById(R.id.displaynameButton);
-        displaynameFragment = new EditDisplayname();
+        userNameFragment = new EditUserName();
         pwFragment = new ChangePasswordFragment();
-        topCommentValues = new ArrayList<>();
-        topCommentKarmas = new ArrayList<>();
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.activity_action_bar,
-                null);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-        actionBarText = (TextView) findViewById(R.id.actionBarTextView);
-        actionBarText.setText("Discbuss"); // <-- as always this is how its done. easy to do.
+
     }
 
+    /**
+     * Makes sure the back button works as intended when fragments are active
+     */
     public void onBackPressed(){
         if(changePass){
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
@@ -80,7 +69,7 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
             changePass = false;
         } else if(changeName){
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
-            newFt.remove(displaynameFragment);
+            newFt.remove(userNameFragment);
             fragmentPlaceholder.setVisibility(View.INVISIBLE);
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
@@ -96,9 +85,9 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
     public void update(Observable observable, Object data) {
         name.setText(profileController.getName() + ", " + profileController.getGender() + " " + profileController.getAge() + " år");
-            email.setText("Email: " + profileController.getEmail());
-            karma.setText(profileController.getKarma());
-            displayTopComments();
+        email.setText("Email: " + profileController.getEmail());
+        karma.setText(profileController.getKarma());
+        displayTopComments();
     }
 
     @Override
@@ -107,56 +96,39 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         changePass = false;
         changeName = false;
         Firebase.setAndroidContext(this);
-        profileController.addAsObserver();
-        profileController.updateNextBusStop();
+        profileController.updateContext(this);
+        //profileController.updateNextBusStop();
         fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragmentPlaceholder);
     }
-    @Override
-    public void onStop(){
-        super.onStop();
-        profileController.removeAsObserver();
-    }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("logout", "logout");
-            startActivity(intent);
-            profileController.resetModel();
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
+    /**
+     * Called when the change user name button is pressed.
+     * Hides specific profile elements and displays the change user name fragment.
+     * @param view
+     */
     public void changeUserName(View view) {
         pwButton.setVisibility(View.GONE);
         displayNameButton.setVisibility(View.GONE);
         fragmentPlaceholder.setVisibility(View.VISIBLE);
         fm = getFragmentManager();
-        ft = fm.beginTransaction();
-        ft.add(R.id.fragmentPlaceholder, displaynameFragment);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragmentPlaceholder, userNameFragment);
         ft.commit();
         changeName = true;
     }
 
-    public void changeDisplayname(View view) {
+    /**
+     * Called when the save name button is pressed when changing user name.
+     * Calls the change user name method in controller and then reverts the profile new to normal.
+     * @param view
+     */
+    public void confirmUserName(View view) {
         EditText newName = (EditText) findViewById(R.id.editTextNewName);
 
         if (!newName.getText().toString().isEmpty()) {
             profileController.setNewDisplayName(newName.getText().toString());
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
-            newFt.remove(displaynameFragment);
+            newFt.remove(userNameFragment);
             newFt.commit();
             pwButton.setVisibility(View.VISIBLE);
             displayNameButton.setVisibility(View.VISIBLE);
@@ -166,6 +138,11 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         }
     }
 
+    /**
+     * Called when the change password button is pressed.
+     * Hides specific profile elements and displays the change password fragment
+     * @param view
+     */
     public void changePassword(View view) {
         //TODO create this, what will happen when this button is pressed?
         pwButton.setVisibility(View.GONE);
@@ -182,7 +159,12 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
 
     }
 
-    public void setNewPassword(View view) {
+    /**
+     * Called when the save password button is pressed
+     * Calls the change password method in controller and reverts profile view to normal
+     * @param view
+     */
+    public void confirmNewPassword(View view) {
 
         EditText newPassword = (EditText) findViewById(R.id.editTextNewPassword);
         EditText confirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
@@ -205,30 +187,31 @@ public class MyProfileActivity extends ProfileActivity implements Observer {
         } else {
             Toaster.displayToast("Fel konfirmationslösen", this, Toast.LENGTH_LONG);
         }
-
     }
 
-    public void displayTopComments() {
-        ArrayList<String> topComments;
-        topComments = profileController.getTopMessages();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        topComment1 = (TextView) findViewById(R.id.topComment1Value);
-        topComment2 = (TextView) findViewById(R.id.topComment2Value);
-        topComment3 = (TextView) findViewById(R.id.topComment3Value);
-        topKarma1 = (TextView) findViewById(R.id.topKarma1Value);
-        topKarma2 = (TextView) findViewById(R.id.topKarma2Value);
-        topKarma3 = (TextView) findViewById(R.id.topKarma3Value);
-        topCommentValues.add(topComment1);
-        topCommentValues.add(topComment2);
-        topCommentValues.add(topComment3);
-        topCommentKarmas.add(topKarma1);
-        topCommentKarmas.add(topKarma2);
-        topCommentKarmas.add(topKarma3);
-        for (int i = 0; i < topComments.size(); i++) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            topCommentValues.get(i).setText(profileController.getTopMessages().get(i));
-            topCommentKarmas.get(i).setText(profileController.getTopKarma().get(i));
-
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.logout) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("logout", "logout");
+            startActivity(intent);
+            profileController.resetModel();
+            finish();
         }
+
+        return super.onOptionsItemSelected(item);
     }
 }

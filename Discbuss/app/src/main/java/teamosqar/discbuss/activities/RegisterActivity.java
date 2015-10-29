@@ -11,17 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.firebase.client.Firebase;
 
-import java.sql.Array;
-import java.util.Calendar;
-import java.util.Date;
+import com.firebase.client.Firebase;
 
 import teamosqar.discbuss.application.RegisterController;
 import teamosqar.discbuss.util.Toaster;
 
 /**
  * @author Holmus
+ *
+ * Activity class for the register view
  */
 public class RegisterActivity extends AppCompatActivity {
     private EditText editName, editMail, editPass, editConfPass;
@@ -41,6 +40,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * If all registration data is valid, calls the registration method in controller
+     * @param view
+     */
     public void registerPressed(View view){
         name = editName.getText().toString();
         mail = editMail.getText().toString();
@@ -52,6 +55,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * takes the user to the login view
+     */
     private void goToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -59,6 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Checks if all the input data from the user in the registration process is valid
+     * @return whether all input in the registration process is valid
+     */
     private boolean checkData(){
         if(name.isEmpty()){
             Toaster.displayToast("Ange visningsnamn", this.getApplicationContext(), Toast.LENGTH_SHORT);
@@ -101,6 +111,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
     }
+
+    /**
+     * checks if the entered email address is valid
+     * @return whether the email is valid or not
+     */
     private boolean validateEmail(){
         //TODO: Better validation of that string would be neat
         for(int i = 0; i<mail.length(); i++){
@@ -111,6 +126,10 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * initiates the spinners for choosing gender and date of birth
+     * and saves the users choices
+     */
     private void initiateAllSpinners(){
         Spinner genderSpinner;
         ArrayAdapter<CharSequence> genderAdapter;

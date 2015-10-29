@@ -5,6 +5,9 @@
     android:descendantFocusability="blocksDescendants"
     android:minHeight="40dp">
 
+    <include
+        layout="@layout/toolbar"/>
+
     <TextView
         android:id="@+id/messageInboxNick"
         android:textSize="20dp"
