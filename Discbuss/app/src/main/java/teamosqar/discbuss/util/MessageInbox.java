@@ -21,6 +21,11 @@ public class MessageInbox {
         otherParticipant = "";
     }
 
+    /**
+     * Compares two dates
+     * @param otherDate
+     * @return true if the date of the latest message in the inbox calling the method is before the date of the latest message in the inbox provided as param
+     */
     public boolean isBefore(String otherDate){
         String latestActivity_split[] = latestActivity.split("-");
         String otherDate_split[] = otherDate.split("-");
@@ -33,23 +38,38 @@ public class MessageInbox {
         return false;
     }
 
-
+    /**
+     * @return true if the latest message recieved was seen by me
+     */
     public boolean isSeenByMe(){
         return seenByMe;
     }
 
+    /**
+     * @return true if the latest message sent was seen by the other person in the private chat
+     */
     public boolean isSeenByOther(){
         return seenByOther;
     }
 
+    /**
+     * @return a string containing date/time for latest activity in chat
+     */
     public String getLatestActivity(){
         return latestActivity;
     }
 
+    /**
+     * Adds the other user, provided as param, to the private chat
+     * @param otherParticipant
+     */
     public void setOtherParticipant(String otherParticipant){
         this.otherParticipant = otherParticipant;
     }
 
+    /**
+     * @return the other user in the private chat as a string
+     */
     public String getOtherParticipant(){
         return otherParticipant;
     }
