@@ -54,9 +54,6 @@ public class BusBarActivity extends AppCompatActivity {
         return true;
     }
 
-
-
-    //TODO: Refactor this method. -> Move to controller and call from here.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

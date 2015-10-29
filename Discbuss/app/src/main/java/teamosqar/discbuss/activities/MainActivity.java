@@ -62,6 +62,7 @@ public class MainActivity extends BusBarActivity {
         super.onStop();
     }
 
+    @Override
     public void onBackPressed(){
         if(doubleBackAgain && !fragmentOpen){
             Log.d("quitting", "quitting");

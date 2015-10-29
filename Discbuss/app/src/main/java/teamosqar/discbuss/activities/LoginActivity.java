@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
     private LoadingFragment loadingFragment;
     private boolean tryingLogin;
+
+    private boolean doubleBackAgain = false;
 
     @Override
     protected void onStart(){
@@ -156,5 +159,31 @@ public class LoginActivity extends AppCompatActivity implements Observer {
     public void onStop(){
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(doubleBackAgain && !tryingLogin){
+            Log.d("quitting", "quitting");
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else if(tryingLogin) {
+            FragmentTransaction newFt = getFragmentManager().beginTransaction();
+            newFt.remove(loadingFragment);
+            tryingLogin = false;
+            newFt.commit();
+        } else {
+            doubleBackAgain = true;
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackAgain=false;
+                }
+            }, 2000);
+        }
     }
 }
