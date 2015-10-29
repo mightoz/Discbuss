@@ -35,7 +35,6 @@ public class BusChatActivity extends ChatActivity {
      *
      * @return the chatActivitys specific chatController.
      */
-
     protected ChatController getChatController() {
         return chatController;
     }
@@ -53,7 +52,6 @@ public class BusChatActivity extends ChatActivity {
     /**
      * Method to downvote a message, called by the clicked button and providing a view to ensure the correct message is downvoted.
      */
-
     public void downVote(View view) {
         ListView lv = (ListView) findViewById(R.id.myList);
         int pos = lv.getPositionForView((View) view.getParent().getParent());
