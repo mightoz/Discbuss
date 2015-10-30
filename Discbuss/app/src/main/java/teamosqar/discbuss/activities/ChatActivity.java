@@ -2,10 +2,7 @@ package teamosqar.discbuss.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -27,7 +24,6 @@ public abstract class ChatActivity extends BusBarActivity {
 
     private EditText msgToSend;
     private ListView listView;
-    private TextView actionBarText;
 
 
     @Override

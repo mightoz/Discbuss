@@ -34,21 +34,18 @@ public abstract class BusBarActivity extends AppCompatActivity {
         actionBarText = (TextView)findViewById(R.id.actionBarTextView);
 
         actionBarText.setText("Discbuss");
-        controller = new ActionBarController(this);
+        controller = new ActionBarController();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
 
-        controller.setCurrentActionBar(getSupportActionBar());
-        controller.addAsObserver();
-        controller.updateNextBusStop();
+        controller.updateCurrentContext(this);
     }
 
     @Override
     protected void onStop(){
-        controller.removeAsObserver();
         super.onStop();
     }
 

@@ -9,11 +9,9 @@ import java.io.IOException;
  */
 public class BusConnector {
     private ElecApi eAPI;
-    private VastApi vAPI;
 
     public BusConnector(String bssid) {
         eAPI = new ElecApi(bssid);
-        vAPI = new VastApi();
     }
 
     /**

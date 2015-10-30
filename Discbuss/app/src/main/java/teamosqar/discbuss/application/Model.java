@@ -1,7 +1,8 @@
 package teamosqar.discbuss.application;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBar;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -9,12 +10,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.net.StopUpdater;
 
 /**
  * Created by Oscar on 2015-09-30.
  */
-public class Model extends Observable implements Observer {
+public class Model implements Observer {
     private static Model model = new Model();
     private Firebase mref;
     private String username;
@@ -24,7 +26,7 @@ public class Model extends Observable implements Observer {
     private String currentBSSID;
     private ArrayList<String> busBSSIDs;
     private String nextBusStop;
-
+    private Context context;
     private final String buss1 = "04:f0:21:10:09:df";
     private final String buss2 = "04:f0:21:10:09:b9";
     private final String buss3 = "04:f0:21:10:09:e8";
@@ -157,13 +159,6 @@ public class Model extends Observable implements Observer {
     }
 
     /**
-     * @return the email of the active user
-     */
-    protected String getEmail() {
-        return email;
-    }
-
-    /**
      * @return the username of the active user
      */
     protected String getUsername() {
@@ -216,6 +211,9 @@ public class Model extends Observable implements Observer {
             case "Frihamne":
                 nextBusStop = "Frihamnen";
                 break;
+            case "Lindholme":
+                nextBusStop = "Lindholmen";
+                break;
             case "Kungsportspl":
                 nextBusStop = "Kungsportsplatsen";
                 break;
@@ -223,18 +221,23 @@ public class Model extends Observable implements Observer {
                 nextBusStop = busStopTmp;
                 break;
         }
-        setChanged();
-        notifyObservers();
+        updateBusStop(nextBusStop);
     }
 
-    /**
-     * @return upcoming bus stop
-     */
-    protected String getNextBusStop() {
-        return nextBusStop;
+    protected void updateCurrentContext(Context context) {
+        this.context = context;
     }
 
-    public void setCurrentActionBar(ActionBar supportActionBar) {
-
+    private void updateBusStop(final String busStop){
+        if (busStop!=null&& !busStop.isEmpty()) {
+            Activity activity = (Activity) context;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView = (TextView) ((Activity) context).findViewById(R.id.actionBarTextView);
+                    textView.setText("Nästa hållplats: " + busStop);
+                }
+            });
+        }
     }
 }

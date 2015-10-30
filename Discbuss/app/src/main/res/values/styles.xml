@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-
         <!-- Sets color of loading fragments and textcursor, and probably more stuff. -->
         <item name="android:colorControlActivated"
             tools:targetApi="lollipop">

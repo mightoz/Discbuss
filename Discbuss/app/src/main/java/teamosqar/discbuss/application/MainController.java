@@ -1,16 +1,9 @@
 package teamosqar.discbuss.application;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.widget.TextView;
-
-import java.util.Observable;
-import java.util.Observer;
-
-import teamosqar.discbuss.activities.R;
 
 
 /**

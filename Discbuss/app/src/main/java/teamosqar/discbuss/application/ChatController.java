@@ -1,7 +1,6 @@
 package teamosqar.discbuss.application;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -19,8 +18,6 @@ import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import teamosqar.discbuss.activities.MyProfileActivity;
 import teamosqar.discbuss.activities.OtherProfileActivity;

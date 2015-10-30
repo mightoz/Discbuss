@@ -1,6 +1,5 @@
 package teamosqar.discbuss.application;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
