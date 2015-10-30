@@ -16,9 +16,16 @@ public class DuoChatActivity extends ChatActivity{
     protected void onCreate(Bundle savedInstanceState){
         String roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new DuoChatController(this, roomName);
+        chatController.updateContext(this);
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        chatController.updateContext(this);
+
+    }
 
     @Override
     protected ChatController getChatController() {

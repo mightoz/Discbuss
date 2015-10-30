@@ -21,7 +21,7 @@ public class BusChatActivity extends ChatActivity {
         String roomName = getIntent().getExtras().getString("EXTRA_ROOM");
         chatController = new BusChatController(this, roomName);
         super.onCreate(savedInstanceState);
-
+        chatController.updateContext(this);
         ViewGroup layout = (ViewGroup) findViewById(R.id.actionBarPlaceholder);
         View actionBarLayout = getLayoutInflater().inflate(
                 R.layout.statement_bar_layout,
@@ -30,6 +30,12 @@ public class BusChatActivity extends ChatActivity {
         layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         findViewById(R.id.statementText).setSelected(true);
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        chatController.updateContext(this);
+
     }
 
     protected ChatController getChatController() {

@@ -38,7 +38,7 @@ public abstract class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
         setAdapter();
-        getChatController().updateContext(this);
+     //   getChatController().updateContext(this);
 
     }
 
@@ -91,7 +91,7 @@ public abstract class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        getChatController().updateContext(this);
+        //getChatController().updateContext(this);
         getChatController().onEnteredChat();
         //getChatController().updateNextBusStop();
     }
