@@ -17,7 +17,6 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observer;
 
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;

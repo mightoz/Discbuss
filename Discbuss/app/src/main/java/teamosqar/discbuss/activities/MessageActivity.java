@@ -18,7 +18,6 @@ public class MessageActivity extends BusBarActivity {
 
     private MessageController messageController;
     private ListView listView;
-    private TextView actionBarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

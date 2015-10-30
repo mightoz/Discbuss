@@ -65,6 +65,7 @@ public class ElecApi {
         }
         in.close();
         System.out.println(response.toString());
+        //converts retrieved bus string to JSONArray, then saves the latest value for next bus stop.
         if (!response.toString().isEmpty()) {
             JSONArray arr = new JSONArray(response.toString());
             nextStop = arr.getJSONObject(arr.length() - 1).getString("value");

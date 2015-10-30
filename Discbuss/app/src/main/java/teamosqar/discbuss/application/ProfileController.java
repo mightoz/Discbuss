@@ -1,8 +1,6 @@
 package teamosqar.discbuss.application;
 
-import android.app.Activity;
 import android.content.Context;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -16,9 +14,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Observable;
-import java.util.Observer;
 
-import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 import teamosqar.discbuss.util.Toaster;
 
