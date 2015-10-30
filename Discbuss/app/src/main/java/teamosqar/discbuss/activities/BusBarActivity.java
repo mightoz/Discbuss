@@ -74,7 +74,4 @@ public abstract class BusBarActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

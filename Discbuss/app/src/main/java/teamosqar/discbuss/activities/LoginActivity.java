@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import java.util.Observer;
 
 import teamosqar.discbuss.application.LoginController;
 import teamosqar.discbuss.fragments.LoadingFragment;
+import teamosqar.discbuss.util.HideKeyboard;
 import teamosqar.discbuss.util.Toaster;
 
 /**
@@ -62,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
+        setupUI(findViewById(R.id.loginActivity));
 
         editEmail = (EditText) findViewById(R.id.editTextLoginEmail);
         editPassword = (EditText) findViewById(R.id.editTextLoginPassword);
@@ -202,6 +206,33 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                     doubleBackAgain=false;
                 }
             }, 2000);
+        }
+    }
+
+    public void setupUI(View view) {
+
+        //Set up touch listener for non-text box views to hide keyboard.
+        if(!(view instanceof EditText)) {
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+                    HideKeyboard.hideKeyboard(LoginActivity.this);
+                    return false;
+                }
+
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+                View innerView = ((ViewGroup) view).getChildAt(i);
+
+                setupUI(innerView);
+            }
         }
     }
 }
