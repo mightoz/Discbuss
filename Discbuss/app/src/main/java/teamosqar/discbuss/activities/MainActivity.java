@@ -3,10 +3,10 @@ package teamosqar.discbuss.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +25,8 @@ import teamosqar.discbuss.util.Toaster;
 public class MainActivity extends BusBarActivity {
 
     private MainController mainController;
-    private Firebase mref;
     private boolean doubleBackAgain = false;
     private boolean fragmentOpen = false;
-    //BELOW ONLY FOR TESTING...
-    private final String bssidMightos = "bc:ee:7b:55:47:16";
-    //ABOVE ONLY FOR TESTING...
 
     private EditText fragmentData;
     private FragmentManager fm;
@@ -38,7 +34,11 @@ public class MainActivity extends BusBarActivity {
     private SuggestFragment fragment;
     private TextView actionBarText;
 
-
+    /**
+     * Sets instance variables which are represented by graphical elements.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class MainActivity extends BusBarActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Firebase.setAndroidContext(this);
         fragment = new SuggestFragment();
@@ -58,12 +58,14 @@ public class MainActivity extends BusBarActivity {
     public void onStop(){
         super.onStop();
     }
-
+    /**
+     * Makes sure the backbutton works as intended, closing fragment if it's open and leaving the app if it's double-pressed
+     */
     @Override
     public void onBackPressed(){
         if(doubleBackAgain && !fragmentOpen){
             super.onBackPressed();
-        } else if(fragmentOpen) {
+        } else if (fragmentOpen) {
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
             newFt.commit();
@@ -76,7 +78,7 @@ public class MainActivity extends BusBarActivity {
 
                 @Override
                 public void run() {
-                    doubleBackAgain=false;
+                    doubleBackAgain = false;
                 }
             }, 2000);
         }
@@ -84,20 +86,21 @@ public class MainActivity extends BusBarActivity {
 
     /**
      * If connected to a bus wifi, enter it's chat room. Otherwise displays error toast.
+     *
      * @param view
      */
     public void enterDiscussion(View view) {
 
         String chatRoom = "chatRooms/";
 
-        if(mainController.isConnectedToBus()){
-            String roomNbr = Integer.toString(mainController.getIndexOfId()+1);
-            if(!roomNbr.equals("0"))
-            chatRoom = chatRoom + roomNbr;
+        if (mainController.isConnectedToBus()) {
+            String roomNbr = Integer.toString(mainController.getIndexOfId() + 1);
+            if (!roomNbr.equals("0"))
+                chatRoom = chatRoom + roomNbr;
             Intent intent = new Intent(this, BusChatActivity.class);
             intent.putExtra("EXTRA_ROOM", chatRoom);
             startActivity(intent);
-        }else {
+        } else {
             Toaster.displayToast("Anslut till ett bussWiFi", getApplicationContext(), Toast.LENGTH_SHORT);
         }
 
@@ -105,27 +108,30 @@ public class MainActivity extends BusBarActivity {
 
     /**
      * Views the currently logged in user's personal profile.
+     *
      * @param view
      */
-    public void goToProfile(View view){
+    public void goToProfile(View view) {
         Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
 
     /**
      * Views the currently logged in user's active private chats
+     *
      * @param view
      */
-    public void goToMessages(View view){
+    public void goToMessages(View view) {
         Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
     }
 
     /**
      * Launches the suggest statement fragment
+     *
      * @param view
      */
-    public void suggestStatement(View view){
+    public void suggestStatement(View view) {
         findViewById(R.id.textViewStatement).setVisibility(View.INVISIBLE);
         fm = getFragmentManager();
         ft = fm.beginTransaction();
@@ -136,11 +142,12 @@ public class MainActivity extends BusBarActivity {
 
     /**
      * Calls the submit statement method in controller and reverts the view to normal
+     *
      * @param view
      */
-    public void submitStatement(View view){
+    public void submitStatement(View view) {
         fragmentData = (EditText) findViewById(R.id.editTextStatement);
-        if(!fragmentData.getText().toString().isEmpty()) {
+        if (!fragmentData.getText().toString().isEmpty()) {
             mainController.submitStatement(fragmentData.getText().toString());
             FragmentTransaction newFt = getFragmentManager().beginTransaction();
             newFt.remove(fragment);
@@ -149,9 +156,7 @@ public class MainActivity extends BusBarActivity {
             Toaster.displayToast("Topic skickad!", getApplicationContext(), Toast.LENGTH_SHORT);
             fragmentOpen = false;
         } else {
-            //TODO: Update with new toaster
             Toaster.displayToast("Skriv ner en topic", getApplicationContext(), Toast.LENGTH_SHORT);
         }
     }
-
 }

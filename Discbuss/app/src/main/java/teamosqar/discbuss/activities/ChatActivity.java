@@ -30,22 +30,22 @@ public abstract class ChatActivity extends BusBarActivity {
     private TextView actionBarText;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_chat);
         msgToSend = (EditText) findViewById(R.id.msgToSend);
-
-
         setAdapter();
 
     }
 
-    private void setAdapter(){
+    /**
+     * Sets the adapter to the list, providing the correct ChatController.
+     */
+    private void setAdapter() {
         //Chatadapter needs to be set before calling oncreate from subclasses extending this class
-        listView = (ListView)findViewById(R.id.myList);
+        listView = (ListView) findViewById(R.id.myList);
         listView.setAdapter(getChatController());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,8 +60,11 @@ public abstract class ChatActivity extends BusBarActivity {
 
     protected abstract ChatController getChatController();
 
+    /**
+     * Makes sure the chat is properly closed when backing out of the activity, to make the user count correct.
+     */
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
@@ -69,9 +72,10 @@ public abstract class ChatActivity extends BusBarActivity {
 
     /**
      * Sends entered message to database. Also delays minimization of keyboard.
+     *
      * @param view
      */
-    public void sendMessage(View view){
+    public void sendMessage(View view) {
 
         getChatController().sendMessage(msgToSend.getText().toString());
         msgToSend.setText("");
@@ -85,18 +89,23 @@ public abstract class ChatActivity extends BusBarActivity {
         }, 400);
     }
 
-    public void viewPersonalProfileClicked(View view){
+    /**
+     * Gets and opens the profile the user pressed to enter.
+     *
+     * @param view
+     */
+    public void viewPersonalProfileClicked(View view) {
         getChatController().personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         getChatController().onEnteredChat();
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         getChatController().onLeftChat();
         super.onStop();
     }

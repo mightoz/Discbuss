@@ -44,17 +44,12 @@ public abstract class ChatController extends BaseAdapter {
     private View clickedView;
 
 
-    public ChatController(Context context, String chatRoom){
+    public ChatController(Context context, String chatRoom) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         model = Model.getInstance();
         clickedMessage = -1;
         clickedView = null;
-
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chatRooms").child(chatRoom); //TODO: Use to bind chatrooms to buses
-        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child(chatRoom); //TODO: Use to bind chatrooms to buses
-        //chatFireBaseRef = Model.getInstance().getMRef().child("chat");                        //TODO: Remove when done testing
-        //activeUserRef = Model.getInstance().getMRef().child("activeUsers").child("chat");     //TODO: Remove when done testing
 
         chatFireBaseRef = getFirebaseChatRef(chatRoom);
 
@@ -70,16 +65,16 @@ public abstract class ChatController extends BaseAdapter {
                 String key = dataSnapshot.getKey();
 
                 //Insert into correct location, based on previous child
-                if(previousChildKey == null){
+                if (previousChildKey == null) {
                     messageModels.add(0, message);
-                    messageKeys.add(0,key);
-                }else{
+                    messageKeys.add(0, key);
+                } else {
                     int previousIndex = messageKeys.indexOf(previousChildKey);
                     int nextIndex = previousIndex + 1;
-                    if(nextIndex == messageModels.size()){
+                    if (nextIndex == messageModels.size()) {
                         messageModels.add(message);
                         messageKeys.add(key);
-                    }else{
+                    } else {
                         messageModels.add(nextIndex, message);
                         messageKeys.add(key);
                     }
@@ -117,16 +112,16 @@ public abstract class ChatController extends BaseAdapter {
                 messageModels.remove(index);
                 messageKeys.remove(index);
 
-                if(previousChildKey == null){
+                if (previousChildKey == null) {
                     messageModels.add(0, message);
                     messageKeys.add(0, key);
-                }else{
+                } else {
                     int previousIndex = messageKeys.indexOf(previousChildKey);
                     int nextIndex = previousIndex + 1;
-                    if(nextIndex == messageModels.size()){
+                    if (nextIndex == messageModels.size()) {
                         messageModels.add(message);
                         messageKeys.add(key);
-                    }else{
+                    } else {
                         messageModels.add(nextIndex, message);
                         messageKeys.add(nextIndex, key);
                     }
@@ -147,28 +142,31 @@ public abstract class ChatController extends BaseAdapter {
 
     /**
      * get message model at specified location
+     *
      * @param location
      * @return message model
      */
-    protected Message getMessageModel(int location){
+    protected Message getMessageModel(int location) {
         return messageModels.get(location);
     }
 
     /**
      * get database message key at specified location
+     *
      * @param location
      * @return message key
      */
-    protected String getMessageKey(int location){
+    protected String getMessageKey(int location) {
         return messageKeys.get(location);
     }
 
     /**
      * Pushes a chat message to database
+     *
      * @param msg
      */
-    public void sendMessage(String msg){
-        if(!msg.equals("")) {
+    public void sendMessage(String msg) {
+        if (!msg.equals("")) {
             Message message = new Message(model.getUid(), msg, model.getUsername());
             onSentMessage();
             chatFireBaseRef.push().child("message").setValue(message);
@@ -196,26 +194,26 @@ public abstract class ChatController extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Message msg = messageModels.get(position);
 
-        if(clickedMessage == position) {
-            if(clickedView != null){
+        if (clickedMessage == position) {
+            if (clickedView != null) {
                 convertView = clickedView;
-            }else {
+            } else {
                 convertView = getMessageView(parent);
                 View viewExtension = getMessageViewExtension();
-                if(viewExtension != null) {
+                if (viewExtension != null) {
                     ((ViewGroup) convertView).addView(viewExtension, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
                 clickedView = convertView;
             }
             populateViewOnExtension(convertView, msg);
-        }else if (convertView == null || clickedView == convertView) {
+        } else if (convertView == null || clickedView == convertView) {
             convertView = getMessageView(parent);
         }
 
         populateView(convertView, msg, position);
-        if(msg.getUid().equals(model.getUid())) {
+        if (msg.getUid().equals(model.getUid())) {
             ((TextView) convertView.findViewById(R.id.author)).setTextColor(ContextCompat.getColor(context, R.color.standard_green));
-        }else{
+        } else {
             ((TextView) convertView.findViewById(R.id.author)).setTextColor(ContextCompat.getColor(context, R.color.standard_gray));
         }
 
@@ -224,9 +222,10 @@ public abstract class ChatController extends BaseAdapter {
 
     /**
      * Get the list of database keys for the messages
+     *
      * @return the list of keys
      */
-    public List getMessageKeys(){
+    public List getMessageKeys() {
         return messageKeys;
     }
 
@@ -240,12 +239,13 @@ public abstract class ChatController extends BaseAdapter {
 
     /**
      * declare that a message from the list has been clicked
+     *
      * @param position
      */
     public void messageClicked(int position) {
-        if(clickedMessage != position) {
+        if (clickedMessage != position) {
             clickedMessage = position;
-        }else{
+        } else {
             clickedMessage = -1;
         }
         notifyDataSetChanged();
@@ -253,15 +253,16 @@ public abstract class ChatController extends BaseAdapter {
 
     /**
      * declare that a personal profile button has been clicked
+     *
      * @param position
      */
-    public void personalProfileClicked(int position){
+    public void personalProfileClicked(int position) {
         final String otherUid = messageModels.get(position).getUid();
-        if(!otherUid.equals(model.getUid())){
+        if (!otherUid.equals(model.getUid())) {
             Intent intent = new Intent(context, OtherProfileActivity.class);
             intent.putExtra("uid", otherUid);
             context.startActivity(intent);
-        }else{
+        } else {
             Intent intent = new Intent(context, MyProfileActivity.class);
             context.startActivity(intent);
         }
@@ -274,14 +275,14 @@ public abstract class ChatController extends BaseAdapter {
     /**
      * Stops the database chat listener
      */
-    public void shutDownListener(){
+    public void shutDownListener() {
         chatFireBaseRef.removeEventListener(chatListener);
     }
 
     /**
      * Starts the database chat listener
      */
-    public void startListener(){
+    public void startListener() {
         chatFireBaseRef.addChildEventListener(chatListener);
     }
 }

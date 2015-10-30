@@ -8,10 +8,17 @@ import android.widget.Toast;
  */
 public class Toaster {
 
-    private Toaster(){
+    private Toaster() {
     }
 
-    public static void displayToast(String text, Context context, int toastDuration){
+    /**
+     * Creates and displays a toast with the text, length and context provided as params.
+     *
+     * @param text
+     * @param context
+     * @param toastDuration
+     */
+    public static void displayToast(String text, Context context, int toastDuration) {
         Toast toast = Toast.makeText(context, text, toastDuration);
         toast.show();
     }

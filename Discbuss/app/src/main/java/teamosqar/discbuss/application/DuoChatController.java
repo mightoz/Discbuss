@@ -16,14 +16,13 @@ import java.util.Calendar;
 import java.util.Iterator;
 
 import teamosqar.discbuss.activities.DuoChatActivity;
-
 import teamosqar.discbuss.activities.R;
 import teamosqar.discbuss.util.Message;
 
 /**
  * Created by joakim on 2015-10-16.
  */
-public class DuoChatController extends ChatController{
+public class DuoChatController extends ChatController {
 
     private Context context;
     private Firebase chatRoomRef;
@@ -39,10 +38,10 @@ public class DuoChatController extends ChatController{
 
         String chatterUIds[] = chatRoom.split("!");
 
-        for(int i = 0; i < chatterUIds.length; i++) {
-            if(chatterUIds[i].equals(Model.getInstance().getUid())) {
+        for (int i = 0; i < chatterUIds.length; i++) {
+            if (chatterUIds[i].equals(Model.getInstance().getUid())) {
                 seenByMeRef = this.chatRoomRef.child("inboxInfo").child(chatterUIds[i]);
-            }else{
+            } else {
                 seenByOtherRef = this.chatRoomRef.child("inboxInfo").child(chatterUIds[i]);
             }
         }
@@ -60,7 +59,7 @@ public class DuoChatController extends ChatController{
     }
 
     @Override
-    protected View getMessageView(ViewGroup parent){
+    protected View getMessageView(ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.duomessage_chat, parent, false);
     }
 
@@ -83,7 +82,8 @@ public class DuoChatController extends ChatController{
     }
 
     @Override
-    protected void populateViewOnExtension(View view, Message message){}
+    protected void populateViewOnExtension(View view, Message message) {
+    }
 
     @Override
     public void onEnteredChat() {
@@ -96,17 +96,16 @@ public class DuoChatController extends ChatController{
         shutDownListener();
     }
 
-
     @Override
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
     }
 
-    private void setSeenLatestMessage(){
+    private void setSeenLatestMessage() {
         seenByMeRef.setValue(true);
     }
 
-    private void setNewMessageToSee(){
+    private void setNewMessageToSee() {
         seenByOtherRef.setValue(false);
     }
 
@@ -115,8 +114,8 @@ public class DuoChatController extends ChatController{
         setNewMessageToSee();
     }
 
-    public static void launchDuoChat(final Context context, final String otherUid){
-        if(!otherUid.equals(Model.getInstance().getUid())){
+    public static void launchDuoChat(final Context context, final String otherUid) {
+        if (!otherUid.equals(Model.getInstance().getUid())) {
             Model.getInstance().getMRef().child("users").child(Model.getInstance().getUid()).child("activeChats").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

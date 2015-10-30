@@ -26,9 +26,8 @@ public class MessageActivity extends BusBarActivity {
         messageController = new MessageController(this);
         setContentView(R.layout.activity_message);
 
-        listView = (ListView)findViewById(R.id.messageList);
+        listView = (ListView) findViewById(R.id.messageList);
         listView.setAdapter(messageController);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,12 +45,17 @@ public class MessageActivity extends BusBarActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
     }
 
-    public void leaveDuoChat(View view){
-        int pos = listView.getPositionForView((View)view.getParent());
+    /**
+     * Represents the intention of the X-button for each active chat, calls the messageController to permanently close the chat.
+     *
+     * @param view
+     */
+    public void leaveDuoChat(View view) {
+        int pos = listView.getPositionForView((View) view.getParent());
         messageController.leaveChat(pos);
     }
 }

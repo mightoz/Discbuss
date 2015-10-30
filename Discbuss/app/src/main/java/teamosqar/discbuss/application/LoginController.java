@@ -12,24 +12,26 @@ import java.util.Observable;
 
 /**
  * Created by joakim on 2015-10-02.
- *
+ * <p/>
  * Controller class for the login view
  */
-public class LoginController extends Observable{
+public class LoginController extends Observable {
 
     private Firebase userRef;
     private boolean loginStatus;
-    public LoginController(){
+
+    public LoginController() {
         userRef = Model.getInstance().getMRef().child("users");
         loginStatus = false;
     }
 
     /**
      * checks if the user input checks out with any registered user in FireBase
-     * @param email the email input
+     *
+     * @param email    the email input
      * @param password the password input
      */
-    public void tryLogin(final String email, String password){
+    public void tryLogin(final String email, String password) {
         Log.d(email, password);
         userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
@@ -63,7 +65,12 @@ public class LoginController extends Observable{
         });
     }
 
-    public boolean getLoginStatus(){
+    /**
+     * Gets the loginStatus of the user
+     *
+     * @return the users loginStatus as a boolean
+     */
+    public boolean getLoginStatus() {
         return loginStatus;
     }
 }

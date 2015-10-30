@@ -14,7 +14,7 @@ import teamosqar.discbuss.net.StopUpdater;
 /**
  * Created by Oscar on 2015-09-30.
  */
-public class Model extends Observable implements Observer{
+public class Model extends Observable implements Observer {
     private static Model model = new Model();
     private Firebase mref;
     private String username;
@@ -37,43 +37,17 @@ public class Model extends Observable implements Observer{
     private final String buss10 = "04:f0:21:10:09:b7";
     private final String testBus = "testBus";
 
-
-    //KapellplatsenE
-    //GötaplatsenA
-    //ValandC
-    //KungsportsplC
-    //BrunnsparkenB
-    //Lilla BommenB
-    //FrihamnsportenB
-    //Pumpgatan
-    //RegnbågsgatanD
-    //LindholmenD
-    //TeknikgatanA
-    //Lindholmsplatsen
-
-    //LindholmsplatsenA
-    //RegnbågsgatanB
-    //PumpgatanA
-    //FrihamnsportenA
-    //Lilla Bommen
-    //BrunnsparkenA
-    //KungsportsplD
-    //Valand
-    //Götaplatsen
-    //ÅlandsgatanB
-    //Chalmers tvärgata
-    //Sven Hultins plats
-    //ChalmersplatsenA
-    //Kapellplatsen
-
-    private Model(){
+    private Model() {
         mref = new Firebase("https://boiling-heat-3778.firebaseio.com");
-        username="";
+        username = "";
         busBSSIDs = new ArrayList<>();
         loadBusIds();
     }
 
-    private void loadBusIds(){
+    /**
+     * Inserts all busses BSSIDs into a list
+     */
+    private void loadBusIds() {
         busBSSIDs.add(buss1);
         busBSSIDs.add(buss2);
         busBSSIDs.add(buss3);
@@ -88,66 +62,118 @@ public class Model extends Observable implements Observer{
 
     }
 
-    protected boolean connectedToBusWifi(){
-        if(busBSSIDs.contains(currentBSSID))
-                return true;
+    /**
+     * @return true if the user is currently connected to one of the busses, matched by BSSID
+     */
+    protected boolean connectedToBusWifi() {
+        if (busBSSIDs.contains(currentBSSID))
+            return true;
         return false;
     }
 
-    protected void setCurrentBSSID(String bssid){
+    /**
+     * Sets the current BSSID according to the param
+     *
+     * @param bssid
+     */
+    protected void setCurrentBSSID(String bssid) {
         this.currentBSSID = bssid;
     }
 
-    protected int getIndexOfBSSID(){
+    /**
+     * Matches the bus BSSID with the bus index and returns the bus-index of the bus connected to
+     *
+     * @return the bus index in the list
+     */
+    protected int getIndexOfBSSID() {
         return busBSSIDs.indexOf(currentBSSID);
     }
 
-    protected static Model getInstance(){
+    /**
+     * @return a reference to the model
+     */
+
+    protected static Model getInstance() {
         return model;
     }
 
-    protected Firebase getMRef(){
+    /**
+     * @return a reference to our firebase
+     */
+    protected Firebase getMRef() {
         return mref;
     }
 
-    protected void setUid(String uid){
+    /**
+     * Sets the active user's UID according to param
+     *
+     * @param uid
+     */
+    protected void setUid(String uid) {
         this.uid = uid;
     }
 
-    protected String getUid(){
+    /**
+     * @return the active user's UID
+     */
+    protected String getUid() {
         return uid;
     }
 
-    protected void addUserToChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).setValue(uid); //TODO: Should this really be used?
+    /**
+     * Adds the active user to the chat provided as param
+     *
+     * @param activeChat
+     */
+    protected void addUserToChat(String activeChat) {
         mref.child("activeUsers").child(activeChat).child(uid).setValue(uid);
     }
 
-    protected void removeUserFromChat(String activeChat){
-        //mref.child("chatRooms").child(activeChat).child(uid).removeValue();//TODO: Should this really be used?
+    /**
+     * Removes the active user from the chat provided as param
+     *
+     * @param activeChat
+     */
+    protected void removeUserFromChat(String activeChat) {
         mref.child("activeUsers").child(activeChat).child(uid).removeValue();
     }
 
-    protected void setUsername(String username){
+    /**
+     * Set the username of the active user based on the string provided as param
+     *
+     * @param username
+     */
+    protected void setUsername(String username) {
         this.username = username;
     }
 
-    protected void setEmail(String email){
+    /**
+     * Sets the email of the active user based on the string provided as param
+     *
+     * @param email
+     */
+    protected void setEmail(String email) {
         this.email = email;
     }
 
-    protected String getEmail(){
+    /**
+     * @return the email of the active user
+     */
+    protected String getEmail() {
         return email;
     }
 
-    protected String getUsername(){
+    /**
+     * @return the username of the active user
+     */
+    protected String getUsername() {
         return username;
     }
 
     /**
      * resets the values of username, userID and email
      */
-    protected void resetModel(){
+    protected void resetModel() {
         username = "";
         uid = "";
         email = "";
@@ -156,7 +182,7 @@ public class Model extends Observable implements Observer{
     /**
      * Starts timer that retrieves bus data for currently connected bus.
      */
-    protected void startRetrievingStopInfo(){
+    protected void startRetrievingStopInfo() {
         stopUpdater = new StopUpdater(currentBSSID);
         stopUpdater.addObserver(this);
         stopUpdater.start();
@@ -166,17 +192,18 @@ public class Model extends Observable implements Observer{
     /**
      * Retrieves the next bus stop info and formats it into a presentable string. Then updates
      * listeners.
+     *
      * @param observable not used
-     * @param data not used
+     * @param data       not used
      */
     @Override
     public void update(Observable observable, Object data) {
         String busStopTmp = stopUpdater.getNextBusStop();
-        if(busStopTmp != null && busStopTmp.length()>1){
-            busStopTmp = busStopTmp.substring(0,busStopTmp.length()-1);
+        if (busStopTmp != null && busStopTmp.length() > 1) {
+            busStopTmp = busStopTmp.substring(0, busStopTmp.length() - 1);
         }
 
-        switch (busStopTmp){
+        switch (busStopTmp) {
             case "G�taplatse":
                 nextBusStop = "Götaplatsen";
                 break;
@@ -200,7 +227,10 @@ public class Model extends Observable implements Observer{
         notifyObservers();
     }
 
-    protected String getNextBusStop(){
+    /**
+     * @return upcoming bus stop
+     */
+    protected String getNextBusStop() {
         return nextBusStop;
     }
 

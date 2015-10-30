@@ -10,12 +10,12 @@ import teamosqar.discbuss.activities.R;
 
 /**
  * Created by joakim on 2015-10-07.
- *
+ * <p/>
  * Fragment class which displays a loading animation
  */
 public class LoadingFragment extends DialogFragment {
 
-    public LoadingFragment(){
+    public LoadingFragment() {
 
     }
 

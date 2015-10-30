@@ -10,7 +10,7 @@ import java.util.TimerTask;
 /**
  * Created by Oscar on 14/10/15.
  */
-public class StopUpdater extends Observable{
+public class StopUpdater extends Observable {
 
     private Timer timer;
     private boolean isRunning;
@@ -24,40 +24,51 @@ public class StopUpdater extends Observable{
 
     }
 
-    public void start(){
-        if(!isRunning){
-            timer.schedule(new Updater(),0,10000);
+    /**
+     * Starts the stopUpdater if it's not already running, checking for updates every 10 seconds
+     */
+    public void start() {
+        if (!isRunning) {
+            timer.schedule(new Updater(), 0, 10000);
             isRunning = true;
         }
     }
 
-    public void stop(){
+    /**
+     * Stops the stopUpdater
+     */
+    public void stop() {
         isRunning = false;
         timer.cancel();
     }
 
-    private class Updater extends TimerTask{
-
-        public void run(){
+    private class Updater extends TimerTask {
+        /**
+         * Checks for new busStop and notifies observers if the upcoming bus stop isn't the same as the currently displayed
+         */
+        public void run() {
             try {
                 String next;
                 next = nextBusStop;
                 nextBusStop = connector.getNextStop();
-                if (!nextBusStop.equals(next)){
+                if (!nextBusStop.equals(next)) {
                     setChanged();
                     notifyObservers();
                 }
 
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
-            }catch(JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public String getNextBusStop(){
+    /**
+     * @return the upcoming busStop as a string
+     */
+    public String getNextBusStop() {
         return nextBusStop;
     }
 }
