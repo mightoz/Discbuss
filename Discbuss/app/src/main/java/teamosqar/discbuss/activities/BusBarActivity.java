@@ -1,6 +1,5 @@
 package teamosqar.discbuss.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -78,7 +77,4 @@ public abstract class BusBarActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }
