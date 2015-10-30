@@ -226,6 +226,7 @@ public class Model implements Observer {
 
     protected void updateCurrentContext(Context context) {
         this.context = context;
+        updateBusStop(nextBusStop);
     }
 
     private void updateBusStop(final String busStop){
