@@ -26,7 +26,6 @@ public class BusChatActivity extends ChatActivity {
                 R.layout.statement_bar_layout,
                 null);
         layout.addView(actionBarLayout, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
         findViewById(R.id.statementText).setSelected(true);
     }
 
@@ -64,5 +63,17 @@ public class BusChatActivity extends ChatActivity {
      */
     public void sendPersonalMessageClicked(View view) {
         chatController.personalMessageClicked(((ListView) findViewById(R.id.myList)).getPositionForView((View) view.getParent().getParent().getParent()));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getChatController().onEnteredChat();
+    }
+
+    @Override
+    public void onStop() {
+        getChatController().onLeftChat();
+        super.onStop();
     }
 }

@@ -97,17 +97,4 @@ public abstract class ChatActivity extends BusBarActivity {
     public void viewPersonalProfileClicked(View view) {
         getChatController().personalProfileClicked(listView.getPositionForView((View) view.getParent().getParent().getParent()));
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getChatController().onEnteredChat();
-    }
-
-    @Override
-    public void onStop() {
-        getChatController().onLeftChat();
-        super.onStop();
-    }
-
 }
